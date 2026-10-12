@@ -354,7 +354,7 @@ v('M02', 'Polarización del diagnóstico político', 'Distancia entre las explic
 v('M03', 'Proporción de hogares propietarios', 'Parte de los hogares que posee la vivienda en que reside.', 'stock', '% de hogares', 'país', 'Régimen de tenencia (ECV)', 'INE', 'C12');
 
 // ---------------------------------------------------------------- Relaciones
-// REGLAS DE REGISTRO (revision del 12/10/2026, a peticion de JC: «elimina las invenciones»)
+// REGLAS DE REGISTRO (revision del 12/10/2026, a peticion del autor: «elimina las invenciones»)
 //  1. Una afirmacion se enlaza a una relacion solo si afirma ESE vinculo: mismo origen, mismo destino, mismo sentido.
 //  2. El nivel de datos (D1 o superior) exige una fuente localizada, escrita en «evidencia». Nada de memoria.
 //  3. La evidencia de otro pais cuenta como D1 (compatible) y se marca «Referencia de otro país».
@@ -742,7 +742,7 @@ const palancas = [
 ];
 
 // ================================================================ Cuarta revision (12/10/2026)
-// A peticion de JC: tres vias de conversion a uso turistico (vivienda vacia o heredada; alquiler no renovado; edificio
+// A peticion del autor: tres vias de conversion a uso turistico (vivienda vacia o heredada; alquiler no renovado; edificio
 // vendido a un inversor), demanda turistica, expulsion sin juicio, fondos y socimis, y criterio de coste social.
 // Tres busquedas de evidencia. Lo que no tiene fuente entra como hipotesis H() y no se calcula.
 Object.assign(F, {
@@ -811,7 +811,7 @@ Object.assign(datos, {
 });
 resultados.find(g => g.dimension === 'Hogares que alquilan para vivir').variables.push(['O09', 'baja']);
 
-// Criterio de coste social (JC, 12/10/2026): se quiere el mayor numero de personas viviendo con dignidad y tranquilidad,
+// Criterio de coste social (el autor, 12/10/2026): se quiere el mayor numero de personas viviendo con dignidad y tranquilidad,
 // no el mayor beneficio de quien ofrece. Cuentan solo los resultados que describen como viven las personas.
 // Quedan fuera del objetivo, y se informan aparte: rentabilidad y riesgo del arrendador, produccion de vivienda (es un medio:
 // si cae, sus efectos llegan al precio y al deficit, que si cuentan), los dos resultados de los turistas y las viviendas en
@@ -832,7 +832,7 @@ for (const p of palancas) { if (!FAM[p.id]) throw new Error('Palanca sin familia
 
 escenarios.push(
   { id: 'E7', nombre: 'Frenar la conversión turística y la compra inversora, proteger frente a la expulsión y contener el alquiler', fija: { L03: 1, L09: 1, L16: 1, L07: -1, L02: 1, L01: 1, L15: 1 }, propia: true,
-    lectura: 'El paquete que plantea JC: restringir las viviendas turísticas, regular también el alquiler de temporada para que no sirva de escape, limitar la compra de vivienda por inversores y retirar las ventajas fiscales de socimis y fondos, reforzar la protección del inquilino frente a la no renovación y el desahucio, ampliar las zonas con tope al alquiler y usar la compra preferente de la Administración cuando se vende un edificio.',
+    lectura: 'El paquete que plantea el autor: restringir las viviendas turísticas, regular también el alquiler de temporada para que no sirva de escape, limitar la compra de vivienda por inversores y retirar las ventajas fiscales de socimis y fondos, reforzar la protección del inquilino frente a la no renovación y el desahucio, ampliar las zonas con tope al alquiler y usar la compra preferente de la Administración cuando se vende un edificio.',
     supuesto: 'Ninguno añadido: las siete son variables de decisión del mapa. El mapa no puede dirigir cada medida a una de las tres vías de conversión (vivienda vacía o heredada, alquiler no renovado, edificio vendido a un inversor), porque ninguna de las tres está medida.',
     magnitud: '341.001 viviendas turísticas en mayo de 2026, un 10,7 % menos que un año antes (INE). En Barcelona, 149 compraventas de edificios enteros en 2025, frente a 217 en 2024. Cataluña adquirió 662 viviendas por tanteo y retracto en 2024, por 49,9 millones de euros. En Madrid y Barcelona, cerca del 31 % de las últimas mudanzas de inquilinos fueron forzosas y solo el 1,5 % por orden judicial (IDRA, encuesta no probabilística). Se inscriben unas 208.000 herencias de vivienda al año, sin dato de su uso posterior.' },
   { id: 'E8', nombre: 'El mismo paquete, con vivienda pública y suelo', fija: { L03: 1, L09: 1, L16: 1, L07: -1, L02: 1, L01: 1, L15: 1, G04: 1, S02: -1 }, propia: true,
@@ -840,13 +840,13 @@ escenarios.push(
     supuesto: 'Que una reforma administrativa acorta de verdad los plazos.', magnitud: 'En 2025 se iniciaron 137.330 viviendas y se calificaron 12.858 protegidas (Ministerio de Vivienda); el déficit acumulado ronda las 750.000 (Banco de España). La inversión pública en vivienda es el 0,2 % del PIB (Eurostat, 2024).' });
 Object.assign(esquema.posExtra, { T01: [60, 80], Q12: [60, 220], Q15: [1130, 70], O09: [1370, 605], L15: [1400, 290], L16: [690, 70], L02: [1400, 110], L07: [560, 70] });
 
-// ---------------------------------------------------------------- Premisas del decisor (JC, 12/10/2026)
-// No son evidencia: son lo que JC sostiene sobre tres puntos que nadie ha medido. No entran en el calculo base.
+// ---------------------------------------------------------------- Premisas del decisor (el autor, 12/10/2026)
+// No son evidencia: son lo que el autor sostiene sobre tres puntos que nadie ha medido. No entran en el calculo base.
 // El motor repite el calculo de coste social «si las premisas fueran ciertas» y lo presenta al lado, rotulado.
-H('Q15', 'O04', '+', 'Los inquilinos de un edificio comprado por un inversor acaban desahuciados por vía judicial.', '1-3 años', 'Premisa de JC. Lo localizado apunta en otro sentido: en la encuesta de IDRA solo el 1,5 % de las mudanzas forzosas fue por orden judicial, y en Tribulete 7 se habían ido 37 de 52 familias cuando empezaban a llegar las demandas de desahucio.');
-H('F10', 'Q05', '+', 'Fondos y socimis destinan las viviendas que compran a alojamiento turístico.', '1-3 años', 'Premisa de JC. No existe ningún dato de viviendas turísticas propiedad de fondos o socimis. En Canarias, el 28 % de las viviendas vacacionales es de empresas (informe autonómico visto en prensa).');
+H('Q15', 'O04', '+', 'Los inquilinos de un edificio comprado por un inversor acaban desahuciados por vía judicial.', '1-3 años', 'Premisa del autor. Lo localizado apunta en otro sentido: en la encuesta de IDRA solo el 1,5 % de las mudanzas forzosas fue por orden judicial, y en Tribulete 7 se habían ido 37 de 52 familias cuando empezaban a llegar las demandas de desahucio.');
+H('F10', 'Q05', '+', 'Fondos y socimis destinan las viviendas que compran a alojamiento turístico.', '1-3 años', 'Premisa del autor. No existe ningún dato de viviendas turísticas propiedad de fondos o socimis. En Canarias, el 28 % de las viviendas vacacionales es de empresas (informe autonómico visto en prensa).');
 const premisas = {
-  nombre: 'Las tres premisas de JC',
+  nombre: 'Las tres premisas del autor',
   lista: [
     { n: 1, dice: 'Las viviendas que dejan de ser turísticas van sobre todo al alquiler convencional, otras a la venta, y pocas se quedan sin alquilar.', cambia: 'Se retira del cálculo el desvío del uso turístico al alquiler de temporada.', frente: 'Nadie lo ha medido en España. En la Comunidad de Madrid, el 83 % de las solicitudes de registro de corta duración son de temporada, y el Banco de España plantea ese desvío como posible. Fuera, las viviendas volvieron al alquiler en Irvine, Los Ángeles y Berlín, y no en Santa Mónica.' },
     { n: 2, dice: 'Los inquilinos que salen cuando se compra un edificio generan normalmente un expediente de desahucio con intervención judicial.', cambia: 'La compra de edificios enteros pasa a empujar directamente la exclusión residencial.', frente: 'La única medición (IDRA, encuesta no probabilística) dice lo contrario: solo el 1,5 % de las mudanzas forzosas fue por orden judicial. El CGPJ no separa los lanzamientos por fin de contrato de los de impago.' },
@@ -904,7 +904,7 @@ criterioSocial.resultados.push('O10');
 premisas.lista[2].frente = 'La literatura localizada distingue dos actores. Los grandes fondos (Blackstone, Cerberus) compraron carteras de bancos y vivienda pública en la periferia y las explotan como alquiler residencial, con subidas de renta y rotación de inquilinos; el turismo lo abordan comprando hoteles. Quienes compran edificios céntricos para vaciarlos y pasarlos a turístico, lujo o temporada son inversores locales medianos y socimis pequeñas. En Barcelona, el 56 % de las licencias turísticas es de personas jurídicas, pero ningún propietario supera los 200 apartamentos. Nadie cuantifica las viviendas convertidas.';
 Object.assign(esquema.posExtra, { A12: [420, 380], A13: [640, 470], O10: [1250, 700] });
 
-// ---------------------------------------------------------------- Saldo social por personas (JC, 12/10/2026: «haz lo posible, o simula»)
+// ---------------------------------------------------------------- Saldo social por personas (el autor, 12/10/2026: «haz lo posible, o simula»)
 // Es una SIMULACION con una convencion declarada, no un recuento de personas rescatadas. Se reparte a la poblacion afectada en
 // tres grupos que no se solapan, cada uno con los resultados sociales que le atañen. La nota de un grupo es
 // (resultados que mejoran - resultados que empeoran) / resultados del grupo, entre -1 y +1, y se pondera por sus personas.

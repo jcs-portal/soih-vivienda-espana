@@ -1,4 +1,4 @@
-// SOIH - Caso vivienda: indice de sostenibilidad social (primera version, 12/10/2026, pedido por JC).
+// SOIH - Caso vivienda: indice de sostenibilidad social (primera version, 12/10/2026, pedido por el autor).
 // Mide el DAÑO a la poblacion, no sus causas: las presiones (turismo, inversion, demografia, oferta) van aparte,
 // para poder comprobar si el daño es mayor donde la presion es mayor en lugar de darlo por supuesto.
 // Regla de calculo, fija: cada componente se expresa como indice con base en el primer año (= 100); mas alto es peor.
@@ -48,7 +48,7 @@ const ciudades = {
     { ciudad: 'España', danio: 32.5, presion: 1.28 }
   ]
 };
-// Pesos segun las personas a las que describe cada subindice (JC, 12/10/2026: «los pesos se deben simular de alguna forma»).
+// Pesos segun las personas a las que describe cada subindice (el autor, 12/10/2026: «los pesos se deben simular de alguna forma»).
 // El tercero esta incompleto: solo se sabe cuantas personas viven en hogares monoparentales.
 const pesosPersonas = [
   { subindice: 'I', personas: 8548324, calculo: '49.128.297 habitantes × 17,4 % en alquiler de mercado (Eurostat, 2025).' },
@@ -57,7 +57,7 @@ const pesosPersonas = [
 ];
 // Barrido: se prueban todas las ponderaciones posibles de los tres subindices, de 5 en 5 puntos.
 const pasoBarrido = 0.05;
-// Perfil por edades (JC: «el estudio de rentas e ingresos por pirámide de edades podría ayudar»).
+// Perfil por edades (el autor: «el estudio de rentas e ingresos por pirámide de edades podría ayudar»).
 const edades = {
   cab: ['Edad', 'Personas (1/1/2025)', 'Hogares en alquiler de mercado, 2007', 'Hogares en alquiler de mercado, 2025', 'Hogares en propiedad, 2007', 'Hogares en propiedad, 2025', 'Sobrecarga de gasto en vivienda, 2015', 'Sobrecarga, 2025'],
   filas: [

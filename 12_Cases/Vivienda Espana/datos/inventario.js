@@ -1,5 +1,5 @@
 // SOIH - Caso vivienda: tabla de datos de referencia. Fuente unica de la tabla; el motor genera el CSV y las tablas del documento.
-// Pedida por JC el 12/10/2026: «lo más completa posible», con el año y con el estado de cada dato.
+// Pedida por el autor el 12/10/2026: «lo más completa posible», con el año y con el estado de cada dato.
 // Estados:
 //   Contrastado          leido en la fuente oficial primaria (censo, registro administrativo, encuesta oficial, norma)
 //   Estimación oficial   cifra que un organismo oficial presenta como estimacion o aproximacion
@@ -77,7 +77,7 @@ d('E', 'Viviendas turísticas por ciudad', 'Madrid 10.836 · Málaga 8.288 · Ba
 d('E', 'Viviendas alquiladas para uso turístico o de temporada, según Hacienda', '359.596', 'viviendas', 'ejercicio 2024', 'España sin País Vasco ni Navarra; solo personas físicas', 'Agencia Tributaria', OK, 'No separa turístico de temporada.');
 d('E', 'Solicitudes de registro de alquiler de corta duración', '412.253', 'solicitudes', 'febrero de 2026', 'España', 'Ministerio de Vivienda', OK, '78 % turísticas y 22 % de temporada; 86.275 revocadas. En la Comunidad de Madrid, el 83 % son de temporada. El Tribunal Supremo anuló el registro en mayo de 2026.');
 d('E', 'Qué eran antes las viviendas turísticas (alquiler habitual, vacías, segunda residencia)', '—', '', '', 'España', 'Nadie lo ha medido', NO, 'Una encuesta de PwC para Airbnb clasifica el uso actual, no el anterior.');
-d('E', 'A qué uso pasan las que dejan de ser turísticas', '—', '', '', 'España', 'Nadie lo ha medido', NO, 'JC sostiene que van sobre todo al alquiler convencional y a la venta: entra en el modelo como premisa.');
+d('E', 'A qué uso pasan las que dejan de ser turísticas', '—', '', '', 'España', 'Nadie lo ha medido', NO, 'El autor sostiene que van sobre todo al alquiler convencional y a la venta: entra en el modelo como premisa.');
 d('E', 'Viviendas turísticas en manos de anfitriones con diez anuncios o más', 'Barcelona 58,2 % · Madrid 44,3 % · Málaga 42,4 % · Sevilla 41,7 % · València 35,3 %', 'de las viviendas enteras de corta estancia', 'septiembre de 2026', 'municipio', 'Inside Airbnb', CAL, 'Recuento propio sobre sus ficheros. El anfitrión es quien gestiona la cuenta, no necesariamente el dueño. Solo Airbnb.');
 d('E', 'Licencias turísticas de titulares con cuatro o más', '≈ 6.000 de 10.600', 'licencias', '2026', 'Barcelona', 'Ayuntamiento de Barcelona, citado por elDiario.es', SV, 'El titular puede ser un gestor.');
 d('E', 'Lo que ingresa una vivienda en turístico frente al alquiler habitual', '2.674 frente a 1.056', '€/mes', 'junio de 2022', '20 ciudades', 'Exceltur, estudio ReviTUR', PAR, 'Patronal turística. Ingresos brutos y temporada alta.');
@@ -126,7 +126,7 @@ d('H', 'Cerberus', '≈ 7.000', 'viviendas alquiladas', '31/12/2022', '11 comuni
 d('H', 'Fondos y entidades con vivienda en alquiler', '541 con más de 110.000', 'titulares y viviendas', 'publicado en abril de 2026', 'España', 'Atlas Real Estate Analytics, citado por Infobae', PAR, 'Consultora del sector. Cerca del 5 % de la oferta de alquiler.');
 d('H', 'Viviendas en manos de bancos', '—', '', '', 'España', 'Sin cifra oficial reciente', NO, '');
 d('H', 'Cifra publicada por las propias empresas', '—', '', '', 'España', 'Ninguna localizada', NO, 'Todo lo disponible son recuentos de prensa o de consultoras.');
-d('H', 'Viviendas de fondos y socimis dedicadas a uso turístico', '—', '', '', 'España', 'Nadie lo ha cuantificado', NO, 'JC sostiene que es su destino habitual: entra en el modelo como premisa. La literatura lo atribuye a inversores locales y socimis pequeñas, no a los grandes fondos (bloque Q).');
+d('H', 'Viviendas de fondos y socimis dedicadas a uso turístico', '—', '', '', 'España', 'Nadie lo ha cuantificado', NO, 'El autor sostiene que es su destino habitual: entra en el modelo como premisa. La literatura lo atribuye a inversores locales y socimis pequeñas, no a los grandes fondos (bloque Q).');
 
 // ---- I. Precio alquiler, oficial
 d('I', 'Alquiler medio del conjunto de viviendas alquiladas', '9,0', '€/m² al mes', 'ejercicio 2024', 'España sin País Vasco ni Navarra', 'Agencia Tributaria, viviendas declaradas en el IRPF', OK, 'Es media, no mediana. 691 €/mes; en los contratos nuevos, 766 €/mes.');

@@ -1,4 +1,4 @@
-// SOIH - Caso vivienda: fuentes de las que procede la informacion (pedido por JC el 12/10/2026).
+// SOIH - Caso vivienda: fuentes de las que procede la informacion (pedido por el autor el 12/10/2026).
 // Solo figuran documentos que se abrieron durante el trabajo. «lectura» dice hasta donde se leyo:
 //   F = fichero de datos descargado y procesado · C = texto leido en las partes citadas · R = solo resumen o ficha
 //   T = visto a traves de un tercero (prensa u otra publicacion), sin abrir el original

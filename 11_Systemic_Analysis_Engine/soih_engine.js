@@ -761,7 +761,7 @@ if (caso.resultados) {
       resumen.resultadosSociales = SOC.size;
     }
     if (SOC.size) {
-      // ---- Hipotesis a contrastar (JC, 12/10/2026): cuentan en un nivel aparte, con fiabilidad «por confirmar»
+      // ---- Hipotesis a contrastar (el autor, 12/10/2026): cuentan en un nivel aparte, con fiabilidad «por confirmar»
       const sg = n => (n > 0 ? '+' : '') + n;
       const sgn = e => e.pol === '+' ? 1 : -1;
       const sinApoyo = E.filter(e => e.hip || (e.nConf === 0 && !e.contable));
@@ -805,7 +805,7 @@ if (caso.resultados) {
       const todosP = todos.map(x => ({ fija: x.fija, k: x.k, a: x.a, p: valora(x.fija, 3) })).filter(x => x.p.sMej >= 1);
       const mejorP = fam => todosP.filter(x => !fam || familia(x) === fam).sort(fP)[0];
       const filasT = [['Cualquiera (se pueden mezclar)', null], ['Solo intervención', 'intervencion'], ['Solo mercado', 'mercado']].map(([n, fam]) => [n, mejorP(fam)]).filter(r => r[1]);
-      frag.premisasLista = tabla(['Nº', 'Lo que sostiene JC', 'Qué cambia en el cálculo', 'Lo que dice lo localizado'], caso.premisas.lista.map(p => [p.n, esc(p.dice), esc(p.cambia), esc(p.frente)]), ['4%', '30%', '28%', '38%']);
+      frag.premisasLista = tabla(['Nº', 'Lo que sostiene el autor', 'Qué cambia en el cálculo', 'Lo que dice lo localizado'], caso.premisas.lista.map(p => [p.n, esc(p.dice), esc(p.cambia), esc(p.frente)]), ['4%', '30%', '28%', '38%']);
       frag.premisasTesis = tabla(['Familia de medidas', 'Mejor paquete si las premisas son ciertas', 'Mejoran', 'Empeoran', 'Señales contrarias', 'Saldo con premisas', 'Saldo del mismo paquete solo con evidencia', 'Qué resultados sociales empeoran'],
         filasT.map(([n, x]) => ['<b>' + n + '</b>', esc(texto(x.fija).join('; ')), x.p.sMej, x.p.sEmp, x.p.sCon, '<b>' + sg(x.p.sBal) + '</b>', sg(x.a.sBal), socL(x.p, 'empeora')]), ['13%', '33%', '7%', '7%', '8%', '8%', '9%', '15%']);
       const esc2 = (caso.escenarios || []).map(sc => ({ sc, a: valora(sc.fija, 1), p: valora(sc.fija, 3) }));
