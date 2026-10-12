@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>SOIH - Caso: la vivienda en España</title>
+<style>
+body { font-family: Calibri, Arial, sans-serif; font-size: 10.5pt; color: #1F2933; line-height: 1.3; }
+h1 { font-size: 18pt; color: #12355B; margin-top: 20pt; margin-bottom: 6pt; }
+h2 { font-size: 13pt; color: #12355B; margin-top: 14pt; margin-bottom: 4pt; border-bottom: 1px solid #9FB3C8; }
+h3 { font-size: 11pt; color: #1F5A8A; margin-top: 10pt; margin-bottom: 3pt; }
+p { margin-top: 0; margin-bottom: 6pt; }
+table { border-collapse: collapse; width: 100%; margin-top: 3pt; margin-bottom: 9pt; }
+th { background-color: #12355B; color: #FFFFFF; font-weight: bold; text-align: left; padding: 3pt 5pt; border: 1px solid #12355B; font-size: 9pt; }
+td { padding: 3pt 5pt; border: 1px solid #9FB3C8; vertical-align: top; font-size: 9pt; }
+.caja { border: 1px solid #1F5A8A; background-color: #EAF2F8; padding: 6pt 8pt; margin-bottom: 9pt; }
+.aviso { border: 1px solid #B7791F; background-color: #FEF5E7; padding: 6pt 8pt; margin-bottom: 9pt; }
+.portada { text-align: center; }
+.portada .t1 { font-size: 30pt; color: #12355B; font-weight: bold; margin-top: 70pt; }
+.portada .t2 { font-size: 15pt; color: #1F5A8A; }
+.portada .t3 { font-size: 12pt; color: #52606D; margin-top: 24pt; }
+.pie { font-size: 8.5pt; color: #52606D; }
+.num { text-align: right; }
+</style>
+</head>
+<body>
+
+<div class="portada">
+<p class="t1">El sistema de la vivienda en España</p>
+<p class="t2">Qué acciones benefician al conjunto y a quién perjudican</p>
+<p class="t3">Mapa causal con evidencia y doce escenarios de política<br>Aplicación de la metodología SOIH v0.2</p>
+<p class="t3">Versión 0.2 · revisada el 12 de octubre de 2026 (séptima revisión del mapa)</p>
+<p class="pie">Sustituye a la versión 0.1, que contenía relaciones sin fuente. Todas las tablas de variables, relaciones,<br>bucles, arquetipos y escenarios se generan por cálculo a partir de un único archivo de datos (datos\caso.js).</p>
+</div>
+
+<br clear="all" style="page-break-before:always">
+
+<div class="aviso"><b>Qué ha cambiado respecto a la versión 0.1.</b> Aquella versión contenía invenciones del analista: relaciones que ningún actor afirma y que no tienen dato, afirmaciones enlazadas a relaciones que en realidad no dicen, y niveles de evidencia sin fuente escrita. Se revisó el registro con cinco reglas estrictas (sección 5.1) y después se buscó evidencia de forma sistemática para cada hueco. Hoy {{res:hipotesis}} relaciones siguen apartadas como hipótesis sin fuente, y con las que tienen apoyo se sostienen {{res:buclesSinConjeturas}} bucles y cuatro de los ocho arquetipos propuestos. Las conclusiones de la versión 0.1 no deben usarse.</div>
+
+<h1>Resumen</h1>
+<p><b>Con la evidencia localizada se puede decir en qué sentido empuja cada medida a cada grupo, por qué vía y en qué plazo, pero no cuánto. Los paquetes con menor coste social comparten una pieza, restringir el uso turístico de la vivienda, y varían en las otras dos: vivienda pública, apoyo al pequeño propietario que alquila como vivienda habitual y estabilidad de las reglas. Ni la intervención sola ni el mercado solo los igualan.</b></p>
+<p>El mapa tiene {{res:variables}} variables y {{res:conApoyo}} relaciones de comportamiento con apoyo, más {{res:contables}} identidades contables. Otras {{res:conjeturas}} son conjeturas y {{res:hipotesis}} son hipótesis sin fuente: ninguna de estas dos clases entra en los cálculos.</p>
+<div class="caja"><b>Este documento es el expediente completo del caso.</b> Las conclusiones están desarrolladas en cinco documentos más cortos: <b>Artículo</b> (la explicación en lenguaje llano, con siete ideas defendibles), <b>Coste social</b> (la tesis a prueba y el paquete del decisor), <b>Índice de sostenibilidad social</b>, <b>Tabla de datos</b> ({{res:inventario.filas}} cifras con su estado) y <b>Propuestas</b> (tres paquetes contados como noticias simuladas).</div>
+<div class="caja"><b>Cómo leer «mejora» y «empeora».</b> El veredicto de cada resultado se toma de la <b>primera ronda</b>: las vías causales más cortas. Las más largas, que rodean o realimentan, se cuentan aparte como <b>efectos de vuelta</b>. Es una convención declarada (sección 7.2): la primera ronda llega antes, pero el mapa no dice si pesa más.</div>
+<h3>Las cuatro medidas que motivaron el ejercicio</h3>
+<table>
+<tr><th style="width:23%">Medida</th><th style="width:30%">Primera ronda, con confianza media o alta</th><th style="width:24%">Con toda la evidencia</th><th>De qué depende</th></tr>
+<tr><td><b>Recuperar para residentes los pisos turísticos</b></td><td>Mejoran siete resultados: oferta, precio y esfuerzo del alquiler, desplazamiento de residentes, emancipación, precio y esfuerzo de compra. Empeoran cuatro: viviendas turísticas, viviendas iniciadas y terminadas, y déficit.</td><td>11 mejoras, 5 perjuicios y 4 con señales contrarias. Ningún perjuicio social.</td><td>Del tamaño (las viviendas turísticas son el 1,28 % del parque, hasta el 3 % en Málaga) y de adónde van las viviendas que dejan de serlo, que nadie ha medido.</td></tr>
+<tr><td><b>Impedir que los inversores compren edificios enteros para uso turístico</b></td><td>Mejoran seis resultados de inquilinos y compradores. Empeoran las viviendas iniciadas y terminadas y el déficit.</td><td>10 mejoras, 4 perjuicios y 4 con señales contrarias.</td><td>Se representa por sus efectos buscados. La literatura atribuye esta práctica a inversores locales y socimis pequeñas, no a los grandes fondos; nadie cuantifica los edificios convertidos.</td></tr>
+<tr><td><b>Proteger del impago al pequeño propietario</b></td><td>Nada: ninguna de sus vías alcanza confianza media.</td><td>11 mejoras y 5 perjuicios.</td><td>Del diseño: en el País Vasco, el programa que paga la renta al propietario tenía 7.375 viviendas en 2024; el que solo asegura el impago captó 278.</td></tr>
+<tr><td><b>Dotar a ayuntamientos y comunidades para alojar en el propio barrio</b></td><td>Bajan el esfuerzo de los inquilinos y la edad de emancipación. Sube el déficit, porque se forman más hogares, lo que ya no se cuenta como daño.</td><td>6 mejoras y 5 perjuicios.</td><td>De la capacidad de ejecución. Está medido que la vivienda social mejora a quien la recibe; no cuánto mejora el conjunto.</td></tr>
+</table>
+<h3>Los paquetes que elige el cálculo</h3>
+<p>El motor prueba {{res:busqueda.combinaciones}} combinaciones de hasta {{res:busqueda.maxMedidas}} medidas entre {{res:busqueda.palancas}} palancas y las ordena con criterios escritos de antemano.</p>
+{{frag:paquetesResumen}}
+<h3>Cinco cosas más que conviene saber</h3>
+<ul>
+<li><b>Hay dos mercados de alquiler.</b> Quien ya tiene contrato ha mejorado: el alquiler pesa el 26,7 % de su renta en 2025, frente al 33,1 % en 2021. Quien busca encuentra viviendas un 16,5 % más caras que las ya alquiladas y entra compartiendo: los inquilinos en vivienda sobreocupada pasan del 15,4 % al 20,5 %.</li>
+<li><b>Los fondos son dos actores, y el capital hace dos cosas distintas.</b> Los grandes compraron carteras de bancos y vivienda pública y las explotan como alquiler residencial, con subidas de renta; quienes compran edificios céntricos para cambiarles el uso son inversores locales medianos y socimis pequeñas. En el mapa se separa el capital que construye alquiler nuevo, que añade oferta, del que compra vivienda existente. Limitar esto último mejora nueve resultados sociales y no empeora ninguno, con evidencia de confianza baja. No hay estimación causal para España.</li>
+<li><b>Quién tiene las viviendas.</b> Según el Catastro, 26.897 titulares poseen más de diez viviendas y reúnen 1.040.955, el 4,3 % del parque; más de la mitad es de sociedades y otras entidades privadas. Entre los particulares, la mitad de las viviendas alquiladas es de quien alquila una sola. No existe el dato de cuántas viviendas de los grandes tenedores están en alquiler.</li>
+<li><b>El tope al alquiler y la protección del inquilino tienen dos caras con fuente</b>: protegen a quien está dentro y dificultan la entrada a quien busca.</li>
+<li><b>Agilizar el suelo es la única medida sin perjudicados en primera ronda</b>, con cautelas: sus efectos tardan años y el mapa no contiene las variables donde estarían sus costes.</li>
+<li><b>La respuesta política sigue sin demostrar.</b> Con hipótesis admitidas, el mapa tendría {{res:buclesConHipotesis}} bucles; con solo lo que tiene fuente, {{res:buclesSinConjeturas}}. De ella dependen los cuatro arquetipos que no tienen apoyo.</li>
+</ul>
+<div class="aviso"><b>Límites que afectan a todo el documento.</b> La percepción de los actores se ha reconstruido con posiciones publicadas. Parte de las cifras de los estudios procede de sus resúmenes; se indica en cada relación. De las {{res:statements}} afirmaciones, {{res:afirmacionesCotejadas}} se han cotejado con el documento original. Los resultados indican sentido y plazo, nunca magnitud.</div>
+
+<h1>1. Fase 0 · CONTRACT</h1>
+<table>
+<tr><th style="width:22%">Campo</th><th>Contenido</th></tr>
+<tr><td>Decisión que apoya</td><td>Qué acciones políticas y legislativas hacen que más personas vivan con dignidad y tranquilidad. El beneficio de quien ofrece vivienda se informa, pero no es el objetivo. La tesis del decisor, que hay que intervenir el mercado, se pone a prueba y no se da por buena.</td></tr>
+<tr><td>Para qué debe servir</td><td>Para ampliar una discusión en la que circulan opiniones parciales. El cálculo es determinista; la incertidumbre se declara en las entradas.</td></tr>
+<tr><td>Quién decide</td><td>Juan Carlos Siria. El documento sirve además para probar la metodología SOIH.</td></tr>
+<tr><td>Desde qué posición se analiza</td><td>La del interés colectivo, declarando para cada medida a qué actor mejora y a cuál perjudica. No se toma partido por un bloque.</td></tr>
+<tr><td>Alcance</td><td>Fases 0 a 4 de la metodología y evaluación de doce escenarios, ocho propios y cuatro de referencia, y búsqueda de paquetes entre todas las combinaciones de medidas.</td></tr>
+<tr><td>Criterio de registro</td><td>Lo más ortodoxo posible: nada entra como dato o como relación apoyada sin fuente localizada. Lo que no la tiene se declara como hipótesis y no se usa.</td></tr>
+<tr><td>Restricciones</td><td>Modo documental. Solo fuentes públicas. Sin magnitudes: el mapa da sentido y plazo.</td></tr>
+</table>
+<div class="caja"><b>Puerta Q0: PASA.</b> La decisión y quién la toma están escritos. Cambió respecto a la versión 0.1, que solo se planteaba probar el método.</div>
+
+<h1>2. Fase 1 · FRAME en ancho</h1>
+<h2>2.1 Sistema de interés</h2>
+<p>El conjunto de actores, reglas, mercados y stocks que determinan si los hogares que residen en España pueden acceder a una vivienda adecuada y mantenerla, entre 2000 y 2025, a escala nacional y con atención a la divergencia entre grandes áreas urbanas y el resto.</p>
+
+<h2>2.2 Conjunto de síntomas</h2>
+<p>Siete comportamientos observables. Cualquier explicación tendrá que reproducirlos. Los años son los de referencia de cada fuente.</p>
+
+<h3>S1 · Comprar exige más años de renta, pero menos que en 2007</h3>
+<table>
+<tr><th>Indicador</th><th class="num">2000</th><th class="num">2004</th><th class="num">2007</th><th class="num">2013</th><th class="num">2019</th><th class="num">2023</th><th class="num">2025</th><th class="num">2T 2026</th></tr>
+<tr><td>Precio de la vivienda sobre renta bruta del hogar (años)</td><td class="num">4,15</td><td class="num">7,18</td><td class="num">9,36</td><td class="num">6,70</td><td class="num">6,86</td><td class="num">7,12</td><td class="num">7,60</td><td class="num">8,36</td></tr>
+<tr><td>Esfuerzo teórico anual sin deducciones (% de la renta)</td><td class="num">29,1</td><td class="num">36,7</td><td class="num">53,2</td><td class="num">32,6</td><td class="num">30,3</td><td class="num">36,5</td><td class="num">34,3</td><td class="num">38,0</td></tr>
+<tr><td>Valor tasado de la vivienda libre (€/m², media anual)</td><td class="num">880</td><td class="num">1.546</td><td class="num">2.056</td><td class="num">1.495</td><td class="num">1.641</td><td class="num">1.809</td><td class="num">2.128</td><td class="num">2.355</td></tr>
+</table>
+<p class="pie">Fuente: Banco de España, síntesis de indicadores del mercado de la vivienda (series 1.5.43, 1.5.44 y 1.5.4). Media nacional y hogar mediano: no refleja a los jóvenes ni a las grandes ciudades. Valor nominal de tasación, no de transacción.</p>
+
+<h3>S2 · El alquiler sube, pero el indicador europeo de sobrecarga baja</h3>
+<table>
+<tr><th>Indicador</th><th class="num">2011</th><th class="num">2015</th><th class="num">2019</th><th class="num">2021</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th></tr>
+<tr><td>Índice de precios de vivienda en alquiler (2015 = 100; contratos vivos)</td><td class="num">104,8</td><td class="num">100,0</td><td class="num">110,0</td><td class="num">112,7</td><td class="num">118,7</td><td class="num">122,9</td><td class="num">s. d.</td></tr>
+<tr><td>Inquilinos a precio de mercado con sobrecarga, España (%)</td><td class="num">s. d.</td><td class="num">43,3</td><td class="num">37,4</td><td class="num">40,9</td><td class="num">30,6</td><td class="num">28,1</td><td class="num">26,8</td></tr>
+<tr><td>Inquilinos a precio de mercado con sobrecarga, UE-27 (%)</td><td class="num">s. d.</td><td class="num">26,4</td><td class="num">24,2</td><td class="num">21,8</td><td class="num">20,3</td><td class="num">19,2</td><td class="num">18,6</td></tr>
+</table>
+<p class="pie">Fuentes: INE, IPVA (estadística experimental, fuente tributaria); Eurostat, ilc_lvho07c (hogares que gastan más del 40 % de su renta en vivienda). El IPVA mide el conjunto de contratos vivos y suaviza la subida: el Banco de España estima que las rentas de los contratos nuevos crecieron entre el 7 % y el 8 % anual en 2015-2022.</p>
+<div class="aviso"><b>Dato que contradice el relato dominante.</b> La sobrecarga de los inquilinos españoles cae de 40,9 % a 26,8 % entre 2021 y 2025, con un salto de nueve puntos entre 2022 y 2023 que Eurostat no marca como ruptura de serie y cuya causa no se ha verificado. Sigue ocho puntos por encima de la media europea.</div>
+
+<h3>S3 · Los jóvenes se emancipan cada vez más tarde</h3>
+<table>
+<tr><th>Indicador</th><th class="num">2000</th><th class="num">2007</th><th class="num">2013</th><th class="num">2019</th><th class="num">2023</th><th class="num">2025</th></tr>
+<tr><td>Edad media de salida del hogar familiar, España (años)</td><td class="num">29,4</td><td class="num">28,4</td><td class="num">28,9</td><td class="num">29,5</td><td class="num">30,4</td><td class="num">30,2</td></tr>
+<tr><td>Edad media de salida del hogar familiar, UE-27 (años)</td><td class="num">s. d.</td><td class="num">26,7</td><td class="num">26,4</td><td class="num">26,1</td><td class="num">26,4</td><td class="num">26,3</td></tr>
+</table>
+<p class="pie">Fuente: Eurostat, yth_demo_030; rupturas de serie en 2005 (España) y 2021. El Consejo de la Juventud sitúa la tasa de emancipación de 16 a 29 años en el 14,5 % (Observatorio 2025), mínimo de su serie, y el alquiler medio en el 98,7 % del salario joven.</p>
+
+<h3>S4 · Se construye mucho menos de lo que crecen los hogares</h3>
+<table>
+<tr><th>Indicador (miles)</th><th class="num">2004</th><th class="num">2007</th><th class="num">2013</th><th class="num">2019</th><th class="num">2022</th><th class="num">2023</th><th class="num">2024</th><th class="num">2025</th></tr>
+<tr><td>Viviendas iniciadas</td><td class="num">691,0</td><td class="num">616,0</td><td class="num">35,7</td><td class="num">108,6</td><td class="num">s. d.</td><td class="num">110,3</td><td class="num">136,2</td><td class="num">137,3</td></tr>
+<tr><td>Viviendas terminadas (libres más protegidas)</td><td class="num">563,9</td><td class="num">647,2</td><td class="num">60,3</td><td class="num">78,8</td><td class="num">s. d.</td><td class="num">89,3</td><td class="num">101,0</td><td class="num">93,7</td></tr>
+<tr><td>Creación neta de hogares</td><td class="num">407,0</td><td class="num">474,2</td><td class="num">91,0</td><td class="num">121,9</td><td class="num">311,1</td><td class="num">265,4</td><td class="num">135,5</td><td class="num">258,2</td></tr>
+<tr><td>Saldo migratorio exterior</td><td class="num">665,3</td><td class="num">776,4</td><td class="num">−252,7</td><td class="num">456,5</td><td class="num">731,8</td><td class="num">647,9</td><td class="num">624,7</td><td class="num">582,9</td></tr>
+</table>
+<p class="pie">Fuentes: Ministerio de Vivienda y Banco de España (iniciadas y terminadas; terminadas es suma derivada de libres y calificaciones definitivas); EPA, diferencia entre cuartos trimestres (hogares; serie ruidosa y sensible a revisiones); Eurostat, demo_gind (saldo migratorio, incluye ajuste estadístico; 2025 provisional). El Banco de España cifra el diferencial acumulado desde 2021 en unas 750.000 viviendas (junio de 2026).</p>
+
+<h3>S5 · El parque asequible fuera del mercado es residual y dejó de alimentarse</h3>
+<table>
+<tr><th>Indicador</th><th class="num">1997</th><th class="num">2000</th><th class="num">2007</th><th class="num">2013</th><th class="num">2017</th><th class="num">2023</th><th class="num">2025</th></tr>
+<tr><td>Viviendas protegidas con calificación definitiva</td><td class="num">85.028</td><td class="num">52.318</td><td class="num">67.514</td><td class="num">17.059</td><td class="num">4.938</td><td class="num">8.847</td><td class="num">12.858</td></tr>
+</table>
+<p class="pie">Fuente: Ministerio de Vivienda, tabla 1.6. El parque público de alquiler social ronda las 290.000 viviendas, el 1,5 % de las principales (Banco de España, Informe Anual 2023); la media de la OCDE es el 7 % y la de la UE el 8 % (OCDE, indicador PH4.2). Una calificación definitiva no es alquiler social: la mayoría fue vivienda en venta, descalificable con el tiempo.</p>
+
+<h3>S6 · La propiedad retrocede y el alquiler de mercado crece</h3>
+<table>
+<tr><th>Hogares (%)</th><th class="num">2004</th><th class="num">2007</th><th class="num">2013</th><th class="num">2019</th><th class="num">2023</th><th class="num">2025</th></tr>
+<tr><td>En propiedad</td><td class="num">79,5</td><td class="num">80,1</td><td class="num">77,7</td><td class="num">75,9</td><td class="num">75,1</td><td class="num">73,3</td></tr>
+<tr><td>En alquiler a precio de mercado</td><td class="num">10,0</td><td class="num">10,4</td><td class="num">12,9</td><td class="num">15,4</td><td class="num">15,4</td><td class="num">16,7</td></tr>
+<tr><td>En alquiler inferior al mercado</td><td class="num">3,9</td><td class="num">3,2</td><td class="num">2,5</td><td class="num">2,7</td><td class="num">3,3</td><td class="num">3,5</td></tr>
+</table>
+<p class="pie">Fuente: INE, Encuesta de Condiciones de Vida, tabla 9994. El cambio es mayor entre los hogares jóvenes, desglose que no se ha extraído.</p>
+
+<h3>S7 · El problema está concentrado en el territorio</h3>
+<table>
+<tr><th>Indicador</th><th class="num">2000</th><th class="num">2007</th><th class="num">2013</th><th class="num">2019</th><th class="num">2025</th></tr>
+<tr><td>Valor tasado, Comunidad de Madrid (€/m²)</td><td class="num">1.251</td><td class="num">3.001</td><td class="num">2.023</td><td class="num">2.626</td><td class="num">3.686</td></tr>
+<tr><td>Valor tasado, nacional (€/m²)</td><td class="num">880</td><td class="num">2.056</td><td class="num">1.495</td><td class="num">1.641</td><td class="num">2.128</td></tr>
+<tr><td>Madrid sobre nacional</td><td class="num">1,42</td><td class="num">1,46</td><td class="num">1,35</td><td class="num">1,60</td><td class="num">1,73</td></tr>
+</table>
+<p class="pie">Fuente: Ministerio de Vivienda, vía Banco de España. Madrid supera en un 36 % su máximo de 2007; el agregado nacional, en un 3,5 %. Censo de 2021 (INE): 3.837.328 viviendas vacías, el 14,4 % del parque; el 45 % está en municipios de menos de 10.000 habitantes, donde vive el 20 % de la población.</p>
+
+<h2>2.3 Tabla de frontera</h2>
+<table>
+<tr><th style="width:18%">Categoría</th><th>Elementos</th><th style="width:38%">Por qué</th></tr>
+<tr><td>Endógeno</td><td>Precios de compra y alquiler; oferta y usos del parque; producción; suelo; crédito concedido; expectativas; inversión; riesgo percibido; parque social; regulación y fiscalidad de la vivienda; presión social y respuesta política; emancipación, exclusión y brecha de riqueza.</td><td>Son las variables cuya conducta se quiere explicar y entre las que se buscan bucles.</td></tr>
+<tr><td>Exógeno</td><td>Tipo de interés (BCE); liquidez global; crecimiento del empleo; concentración territorial del empleo; tamaño medio del hogar.</td><td>Influyen de forma decisiva pero no se deciden dentro del sistema de la vivienda.</td></tr>
+<tr><td>Excluido</td><td>Transporte y movilidad metropolitana; mercado laboral juvenil como sistema; pensiones y vivienda como ahorro para la vejez; sistema educativo; turismo como sector; calidad e infravivienda; hipotecas ya vivas y morosidad.</td><td>Ampliarían el mapa más allá de lo manejable. Dos de ellos (transporte y mercado laboral juvenil) podrían cambiar conclusiones y se anotan como riesgo.</td></tr>
+</table>
+<h3>Crítica de frontera</h3>
+<ul>
+<li><b>¿A quién beneficia esta frontera?</b> Al tratar el empleo y los salarios como exógenos, el mapa explica el problema por el lado de la vivienda y deja fuera que parte del esfuerzo se debe a rentas bajas.</li>
+<li><b>¿Quién soporta los efectos y no tiene voz?</b> Hogares que no publican: jóvenes sin organización, inquilinos migrantes, pequeños propietarios, personas mayores con vivienda infrautilizada.</li>
+<li><b>¿Qué conocimiento se deja fuera?</b> La experiencia vivida. Solo entra lo publicado y lo medido.</li>
+<li><b>¿Qué cambiaría con una frontera más ancha?</b> Con el transporte dentro, «falta vivienda en la ciudad» podría reformularse como «falta acceso rápido a la ciudad desde donde sí hay vivienda».</li>
+</ul>
+
+<h2>2.4 Tres definiciones del problema que conviven</h2>
+<table>
+<tr><th style="width:20%">Cosmovisión</th><th>«Queremos pasar de un sistema en el que… a un sistema capaz de…»</th><th style="width:26%">Quién la sostiene</th></tr>
+<tr><td>R · Derecho</td><td>…la vivienda se trata como un activo y eso expulsa a quien no puede pagar, a un sistema capaz de garantizarla como derecho con parque público y regulación.</td><td>Gobierno central, movimientos de vivienda, tercer sector, economistas críticos.</td></tr>
+<tr><td>M · Mercado</td><td>…la regulación, la falta de suelo y la inseguridad jurídica impiden construir y alquilar, a un sistema capaz de producir la vivienda que se demanda.</td><td>Promotores, propietarios, portales, banca, economistas pro-oferta, parte de la oposición y de los gobiernos territoriales.</td></tr>
+<tr><td>I · Desajuste</td><td>…una demanda concentrada en pocas áreas choca con una oferta rígida y un parque social residual, a un sistema capaz de ajustar oferta y demanda donde hace falta.</td><td>Banco de España, organismos internacionales, tasadoras, académicos.</td></tr>
+</table>
+<div class="caja"><b>Puerta Q1: PASA.</b> Los síntomas tienen dato y fuente, y la frontera está escrita. Queda sin explicar la caída de la sobrecarga de los inquilinos (S2).</div>
+
+<h1>3. Fase 2 · PERCEIVE (modo documental)</h1>
+<p>Se recogieron {{res:statements}} afirmaciones causales publicadas, sobre todo entre 2021 y 2026, de 16 tipos de actor. Cada una conserva actor, fecha, expresión, lo que afirma y la fuente. Están en el anexo C y en <i>datos\statements.csv</i>.</p>
+<h2>3.1 Bloques de interés</h2>
+<p>Cada afirmación se asigna a un bloque según la posición desde la que habla su autor. La regla que decide si una relación está triangulada usa los bloques, no los tipos de actor: el Partido Popular, una asociación de propietarios y un portal inmobiliario son tres tipos de actor, pero una sola posición.</p>
+<table>
+<tr><th style="width:12%">Bloque</th><th>Prioriza</th><th>Actores</th></tr>
+<tr><td>R</td><td>Regulación y derecho a la vivienda</td><td>Gobierno central, Generalitat, Ayuntamiento de Barcelona, sindicatos de inquilinos, PAH, Consejo de la Juventud, FOESSA, Provivienda, economistas críticos, Podemos, Sumar, EH Bildu.</td></tr>
+<tr><td>M</td><td>Mercado y oferta</td><td>Comunidad de Madrid, ayuntamientos de Madrid y Málaga, promotores y constructores, ASVAL, agentes inmobiliarios, Idealista, Fotocasa, AEB, CaixaBank Research, Fedea, IEE, sector turístico, PP, Vox, PNV, Junts.</td></tr>
+<tr><td>I</td><td>Sin posición de parte declarada</td><td>Banco de España, FMI, OCDE, Comisión Europea, Funcas, tasadoras, académicos, arquitectos y técnicos, medio rural, Gobierno Vasco.</td></tr>
+</table>
+<h2>3.2 Desacuerdos abiertos</h2>
+<table>
+<tr><th style="width:28%">Vínculo</th><th>Lo afirman</th><th>Lo niegan o lo invierten</th></tr>
+<tr><td>El tope al alquiler reduce la oferta</td><td>Comunidad de Madrid, FMI, OCDE (con matices), ASVAL, agentes, Idealista, Fedea, IEE, EsadeEcPol, PP.</td><td>Sindicat de Llogateres y Jacinto: la caída es desvío a temporada, o no existe.</td></tr>
+<tr><td>El alquiler turístico es causa relevante</td><td>Presidente del Gobierno, alcalde de Barcelona, comisario europeo, Exceltur, alcaldes rurales.</td><td>Airbnb, FEVITUR, Apartur, Junts: efecto marginal. Posición intermedia: Banco de España y los autores del estudio de Barcelona.</td></tr>
+<tr><td>Falta vivienda</td><td>Banco de España, Funcas, CaixaBank, promotores, Fedea, PP, Airbnb, Junts.</td><td>Palomera, Gil, Jacinto, PAH, Sindicato de Inquilinas: no falta, está desviada o acaparada. Tinsa: se construye, pero para quien no la necesita.</td></tr>
+<tr><td>La ocupación y el impago retiran oferta</td><td>PP, Plataforma de Afectados por la Ocupación, Comunidad de Madrid.</td><td>Casa 47 y Jacinto: el miedo retira oferta, pero es infundado o inducido.</td></tr>
+<tr><td>Fondos y grandes tenedores encarecen</td><td>Sindicatos de inquilinos, PAH, Gil, Observatori DESCA, EH Bildu, Ministerio de Consumo, comisario europeo.</td><td>Asprima, asesores de socimis y Banco de España: falta inversión profesional.</td></tr>
+<tr><td>Hay suelo</td><td>Ezquiaga: hay suelo urbanizable que no se ejecuta.</td><td>Asprima, Funcas, OCDE, CNC: no hay suelo finalista.</td></tr>
+<tr><td>Regular el alquiler de temporada devuelve pisos al alquiler habitual</td><td>Sindicat de Llogateres.</td><td>Colegio de agentes de Barcelona: se venden o quedan vacíos.</td></tr>
+</table>
+<h2>3.3 Lo que casi nadie dice</h2>
+<p>Temas que menciona un solo tipo de actor o ninguno: los salarios como causa; la herencia como vía de acceso; la discriminación en las agencias; los módulos de vivienda protegida que no cubren costes; la falta de capital propio de los promotores; los ayuntamientos que no generan suelo para vivienda protegida; la demanda de segunda residencia; la demanda latente de hogares que no se forman; el papel de los propietarios mayores con vivienda infrautilizada; el transporte.</p>
+
+<h2>3.4 Quién decide qué</h2>
+<p>Variables del mapa que fija un actor por decisión propia. La atribución sigue el reparto general de competencias y está pendiente de verificar norma por norma. La versión 0.1 incluía además el objetivo y la regla de decisión de cada actor: eran atribuciones del analista sin fuente y se han retirado.</p>
+{{frag:duenos}}
+<div class="aviso"><b>Puerta Q2: CONDICIONAL</b>, el máximo en modo documental. Hay variedad de posiciones y están recogidas las minoritarias. Faltan: AIReF, fondos hablando en primera persona, pequeños propietarios distintos de la plataforma contra la ocupación, y todos los hogares que no publican.</div>
+
+<h1>4. Fase 3 · STRUCTURE</h1>
+<p>Las afirmaciones se convirtieron en {{res:variables}} variables canónicas, agrupadas en {{res:clusters}} dominios. Todas cumplen las siete reglas de buena forma: el motor rechaza el archivo si falta un campo obligatorio, si una variable de decisión no tiene dueño o si un nombre está formulado como carencia.</p>
+<table>
+<tr><th>Tipo</th><th class="num">Stock</th><th class="num">Flujo</th><th class="num">Auxiliar</th><th class="num">Decisión</th><th class="num">Exógena</th><th class="num">Síntoma</th><th class="num">Sin indicador</th></tr>
+<tr><td>Variables</td><td class="num">{{res:porTipo.stock}}</td><td class="num">{{res:porTipo.flujo}}</td><td class="num">{{res:porTipo.auxiliar}}</td><td class="num">{{res:porTipo.decision}}</td><td class="num">{{res:porTipo.exogena}}</td><td class="num">{{res:porTipo.sintoma}}</td><td class="num">{{res:noMedidas}}</td></tr>
+</table>
+<p><b>{{res:noMedidas}} variables no tienen indicador.</b> Entre ellas están algunas de las que más se invocan en el debate: el suelo finalista disponible, el plazo de tramitación urbanística, las expectativas de revalorización, la descalificación anual de vivienda protegida y la rentabilidad de promoverla. Se discute sobre ellas sin medirlas.</p>
+<p>El diccionario completo, con definición, tipo, escala, indicador y fuente de cada variable, está en el anexo A.</p>
+<div class="caja"><b>Puerta Q3: PASA.</b> Todas las variables superan la validación automática. Aviso: una de cada cuatro no tiene medida.</div>
+
+
+
+<h1>5. Fase 4 · MAP</h1>
+<h2>5.1 Reglas de registro</h2>
+<ol>
+<li>Una afirmación se enlaza a una relación solo si afirma ese vínculo: mismo origen, mismo destino y mismo sentido.</li>
+<li>El nivel de datos exige una fuente localizada, escrita junto a la relación. Nada de memoria.</li>
+<li>La evidencia de otro país cuenta como dato compatible (D1), no como estimación en España, y se marca como referencia.</li>
+<li>Una relación sin afirmación y sin fuente es una hipótesis del analista: se conserva marcada, no entra en ningún cálculo y se lista aparte (anexo C).</li>
+<li>Las identidades contables se marcan como tales y no se cuentan como evidencia.</li>
+</ol>
+<p>El motor aplica estas reglas: rechaza el archivo si una relación sin afirmación ni fuente no está marcada como hipótesis, o si declara un nivel de datos sin fuente escrita.</p>
+<h2>5.2 Cómo se asigna la confianza</h2>
+<ul>
+<li><b>Percepción (P)</b>: se deriva de las afirmaciones enlazadas. Ninguna, P0; una, P1; varias del mismo bloque de interés, P2; de dos bloques o más, P3.</li>
+<li><b>Datos (D)</b>: D1, datos descriptivos compatibles o referencia de otro país; D2, estimación cuantitativa; D3, identificación causal.</li>
+<li><b>Confianza</b>: alta si D3, o D2 con P3; media si D2, o D1 con P3; baja si D1, o P2 o P3 sin datos; conjetura en otro caso. Una relación disputada baja un nivel.</li>
+</ul>
+<table>
+<tr><th>Clase</th><th class="num">Confianza alta</th><th class="num">Media</th><th class="num">Baja</th><th class="num">Identidades contables</th><th class="num">Conjeturas</th><th class="num">Hipótesis del analista</th><th class="num">Disputadas</th></tr>
+<tr><td>Relaciones</td><td class="num">{{res:altaNoContable}}</td><td class="num">{{res:mediaNoContable}}</td><td class="num">{{res:bajaNoContable}}</td><td class="num">{{res:contables}}</td><td class="num">{{res:conjeturas}}</td><td class="num">{{res:hipotesis}}</td><td class="num">{{res:disputadas}}</td></tr>
+</table>
+<p>Solo las tres primeras columnas y las identidades contables entran en los cálculos.</p>
+
+<h2>5.3 Las relaciones más firmes</h2>
+<p>Relaciones de comportamiento con confianza alta o media.</p>
+{{frag:firmes}}
+
+<h2>5.4 Mapa de dominios (N1)</h2>
+<p>Número de relaciones con apoyo que van del dominio de la fila al de la columna. Entre paréntesis, las internas. El asterisco indica que alguna está disputada.</p>
+{{frag:n1matriz}}
+<p class="pie">C01 Demografía y territorio · C02 Renta y empleo · C03 Financiación e inversión · C04 Suelo y urbanismo · C05 Producción de vivienda · C06 Parque y usos · C07 Mercado de alquiler · C08 Mercado de compraventa · C09 Vivienda pública y protegida · C10 Regulación y fiscalidad · C11 Resultados sociales · C12 Política y percepción.</p>
+<h3>Por dominio</h3>
+{{frag:foco}}
+<p>El mapa completo se consulta en <b>Mapa_interactivo_N2.html</b>. Por defecto muestra solo las relaciones con apoyo; las conjeturas y las hipótesis se pueden añadir de forma expresa y quedan rotuladas.</p>
+<div class="aviso"><b>Puerta Q4: CONDICIONAL.</b> Toda relación con apoyo tiene mecanismo, fuente escrita y nivel derivado por regla. Pero el nivel de datos de muchas se apoya en el resumen del estudio, no en su lectura completa.</div>
+
+<h1>6. Qué sostiene la evidencia sobre la dinámica</h1>
+<h2>6.1 Bucles con apoyo</h2>
+<p>Con las relaciones que tienen apoyo, el motor encuentra {{res:buclesSinConjeturas}} bucles. Si se admitieran las hipótesis del analista serían {{res:buclesConHipotesis}}: casi toda la realimentación que mostraba la versión 0.1 dependía de ellas.</p>
+{{frag:bucles}}
+<div class="aviso"><b>Lo que esta tabla no dice.</b> Qué bucle domina. Un diagrama causal establece qué realimentaciones existen, no cuál pesa más ni en qué momento.</div>
+
+<h2>6.2 Arquetipos</h2>
+<p>Cada arquetipo lo propone el analista como un conjunto de bucles y lo verifica el motor: que las cadenas existan, que su tipo sea el declarado y que cumplan la regla estructural de su clase. La columna «Apoyo» se deriva de las relaciones que lo forman.</p>
+{{frag:arquetiposResumen}}
+<p>Cuatro de los ocho tienen apoyo. Los otros cuatro son <b>hipótesis de trabajo</b>: su estructura es coherente, pero todos pasan por la misma relación sin fuente, la que va de la presión social a una decisión pública. Sirven para orientar qué habría que investigar, no para explicar el sistema. Se pueden ver en <b>Esquema_del_sistema.html</b>, rotulados como tales.</p>
+<h3>AQ8 · La carestía que frena la llegada (bucle de equilibrio): el más firme</h3>
+<p><img src="../12_Cases/Vivienda Espana/imagenes/esquema_AQ8.png" width="760" alt="AQ8"></p>
+{{frag:arq_AQ8}}
+<h3>AQ4 · La subida que se frena expulsando (límites al crecimiento)</h3>
+<p><img src="../12_Cases/Vivienda Espana/imagenes/esquema_AQ4.png" width="760" alt="AQ4"></p>
+{{frag:arq_AQ4}}
+<h3>AQ5 · Quien ya tiene, compra (éxito para quien tiene éxito)</h3>
+<p><img src="../12_Cases/Vivienda Espana/imagenes/esquema_AQ5.png" width="760" alt="AQ5"></p>
+{{frag:arq_AQ5}}
+<h3>AQ7 · El freno lento de la oferta (equilibrio con retardo)</h3>
+<p><img src="../12_Cases/Vivienda Espana/imagenes/esquema_AQ7.png" width="760" alt="AQ7"></p>
+{{frag:arq_AQ7}}
+
+<h2>6.3 De cada decisión a cada síntoma</h2>
+<p>Para cada variable que decide una administración o la banca, el motor cuenta todos los caminos causales con apoyo, de hasta seis relaciones, que llegan a cada síntoma, y el signo de cada uno. «Sube» o «baja» es el sentido del camino más corto.</p>
+{{frag:palancas}}
+<p>Tres decisiones no tienen camino con apoyo hacia ningún síntoma: el suelo municipal para vivienda protegida, las exigencias técnicas y el recargo fiscal a la vivienda vacía. Se invocan en el debate, pero sus efectos se apoyan en un solo actor, en ninguno, o están disputados sin datos que los resuelvan.</p>
+
+<h2>6.4 Relaciones disputadas</h2>
+{{frag:inciertas}}
+
+<br clear="all" style="page-break-before:always">
+<h1>7. Escenarios</h1>
+<h2>7.1 Qué significa mejorar para cada actor</h2>
+<p>Cada actor se representa por los resultados del mapa que le afectan de forma directa, y para cada uno se declara qué sentido le conviene. Un mismo resultado puede convenir a un actor y perjudicar a otro: que baje el precio de compra conviene a quien quiere comprar y perjudica al promotor.</p>
+{{frag:actores}}
+<div class="aviso"><b>Actores mal representados.</b> Los turistas aparecen por el número de viviendas turísticas y por el precio del alojamiento, pero no por la oferta hotelera. Los estudiantes y residentes temporales, solo por las viviendas en alquiler no habitual: no hay ninguna relación con apoyo sobre el precio que pagan ni sobre las residencias. Los pequeños propietarios y los grandes tenedores comparten los mismos dos resultados, porque el mapa no los distingue.</div>
+
+<h2>7.2 Cómo se calcula</h2>
+<p>En cada escenario se fija la tendencia de una o varias variables. El motor recorre todos los caminos causales con apoyo, de hasta seis relaciones, desde ellas hasta cada resultado, y anota el signo de cada camino y su plazo, que es la suma de los retardos. Una variable fijada no cambia y corta los caminos que pasarían por ella. Cuando una medida no es una variable del mapa, se representa por su efecto directo y ese salto se declara como supuesto.</p>
+<p><b>Primera ronda.</b> Son los caminos más cortos que llegan a un resultado. Si todos empujan en el sentido que conviene al actor, el resultado <b>mejora</b>; si todos empujan en contra, <b>empeora</b>; si los hay de los dos signos, recibe <b>señales contrarias</b>.</p>
+<p><b>Efectos de vuelta.</b> Son los demás caminos, más largos: rodeos y realimentaciones. Se cuentan aparte, según favorezcan o no lo que conviene al actor.</p>
+<div class="aviso"><b>Por qué esta convención, y qué no implica.</b> Con el mapa de la primera revisión bastaba contar todos los caminos. Al incorporar más evidencia, casi cualquier medida acaba empujando cada resultado en los dos sentidos y el recuento deja de distinguir unas medidas de otras. Separar la primera ronda devuelve la capacidad de comparar, a cambio de un supuesto que se declara: que lo que llega por el camino más corto llega antes. No implica que pese más. Por eso ninguna mejora se presenta sin sus efectos de vuelta en contra.</div>
+
+<h2>7.3 Resultado por actor</h2>
+<p>Con todas las relaciones que tienen apoyo (confianza baja o superior). Cada celda cuenta resultados de ese actor según su primera ronda.</p>
+{{frag:escenariosMatriz}}
+{{frag:escenariosCuenta}}
+
+<h2>7.4 Lo que se sostiene sin los eslabones débiles</h2>
+<p>La primera ronda, usando solo relaciones de confianza media o alta.</p>
+{{frag:escenariosFirme}}
+
+<h2>7.5 Lectura</h2>
+<ul>
+<li><b>Recuperar pisos turísticos (E1) es la medida propia mejor documentada</b>: siete mejoras con confianza media o alta. Sus costes de primera ronda recaen en los turistas y, a seis años o más, en la construcción y el déficit, porque un precio menor reduce las viviendas iniciadas.</li>
+<li><b>Impedir la compra de edificios (E2) se parece a E1 con más incertidumbre</b>: deja la oferta de alquiler con señales contrarias y descansa en un supuesto.</li>
+<li><b>Proteger al pequeño propietario (E3) suma once mejoras, la mayoría sin efectos de vuelta en contra, pero toda su evidencia es débil</b>: con confianza media o alta no mueve nada.</li>
+<li><b>Alojar en el barrio (E4) es la de efecto más rápido</b>: baja el esfuerzo de quien accede en menos de un año. Su coste firme es el déficit.</li>
+<li><b>El paquete del decisor (E7) mejora once resultados y empeora diez.</b> Tres de los diez son sociales (oferta de alquiler, exigencia al seleccionar y discriminación en el acceso); los demás recaen en propietarios, promotores y turistas, que no forman parte del objetivo. Añadir vivienda pública y suelo (E8) no cambia el recuento.</li>
+<li><b>Añadir reglas estables al paquete (E6) lo empeora</b>: deja ocho resultados con señales contrarias: en el mapa, la estabilidad atrae capital institucional, y este tiene efectos con fuente en los dos sentidos.</li>
+<li><b>Topar el alquiler (R1) mejora ocho resultados y empeora ocho.</b> Con confianza media o alta baja el precio y el esfuerzo de quien alquila y empeoran la oferta de alquiler, el precio de compra y el déficit. La relación central está disputada, con estudios serios a ambos lados.</li>
+<li><b>Las ayudas a la demanda (R2) mejoran el esfuerzo de quien las recibe</b>, y todas sus mejoras tienen efectos de vuelta en contra.</li>
+<li><b>Agilizar el suelo (R4) es la única sin perjuicios de primera ronda</b>: doce mejoras, las doce con efectos de vuelta en contra. Con confianza media solo mejoran la construcción y el déficit, y sus efectos tardan años.</li>
+</ul>
+<div class="aviso"><b>Lo que este análisis no puede decir.</b> Cuánto mejora o empeora cada resultado: para eso hacen falta magnitudes, y el mapa no las tiene. Tampoco si una medida resuelve el problema, ni si la primera ronda domina sobre los efectos de vuelta. Y que no aparezca una vía adversa no significa que no exista: puede estar en una relación sin fuente, o fuera de la frontera del mapa.</div>
+
+<h2>7.6 Detalle de cada escenario</h2>
+<h3>E1 · Recuperar para residentes los pisos turísticos</h3>
+{{frag:esc_E1}}
+<h3>E2 · Impedir que los fondos compren edificios enteros para uso turístico</h3>
+{{frag:esc_E2}}
+<h3>E3 · Proteger del impago al pequeño propietario</h3>
+{{frag:esc_E3}}
+<h3>E4 · Dotar a ayuntamientos y comunidades para alojar en el propio barrio</h3>
+{{frag:esc_E4}}
+<h3>E5 · Paquete: E1 + E3 + E4</h3>
+{{frag:esc_E5}}
+<h3>E6 · El mismo paquete con reglas estables</h3>
+{{frag:esc_E6}}
+<h3>R1 · Referencia: topar el alquiler</h3>
+{{frag:esc_R1}}
+<h3>R2 · Referencia: ayudas a la demanda</h3>
+{{frag:esc_R2}}
+<h3>R3 · Referencia: invertir en vivienda protegida</h3>
+{{frag:esc_R3}}
+<h3>R4 · Referencia: agilizar el suelo</h3>
+{{frag:esc_R4}}
+<h3>E7 · El paquete del decisor: frenar la conversión turística y la compra inversora, proteger frente a la expulsión y contener el alquiler</h3>
+{{frag:esc_E7}}
+<h3>E8 · El mismo paquete, con vivienda pública y suelo</h3>
+{{frag:esc_E8}}
+
+<h2>7.7 Simulador</h2>
+<p>El archivo <b>Simulador_de_tendencias.html</b> hace este mismo cálculo de forma interactiva: se elige un escenario o se fija la tendencia de cualquier variable, y muestra el resultado por actor y por plazo, con las vías que lo explican. Por defecto usa solo relaciones con apoyo.</p>
+<p><img src="../12_Cases/Vivienda Espana/imagenes/simulador_esc0.png" width="760" alt="Simulador"></p>
+
+<h2>7.8 Búsqueda de paquetes</h2>
+<p>Además de los doce escenarios, el motor prueba todas las combinaciones de hasta {{res:busqueda.maxMedidas}} medidas entre {{res:busqueda.palancas}} palancas ({{res:busqueda.combinaciones}}) y las ordena con criterios escritos de antemano. Los criterios son una elección: con otra definición de «mejor para todos» ganan otros paquetes. El detalle está en el documento <b>SOIH_12_Vivienda_Propuestas</b>.</p>
+{{frag:paquetesResumen}}
+<h3>Cada palanca por separado</h3>
+{{frag:palancasSueltas}}
+<h2>7.9 Coste social</h2>
+<p>Con el objetivo del decisor solo cuentan {{res:resultadosSociales}} resultados, los que describen cómo viven las personas. El desarrollo está en el documento <b>SOIH_12_Vivienda_Coste_social</b>.</p>
+{{frag:tesis}}
+{{frag:socialEscenarios}}
+<h3>Ponderado por personas (simulación)</h3>
+{{frag:personasGrupos}}
+{{frag:personasEscenarios}}
+
+<h1>8. Qué haría falta para responder mejor</h1>
+<table>
+<tr><th style="width:30%">Para…</th><th>Hace falta</th></tr>
+<tr><td>Evaluar la protección al pequeño propietario</td><td>Existe ya la comparación de los dos programas vascos. Falta una medida de si la garantía reduce el riesgo que percibe el propietario, y una evaluación fuera del País Vasco.</td></tr>
+<tr><td>Evaluar las medidas sobre fondos e inversores</td><td>El uso que dan a las viviendas que compran, por ciudad (en Barcelona existe para las licencias turísticas), y una estimación causal de su efecto sobre el alquiler en España, que no existe.</td></tr>
+<tr><td>Valorar bien la vivienda pública</td><td>Una estimación para España de cuánto reduce la exclusión cada vivienda social añadida, y de cuánta construcción privada desplaza. Hoy solo está medido el efecto sobre quien la recibe.</td></tr>
+<tr><td>Separar las causas de la caída del esfuerzo de alquiler</td><td>Los microdatos de la encuesta de condiciones de vida.</td></tr>
+<tr><td>Confirmar o descartar el efecto rebote</td><td>Una estimación de cuánto responde la formación de hogares al coste del alquiler en España.</td></tr>
+<tr><td>Representar bien a turistas y estudiantes</td><td>Datos de precio y capacidad del alojamiento turístico y de residencias, y su relación con las viviendas turísticas y de temporada.</td></tr>
+<tr><td>Saber cuánto, y no solo hacia dónde</td><td>Un modelo con cantidades. Hoy solo es viable sin inventar cifras en la parte de la oferta: hogares, viviendas iniciadas y terminadas, déficit.</td></tr>
+<tr><td>Contrastar la respuesta política</td><td>Alguna medida de cómo la presión social se traduce en regulación; hoy es entera una hipótesis.</td></tr>
+</table>
+<p>Además: verificar en la fuente las citas literales; leer completos los estudios de los que solo se tiene el resumen; explicar la caída de la sobrecarga de los inquilinos en 2023; y conseguir el precio del alquiler de los contratos nuevos.</p>
+
+<h1>9. Qué ha enseñado el caso sobre el método</h1>
+<table>
+<tr><th style="width:4%">Nº</th><th style="width:36%">Hallazgo</th><th>Consecuencia para la v0.3</th></tr>
+<tr><td>1</td><td>El analista rellena los huecos del mapa con relaciones plausibles sin advertirlo. En este caso, 47 de 148.</td><td>La regla de hipótesis debe estar en el motor desde la primera versión: lo que no tiene afirmación ni fuente se marca y no se calcula.</td></tr>
+<tr><td>2</td><td>Enlazar afirmaciones «más o menos relacionadas» infla la triangulación.</td><td>Regla de enlace estricta: mismo origen, mismo destino, mismo sentido.</td></tr>
+<tr><td>3</td><td>La realimentación de un sistema social pasa por la respuesta política, y esa es justo la parte que nadie afirma en público ni mide.</td><td>La fase de percepción necesita una técnica específica para recoger cómo deciden los actores; el modo documental no la da.</td></tr>
+<tr><td>4</td><td>Triangular por tipos de actor infla la evidencia: varios tipos comparten posición.</td><td>La triangulación se define por bloques de interés.</td></tr>
+<tr><td>5</td><td>Las identidades contables abultan el número de relaciones firmes.</td><td>Categoría propia, fuera de la escala de confianza. Ya aplicado.</td></tr>
+<tr><td>6</td><td>Una sola relación débil (el efecto rebote) genera casi todos los resultados adversos de varios escenarios.</td><td>Calcular cada escenario a dos niveles de confianza e informar de qué relación concreta depende cada resultado adverso.</td></tr>
+<tr><td>7</td><td>Fijar los síntomas con datos antes de mapear descubrió un dato que contradice el relato dominante.</td><td>Añadir a la puerta Q1: «¿algún dato contradice la definición del problema?».</td></tr>
+<tr><td>8</td><td>Una medida que no es una variable del mapa obliga a un supuesto para representarla.</td><td>Declarar el supuesto junto al escenario, no esconderlo en una relación nueva.</td></tr>
+<tr><td>9</td><td>Los actores con menos voz publicada (turistas, estudiantes, pequeños propietarios) quedan representados por un solo resultado o ninguno.</td><td>La puerta Q2 debe comprobar que cada actor de la carta de intervención tiene resultados propios en el mapa.</td></tr>
+<tr><td>10</td><td>El mapa da sentido y plazo; la pregunta del decisor es cuánto.</td><td>Desarrollar el paso a modelo con cantidades, con cada parámetro ligado a su fuente.</td></tr>
+<tr><td>11</td><td>Cuanta más evidencia tiene el mapa, menos discrimina el recuento de signos: todo acaba con vías en los dos sentidos.</td><td>Separar por regla la primera ronda de los efectos de vuelta, declararlo como convención e informar siempre de los dos.</td></tr>
+<tr><td>12</td><td>Buscar evidencia hueco por hueco cambió las conclusiones: de 2 bucles con apoyo a {{res:buclesSinConjeturas}}, y de uno a cuatro arquetipos. También volvió disputadas relaciones que parecían firmes.</td><td>La búsqueda dirigida de evidencia, a favor y en contra, es un paso propio del método, posterior al primer mapa y anterior a cualquier escenario.</td></tr>
+<tr><td>13</td><td>Elegir «el mejor paquete» exige un criterio, y el criterio decide el ganador.</td><td>Escribir los criterios antes de calcular, publicar los empates y ofrecer varios criterios en lugar de uno.</td></tr>
+<tr><td>14</td><td>Se afirmó dos veces que algo no existía tras buscar poco: los estudios sobre fondos (había una veintena) y el desglose de propietarios por tramos (lo publica el Catastro). Las dos veces lo puso en duda el decisor, y las dos cambiaron resultados o textos.</td><td>«No existe» solo se escribe tras buscar también tesis, estudios de caso y literatura cualitativa, y diciendo qué clase de trabajo es el que falta.</td></tr>
+<tr><td>15</td><td>El decisor sostiene cosas que nadie ha medido. Ni se pueden meter como evidencia ni conviene ignorarlas.</td><td>Registrarlas como premisas declaradas y repetir el cálculo «si fueran ciertas»: enseña qué conclusiones dependen de qué dato que falta.</td></tr>
+<tr><td>16</td><td>Un indicador puede mejorar porque quien peor está ha dejado de aparecer en él. El esfuerzo de alquiler baja mientras suben la sobreocupación y los jóvenes sin emancipar.</td><td>Para cada síntoma, preguntar a quién mide y a quién deja fuera, y medir por tramos, no con medias.</td></tr>
+<tr><td>17</td><td>Lo que no tiene fuente no cuenta, y eso penaliza a las medidas cuyo beneficio es obvio pero no está estudiado, como la vivienda pública.</td><td>Informar siempre de qué beneficio esperado de cada medida ha quedado fuera del cálculo por falta de fuente, y buscarlo.</td></tr>
+<tr><td>18</td><td>El mapa contaba como daño que se formasen más hogares al abaratarse el alquiler. Las fuentes lo tratan como objetivo.</td><td>Revisar, para cada resultado, si lo que el mapa cuenta como coste es en realidad el beneficio buscado visto desde otra variable.</td></tr>
+<tr><td>19</td><td>El paquete ganador ha cambiado en cada revisión por diferencias de un punto, y en la última empatan seis.</td><td>Informar de lo que es estable entre revisiones y de lo que no, en lugar de presentar un ganador.</td></tr>
+</table>
+
+<br clear="all" style="page-break-before:always">
+<h1>Anexo A · Diccionario de variables</h1>
+{{frag:diccionario}}
+
+<br clear="all" style="page-break-before:always">
+<h1>Anexo B · Relaciones con apoyo y conjeturas</h1>
+<p>P / D: nivel de percepción y de datos. La confianza se deriva por regla. Las conjeturas se listan, pero no entran en los cálculos.</p>
+{{frag:relaciones}}
+
+<br clear="all" style="page-break-before:always">
+<h1>Anexo C · Hipótesis del analista</h1>
+<p>Relaciones que el analista considera plausibles pero que ningún actor afirma en la muestra recogida y para las que no se ha localizado fuente. <b>No se usan en ningún cálculo.</b> Son la lista de lo que habría que investigar.</p>
+{{frag:hipotesis}}
+
+<br clear="all" style="page-break-before:always">
+<h1>Anexo D · Afirmaciones recogidas</h1>
+<p>Bloque: R, regulación y derecho; M, mercado y oferta; I, sin posición de parte. Las expresiones entre comillas fueron devueltas como literales por la herramienta de lectura; la columna «Cotejada» indica cuáles se han comprobado con el documento original ({{res:afirmacionesCotejadas}} de {{res:statements}}). Las fuentes están en <i>datos\statements.csv</i>.</p>
+{{frag:statements}}
+
+<br clear="all" style="page-break-before:always">
+<h1>Anexo E · Datos observados</h1>
+<p>La tendencia se calcula con una regla fija sobre el último dato y el de referencia: sube si la variación supera el 2 %, baja si es inferior al −2 %, estable en otro caso.</p>
+{{frag:observado}}
+
+</body>
+</html>

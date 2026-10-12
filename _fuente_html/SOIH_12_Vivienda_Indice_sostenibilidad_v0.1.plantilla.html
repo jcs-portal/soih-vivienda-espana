@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>SOIH - Vivienda: índice de sostenibilidad social</title>
+<style>
+body { font-family: Calibri, Arial, sans-serif; font-size: 10.5pt; color: #1F2933; line-height: 1.35; }
+h1 { font-size: 18pt; color: #12355B; margin-top: 18pt; margin-bottom: 6pt; }
+h2 { font-size: 13pt; color: #12355B; margin-top: 14pt; margin-bottom: 4pt; border-bottom: 1px solid #9FB3C8; }
+h3 { font-size: 11pt; color: #1F5A8A; margin-top: 10pt; margin-bottom: 3pt; }
+p { margin-top: 0; margin-bottom: 6pt; }
+table { border-collapse: collapse; width: 100%; margin-top: 3pt; margin-bottom: 9pt; }
+th { background-color: #12355B; color: #FFFFFF; font-weight: bold; text-align: left; padding: 3pt 5pt; border: 1px solid #12355B; font-size: 9pt; }
+td { padding: 3pt 5pt; border: 1px solid #9FB3C8; vertical-align: top; font-size: 9pt; }
+.caja { border: 1px solid #1F5A8A; background-color: #EAF2F8; padding: 6pt 8pt; margin-bottom: 9pt; }
+.aviso { border: 1px solid #B7791F; background-color: #FEF5E7; padding: 6pt 8pt; margin-bottom: 9pt; }
+.noticia { border-top: 3px solid #12355B; padding-top: 6pt; margin-top: 14pt; }
+.sello { font-size: 8.5pt; color: #B7791F; font-weight: bold; letter-spacing: 1pt; }
+.titular { font-family: Georgia, 'Times New Roman', serif; font-size: 20pt; color: #102A43; font-weight: bold; line-height: 1.15; margin-bottom: 4pt; }
+.entradilla { font-family: Georgia, 'Times New Roman', serif; font-size: 12pt; color: #334E68; margin-bottom: 8pt; }
+.cuerpo p { font-family: Georgia, 'Times New Roman', serif; font-size: 10.5pt; }
+.pie { font-size: 8.5pt; color: #52606D; }
+</style>
+</head>
+<body>
+
+<h1>Vivienda en España: índice de sostenibilidad social</h1>
+<p class="pie">Proyecto SOIH · Primera versión · 12 de octubre de 2026 · Base 2015 = 100; más alto es peor</p>
+
+<div class="caja"><b>Qué mide.</b> El daño que el funcionamiento del sistema de vivienda causa a la población, con nueve indicadores oficiales agrupados en tres partes. No mide las causas: el turismo, la inversión, la demografía y la falta de oferta van aparte, como presiones, para poder comprobar si el daño es mayor donde la presión es mayor en lugar de darlo por supuesto.</div>
+
+<h2>1. Lo que resulta</h2>
+{{frag:indResumen}}
+<ul>
+<li><b>El índice conjunto apenas se mueve, y eso es engañoso.</b> Está en {{res:indice.ultimo}} en 2025, casi como en 2015. Debajo hay dos movimientos opuestos y grandes.</li>
+<li><b>Para quien ya alquila, el peso del alquiler ha bajado mucho</b>: el subíndice I está en {{res:indice.ultimoI}}. Las rentas más bajas han subido más que los alquileres de los contratos vivos.</li>
+<li><b>Para quien no entra, o entra compartiendo, el daño ha crecido más de la mitad</b>: el subíndice II está en {{res:indice.ultimoII}}. Los inquilinos en viviendas sobreocupadas pasan del 11,7 % al 20,5 %, y los jóvenes de 18 a 34 años que viven con sus padres, del 58,0 % al 68,7 %.</li>
+<li><b>Los hogares frágiles mejoran algo en conjunto</b> ({{res:indice.ultimoIII}}), pero con una excepción: entre los mayores de 65 pobres la sobrecarga sube del 19,7 % al 23,2 %.</li>
+</ul>
+<div class="aviso"><b>La lectura honesta no es el número único, sino los tres.</b> El daño no ha desaparecido: se ha desplazado de «pagar demasiado» a «no poder entrar» y «vivir apretado». Un indicador que solo mire el esfuerzo de quien ya alquila dirá que el problema mejora; uno que mire la emancipación y la sobreocupación dirá que empeora. Los dos tienen razón sobre lo que miden.</div>
+
+<h2>2. Los nueve componentes</h2>
+<p>Cada componente es un porcentaje publicado por Eurostat con datos de la encuesta de condiciones de vida. La última columna lo expresa como índice: 100 es el valor de 2015.</p>
+{{frag:indComponentes}}
+
+<h2>3. Los pesos, simulados</h2>
+<p>Un índice compuesto lleva dentro una decisión: cuánto vale cada parte. En lugar de fijarla, se prueban tres maneras de ponderar.</p>
+<h3>Todas las ponderaciones posibles</h3>
+<p>Se calcula el índice de 2025 con las {{res:indice.barrido.total}} combinaciones de pesos que resultan de repartir el 100 % entre los tres subíndices de cinco en cinco puntos.</p>
+{{frag:indBarrido}}
+<ul>
+<li><b>No hay una respuesta única.</b> El índice empeora en el {{res:indice.barrido.pctEmpeora}} % de las ponderaciones, mejora en el {{res:indice.barrido.pctMejora}} % y queda parecido en el resto. Puede valer desde {{res:indice.barrido.min}} hasta {{res:indice.barrido.max}}.</li>
+<li><b>La pregunta que decide es cuánto importa quien no puede entrar.</b> Repartiendo el resto a partes iguales, basta con darle un {{res:indice.barrido.umbralII}} % del peso para que el conjunto quede por encima de 2015.</li>
+</ul>
+<h3>Pesos según las personas a las que describe cada parte</h3>
+{{frag:indPesosPersonas}}
+<p>Con este criterio el índice de 2025 es {{res:indice.personas.ultimo}}: empeora respecto a 2015. El tercer peso está infravalorado, porque de los hogares frágiles solo se sabe cuántas personas viven en familias monoparentales.</p>
+<h3>Cuatro ponderaciones fijas, para comparar</h3>
+{{frag:indSensibilidad}}
+<div class="aviso"><b>Qué se puede afirmar con seguridad.</b> Con cualquier ponderación, dos cosas son ciertas a la vez: para quien ya alquila el peso del alquiler ha bajado, y para quien no entra o comparte el daño ha crecido. Que «en conjunto» la situación sea mejor o peor no lo decide el dato, sino a quién se mira.</div>
+
+<h2>3 bis. Por edades</h2>
+<p>La edad ordena casi todo. Quien tiene más de 65 años es propietario en nueve de cada diez casos; quien tiene menos de 45 ha pasado en una generación de comprar a alquilar.</p>
+{{frag:indEdades}}
+<ul>
+<li><b>El cambio se concentra entre los 30 y los 44 años</b>: la propiedad cae 21 puntos desde 2007 y el alquiler de mercado se duplica.</li>
+<li><b>Los salarios de los jóvenes han subido más que la media</b>, también descontando la inflación, y aun así cada vez más viven con sus padres. El problema no está en que cobren menos que en 2015, sino en lo que cuesta entrar.</li>
+<li><b>Los mayores son el grupo más protegido y a la vez el único en que la sobrecarga sube.</b> El daño se concentra en la minoría que alquila o vive sola.</li>
+</ul>
+
+<h2>4. Las presiones, aparte</h2>
+<p>Lo que podría estar causando el daño. No entra en el índice.</p>
+{{frag:indPresiones}}
+<p>Todas las presiones suben entre 2019 y 2025, salvo el número de viviendas turísticas, que cae en 2026. La que más crece es el uso turístico de la vivienda medido en noches (+79 %), no en viviendas. Que varias cosas suban a la vez no dice cuál causa el daño.</p>
+
+<h2>5. Primer cruce por territorio</h2>
+<p>Si la presión turística causa daño, debería haber más daño donde hay más vivienda turística. Con los datos disponibles hoy por ciudad solo se puede comparar una medida de daño con una de presión, en cuatro ciudades.</p>
+{{frag:indCiudades}}
+<ul>
+<li><b>El orden coincide a grandes rasgos</b>: Sevilla y Málaga tienen más vivienda turística sobre su parque y más hogares en sobresfuerzo que Barcelona y Madrid.</li>
+<li><b>No es una prueba.</b> Son cuatro ciudades. Sevilla y Málaga tienen también rentas más bajas, lo que por sí solo eleva el esfuerzo. Y Málaga, con mucha más vivienda turística que Sevilla, tiene el mismo sobresfuerzo.</li>
+<li><b>La medida de daño no es la del índice.</b> Es la única disponible por ciudad: hogares no propietarios que gastan más del 30 % de su renta neta. No se ha comprobado si el Banco de España la refiere al municipio o a su área urbana.</li>
+</ul>
+
+<h2>6. Qué falta para que sea un índice de verdad</h2>
+<ul>
+<li><b>Calcularlo por ciudad y por año.</b> Los nueve componentes proceden de una encuesta nacional; por municipio solo hay precio del alquiler, viviendas turísticas y el dato de sobresfuerzo del Banco de España. Con los microdatos de la encuesta se podría bajar a comunidad autónoma.</li>
+<li><b>Añadir lo que no tiene serie completa</b>: mudanzas forzosas, sobreprecio de entrada (solo 2020 y 2024), parque social por habitante, familias monoparentales en riesgo de pobreza, y desahucios, que los juzgados no desglosan por edad ni por tipo de hogar.</li>
+<li><b>Decidir los pesos.</b> Los de esta versión son iguales por defecto; la decisión es tuya, y cambia la lectura del número conjunto.</li>
+<li><b>Dos advertencias sobre los datos.</b> 2021 mide ingresos del año de la pandemia y sale peor de lo normal. Y el INE adelantó las entrevistas de otoño a primavera entre 2021 y 2023, lo que puede haber mejorado los indicadores de esfuerzo sin que cambiara la realidad; no se ha podido medir cuánto.</li>
+</ul>
+
+<p class="pie">Los datos y el cálculo están en <i>datos\indice.js</i> y <i>datos\indice_sostenibilidad.csv</i>. Todos los valores se leyeron en la interfaz de datos de Eurostat el 12 de octubre de 2026.</p>
+</body>
+</html>

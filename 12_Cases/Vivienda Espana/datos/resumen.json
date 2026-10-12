@@ -1,0 +1,1256 @@
+{
+  "afirmacionesCotejadas": 52,
+  "variables": 97,
+  "relaciones": 197,
+  "statements": 140,
+  "clusters": 12,
+  "porConfianza": {
+    "Conjetura": 60,
+    "Baja": 70,
+    "Media": 36,
+    "Alta": 31
+  },
+  "disputadas": 11,
+  "porTipo": {
+    "stock": 19,
+    "flujo": 17,
+    "exogena": 7,
+    "auxiliar": 33,
+    "decision": 16,
+    "sintoma": 5
+  },
+  "noMedidas": 22,
+  "buclesSinConjeturas": 20,
+  "R": 10,
+  "B": 10,
+  "buclesConConjeturas": 24,
+  "buclesConHipotesis": 444,
+  "conjuntoReducido": 14,
+  "longitudMaxima": 8,
+  "hipotesis": 37,
+  "contables": 20,
+  "conApoyo": 117,
+  "conjeturas": 23,
+  "altaNoContable": 11,
+  "mediaNoContable": 36,
+  "bajaNoContable": 70,
+  "sinCaminoASintoma": [
+    "Población residente",
+    "Hogares latentes no formados",
+    "Población en municipios en declive",
+    "Salario de los jóvenes",
+    "Rentabilidad bruta del alquiler",
+    "Liquidez global en busca de activos",
+    "Suelo urbanizable sin desarrollar",
+    "Precio del suelo urbano",
+    "Suelo municipal destinado a vivienda protegida",
+    "Exigencias técnicas de la edificación",
+    "Viviendas rehabilitadas al año",
+    "Peso de la obra nueva dirigida a rentas altas",
+    "Viviendas vacías en municipios sin demanda",
+    "Viviendas de segunda residencia",
+    "Precio del alojamiento turístico",
+    "Impagos del alquiler",
+    "Ocupaciones ilegales de vivienda",
+    "Concentración de la propiedad del alquiler",
+    "Exigencia en la selección de inquilinos",
+    "Recargo fiscal a la vivienda vacía",
+    "Natalidad",
+    "Movilidad laboral hacia áreas con empleo",
+    "Desplazamiento de residentes de los centros urbanos",
+    "Presión social por la vivienda",
+    "Polarización del diagnóstico político",
+    "Proporción de hogares propietarios",
+    "Mudanzas forzosas de inquilinos sin orden judicial",
+    "Sobreprecio de las viviendas que entran al mercado de alquiler",
+    "Sobreocupación de las viviendas alquiladas"
+  ],
+  "aisladas": [
+    "Salario de los jóvenes",
+    "Liquidez global en busca de activos",
+    "Precio del suelo urbano",
+    "Suelo municipal destinado a vivienda protegida",
+    "Exigencias técnicas de la edificación",
+    "Viviendas rehabilitadas al año",
+    "Peso de la obra nueva dirigida a rentas altas",
+    "Impagos del alquiler",
+    "Ocupaciones ilegales de vivienda",
+    "Concentración de la propiedad del alquiler",
+    "Recargo fiscal a la vivienda vacía",
+    "Polarización del diagnóstico político"
+  ],
+  "avisos": [],
+  "escenarios": [
+    {
+      "id": "E1",
+      "mejora": 11,
+      "empeora": 5,
+      "contrario": 4,
+      "nada": 3,
+      "mejoraConVueltaEnContra": 9,
+      "empeoraConVueltaAFavor": 3
+    },
+    {
+      "id": "E2",
+      "mejora": 10,
+      "empeora": 4,
+      "contrario": 4,
+      "nada": 4,
+      "mejoraConVueltaEnContra": 9,
+      "empeoraConVueltaAFavor": 3
+    },
+    {
+      "id": "E3",
+      "mejora": 11,
+      "empeora": 5,
+      "contrario": 1,
+      "nada": 6,
+      "mejoraConVueltaEnContra": 3,
+      "empeoraConVueltaAFavor": 0
+    },
+    {
+      "id": "E4",
+      "mejora": 6,
+      "empeora": 5,
+      "contrario": 1,
+      "nada": 10,
+      "mejoraConVueltaEnContra": 2,
+      "empeoraConVueltaAFavor": 1
+    },
+    {
+      "id": "E5",
+      "mejora": 12,
+      "empeora": 5,
+      "contrario": 3,
+      "nada": 2,
+      "mejoraConVueltaEnContra": 10,
+      "empeoraConVueltaAFavor": 3
+    },
+    {
+      "id": "E6",
+      "mejora": 13,
+      "empeora": 5,
+      "contrario": 2,
+      "nada": 2,
+      "mejoraConVueltaEnContra": 11,
+      "empeoraConVueltaAFavor": 3
+    },
+    {
+      "id": "R1",
+      "mejora": 8,
+      "empeora": 8,
+      "contrario": 4,
+      "nada": 3,
+      "mejoraConVueltaEnContra": 7,
+      "empeoraConVueltaAFavor": 6
+    },
+    {
+      "id": "R2",
+      "mejora": 7,
+      "empeora": 6,
+      "contrario": 1,
+      "nada": 9,
+      "mejoraConVueltaEnContra": 7,
+      "empeoraConVueltaAFavor": 6
+    },
+    {
+      "id": "R3",
+      "mejora": 7,
+      "empeora": 5,
+      "contrario": 0,
+      "nada": 11,
+      "mejoraConVueltaEnContra": 1,
+      "empeoraConVueltaAFavor": 0
+    },
+    {
+      "id": "R4",
+      "mejora": 12,
+      "empeora": 0,
+      "contrario": 2,
+      "nada": 9,
+      "mejoraConVueltaEnContra": 12,
+      "empeoraConVueltaAFavor": 0
+    },
+    {
+      "id": "E7",
+      "mejora": 11,
+      "empeora": 10,
+      "contrario": 2,
+      "nada": 0,
+      "mejoraConVueltaEnContra": 9,
+      "empeoraConVueltaAFavor": 6
+    },
+    {
+      "id": "E8",
+      "mejora": 11,
+      "empeora": 10,
+      "contrario": 2,
+      "nada": 0,
+      "mejoraConVueltaEnContra": 9,
+      "empeoraConVueltaAFavor": 6
+    }
+  ],
+  "socialEscenarios": {
+    "E6": {
+      "mejoran": 12,
+      "empeoran": 0,
+      "contrarias": 1,
+      "saldo": 12,
+      "saldoFirme": 8,
+      "mejoranFirme": 8,
+      "empeoranFirme": 0
+    },
+    "E5": {
+      "mejoran": 11,
+      "empeoran": 0,
+      "contrarias": 2,
+      "saldo": 11,
+      "saldoFirme": 8,
+      "mejoranFirme": 8,
+      "empeoranFirme": 0
+    },
+    "E1": {
+      "mejoran": 10,
+      "empeoran": 0,
+      "contrarias": 3,
+      "saldo": 10,
+      "saldoFirme": 8,
+      "mejoranFirme": 8,
+      "empeoranFirme": 0
+    },
+    "E2": {
+      "mejoran": 10,
+      "empeoran": 0,
+      "contrarias": 3,
+      "saldo": 10,
+      "saldoFirme": 7,
+      "mejoranFirme": 7,
+      "empeoranFirme": 0
+    },
+    "R4": {
+      "mejoran": 9,
+      "empeoran": 0,
+      "contrarias": 1,
+      "saldo": 9,
+      "saldoFirme": 0,
+      "mejoranFirme": 0,
+      "empeoranFirme": 0
+    },
+    "E7": {
+      "mejoran": 11,
+      "empeoran": 3,
+      "contrarias": 1,
+      "saldo": 8,
+      "saldoFirme": 6,
+      "mejoranFirme": 7,
+      "empeoranFirme": 1
+    },
+    "E8": {
+      "mejoran": 11,
+      "empeoran": 3,
+      "contrarias": 1,
+      "saldo": 8,
+      "saldoFirme": 6,
+      "mejoranFirme": 7,
+      "empeoranFirme": 1
+    },
+    "E3": {
+      "mejoran": 9,
+      "empeoran": 3,
+      "contrarias": 1,
+      "saldo": 6,
+      "saldoFirme": 0,
+      "mejoranFirme": 0,
+      "empeoranFirme": 0
+    },
+    "R1": {
+      "mejoran": 7,
+      "empeoran": 2,
+      "contrarias": 4,
+      "saldo": 5,
+      "saldoFirme": 1,
+      "mejoranFirme": 4,
+      "empeoranFirme": 3
+    },
+    "R3": {
+      "mejoran": 5,
+      "empeoran": 3,
+      "contrarias": 0,
+      "saldo": 2,
+      "saldoFirme": 0,
+      "mejoranFirme": 0,
+      "empeoranFirme": 0
+    },
+    "E4": {
+      "mejoran": 4,
+      "empeoran": 3,
+      "contrarias": 1,
+      "saldo": 1,
+      "saldoFirme": 3,
+      "mejoranFirme": 3,
+      "empeoranFirme": 0
+    },
+    "R2": {
+      "mejoran": 4,
+      "empeoran": 5,
+      "contrarias": 1,
+      "saldo": -1,
+      "saldoFirme": 3,
+      "mejoranFirme": 3,
+      "empeoranFirme": 0
+    }
+  },
+  "resultadosSociales": 15,
+  "hipotesisCalc": {
+    "total": 60,
+    "hipotesis": 37,
+    "conjeturas": 23,
+    "conEfecto": 22,
+    "sinEfecto": 38,
+    "paquetes": [
+      {
+        "familia": "Cualquiera (se pueden mezclar)",
+        "medidas": [
+          "dotar a ayuntamientos y comunidades para alojar a las personas vulnerables en su barrio",
+          "acortar los plazos de tramitación urbanística",
+          "regular el alquiler de temporada"
+        ],
+        "saldo": 14,
+        "saldoBase": 11
+      },
+      {
+        "familia": "Solo intervención",
+        "medidas": [
+          "endurecer los criterios para conceder hipotecas",
+          "ampliar la compra preferente de viviendas y edificios por la Administración"
+        ],
+        "saldo": 14,
+        "saldoBase": 8
+      },
+      {
+        "familia": "Solo mercado",
+        "medidas": [
+          "acortar los plazos de tramitación urbanística",
+          "pactar un periodo largo sin cambios en las reglas del alquiler"
+        ],
+        "saldo": 12,
+        "saldoBase": 11
+      }
+    ],
+    "escenarios": {
+      "E6": {
+        "firme": 8,
+        "apoyo": 12,
+        "hipotesis": 13
+      },
+      "E5": {
+        "firme": 8,
+        "apoyo": 11,
+        "hipotesis": 12
+      },
+      "R4": {
+        "firme": 0,
+        "apoyo": 9,
+        "hipotesis": 10
+      },
+      "E3": {
+        "firme": 0,
+        "apoyo": 6,
+        "hipotesis": 8
+      },
+      "R3": {
+        "firme": 0,
+        "apoyo": 2,
+        "hipotesis": 8
+      },
+      "E1": {
+        "firme": 8,
+        "apoyo": 10,
+        "hipotesis": 7
+      },
+      "E2": {
+        "firme": 7,
+        "apoyo": 10,
+        "hipotesis": 7
+      },
+      "E4": {
+        "firme": 3,
+        "apoyo": 1,
+        "hipotesis": 7
+      },
+      "E7": {
+        "firme": 6,
+        "apoyo": 8,
+        "hipotesis": 1
+      },
+      "E8": {
+        "firme": 6,
+        "apoyo": 8,
+        "hipotesis": 1
+      },
+      "R2": {
+        "firme": 3,
+        "apoyo": -1,
+        "hipotesis": 0
+      },
+      "R1": {
+        "firme": 1,
+        "apoyo": 5,
+        "hipotesis": -3
+      }
+    },
+    "primeras": [
+      {
+        "de": "Presión social por la vivienda",
+        "a": "Protección legal del inquilino",
+        "signo": "+",
+        "clase": "Hipótesis",
+        "medidas": 19,
+        "cambio": 33
+      },
+      {
+        "de": "Presión social por la vivienda",
+        "a": "Frecuencia de cambios normativos",
+        "signo": "+",
+        "clase": "Hipótesis",
+        "medidas": 8,
+        "cambio": 19
+      },
+      {
+        "de": "Presión social por la vivienda",
+        "a": "Inversión pública en vivienda",
+        "signo": "+",
+        "clase": "Hipótesis",
+        "medidas": 15,
+        "cambio": 15
+      },
+      {
+        "de": "Precio del alquiler",
+        "a": "Desplazamiento de residentes de los centros urbanos",
+        "signo": "+",
+        "clase": "Hipótesis",
+        "medidas": 14,
+        "cambio": 14
+      },
+      {
+        "de": "Presión social por la vivienda",
+        "a": "Restricción al alquiler turístico",
+        "signo": "+",
+        "clase": "Hipótesis",
+        "medidas": 8,
+        "cambio": 13
+      },
+      {
+        "de": "Exigencia en la selección de inquilinos",
+        "a": "Discriminación en el acceso al alquiler",
+        "signo": "+",
+        "clase": "Hipótesis",
+        "medidas": 10,
+        "cambio": 12
+      },
+      {
+        "de": "Demanda de compra como inversión",
+        "a": "Oferta de alquiler habitual",
+        "signo": "+",
+        "clase": "Hipótesis",
+        "medidas": 7,
+        "cambio": 11
+      },
+      {
+        "de": "Oferta de alquiler habitual",
+        "a": "Sobreprecio de las viviendas que entran al mercado de alquiler",
+        "signo": "-",
+        "clase": "Hipótesis",
+        "medidas": 6,
+        "cambio": 10
+      }
+    ]
+  },
+  "premisas": {
+    "paquetes": [
+      {
+        "familia": "Cualquiera (se pueden mezclar)",
+        "medidas": [
+          "ampliar la compra preferente de viviendas y edificios por la Administración",
+          "limitar la compra de vivienda por inversores"
+        ],
+        "saldo": 13,
+        "saldoBase": 10
+      },
+      {
+        "familia": "Solo intervención",
+        "medidas": [
+          "ampliar la compra preferente de viviendas y edificios por la Administración",
+          "limitar la compra de vivienda por inversores"
+        ],
+        "saldo": 13,
+        "saldoBase": 10
+      },
+      {
+        "familia": "Solo mercado",
+        "medidas": [
+          "acortar los plazos de tramitación urbanística",
+          "pactar un periodo largo sin cambios en las reglas del alquiler"
+        ],
+        "saldo": 11,
+        "saldoBase": 11
+      }
+    ],
+    "escenarios": {
+      "E6": {
+        "base": 12,
+        "premisas": 12,
+        "mejoran": 12,
+        "empeoran": 0,
+        "contrarias": 1
+      },
+      "E5": {
+        "base": 11,
+        "premisas": 12,
+        "mejoran": 12,
+        "empeoran": 0,
+        "contrarias": 1
+      },
+      "E1": {
+        "base": 10,
+        "premisas": 12,
+        "mejoran": 12,
+        "empeoran": 0,
+        "contrarias": 1
+      },
+      "E2": {
+        "base": 10,
+        "premisas": 10,
+        "mejoran": 10,
+        "empeoran": 0,
+        "contrarias": 3
+      },
+      "R4": {
+        "base": 9,
+        "premisas": 9,
+        "mejoran": 9,
+        "empeoran": 0,
+        "contrarias": 1
+      },
+      "E7": {
+        "base": 8,
+        "premisas": 8,
+        "mejoran": 11,
+        "empeoran": 3,
+        "contrarias": 1
+      },
+      "E8": {
+        "base": 8,
+        "premisas": 8,
+        "mejoran": 11,
+        "empeoran": 3,
+        "contrarias": 1
+      },
+      "E3": {
+        "base": 6,
+        "premisas": 6,
+        "mejoran": 9,
+        "empeoran": 3,
+        "contrarias": 1
+      },
+      "R1": {
+        "base": 5,
+        "premisas": 5,
+        "mejoran": 7,
+        "empeoran": 2,
+        "contrarias": 4
+      },
+      "R3": {
+        "base": 2,
+        "premisas": 2,
+        "mejoran": 5,
+        "empeoran": 3,
+        "contrarias": 0
+      },
+      "E4": {
+        "base": 1,
+        "premisas": 1,
+        "mejoran": 4,
+        "empeoran": 3,
+        "contrarias": 1
+      },
+      "R2": {
+        "base": -1,
+        "premisas": -1,
+        "mejoran": 4,
+        "empeoran": 5,
+        "contrarias": 1
+      }
+    }
+  },
+  "personas": {
+    "total": 14968800,
+    "grupos": [
+      {
+        "id": "G1",
+        "nombre": "Personas que viven de alquiler de mercado y no son pobres",
+        "personas": 5760538
+      },
+      {
+        "id": "G2",
+        "nombre": "Personas pobres que viven de alquiler de mercado",
+        "personas": 2787785
+      },
+      {
+        "id": "G3",
+        "nombre": "Jóvenes de 18 a 34 años que viven con sus padres",
+        "personas": 6420477
+      }
+    ],
+    "paquetes": {
+      "P1": {
+        "indice": 87.4,
+        "firme": 25.5,
+        "medidas": [
+          "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+          "acortar los plazos de tramitación urbanística"
+        ]
+      },
+      "P2": {
+        "indice": 70.3,
+        "firme": 17.2,
+        "medidas": [
+          "endurecer los criterios para conceder hipotecas",
+          "acortar los plazos de tramitación urbanística"
+        ]
+      },
+      "P3": {
+        "indice": 61.9,
+        "firme": 42.9,
+        "medidas": [
+          "retirar los topes al precio del alquiler",
+          "dotar a ayuntamientos y comunidades para alojar a las personas vulnerables en su barrio",
+          "limitar la compra de vivienda por inversores"
+        ]
+      },
+      "P4": {
+        "indice": 89.4,
+        "firme": 59.9,
+        "medidas": [
+          "restringir las viviendas de uso turístico",
+          "pactar un periodo largo sin cambios en las reglas del alquiler",
+          "ampliar la compra preferente de viviendas y edificios por la Administración"
+        ]
+      },
+      "P5": {
+        "indice": 89.4,
+        "firme": 59.9,
+        "medidas": [
+          "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+          "endurecer los criterios para conceder hipotecas",
+          "ampliar la compra preferente de viviendas y edificios por la Administración"
+        ]
+      },
+      "P4I": {
+        "indice": 89.4,
+        "firme": 17.2,
+        "medidas": [
+          "endurecer los criterios para conceder hipotecas",
+          "crear una garantía pública que pague o asegure la renta al pequeño propietario"
+        ]
+      },
+      "P4M": {
+        "indice": 87.4,
+        "firme": 25.5,
+        "medidas": [
+          "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+          "acortar los plazos de tramitación urbanística"
+        ]
+      }
+    },
+    "escenarios": {
+      "E6": {
+        "indice": 87.4,
+        "firme": 59.9
+      },
+      "E5": {
+        "indice": 78.8,
+        "firme": 59.9
+      },
+      "E1": {
+        "indice": 70.3,
+        "firme": 59.9
+      },
+      "E2": {
+        "indice": 70.3,
+        "firme": 51.3
+      },
+      "R4": {
+        "indice": 70.3,
+        "firme": 0
+      },
+      "E7": {
+        "indice": 53.3,
+        "firme": 42.7
+      },
+      "E8": {
+        "indice": 53.3,
+        "firme": 42.7
+      },
+      "E3": {
+        "indice": 38.2,
+        "firme": 0
+      },
+      "R1": {
+        "indice": 27.6,
+        "firme": 8.4
+      },
+      "R3": {
+        "indice": 4.1,
+        "firme": 0
+      },
+      "E4": {
+        "indice": 2.1,
+        "firme": 25.6
+      },
+      "R2": {
+        "indice": -14.9,
+        "firme": 25.6
+      }
+    }
+  },
+  "busqueda": {
+    "maxMedidas": 5,
+    "familias": {
+      "intervencion": 2379,
+      "mercado": 1585,
+      "mixto": 57501,
+      "sin clasificar": 1
+    },
+    "combinaciones": 61466,
+    "palancas": 16,
+    "paquetes": [
+      {
+        "criterio": "P1",
+        "nombre": "Sin perdedores",
+        "medidas": [
+          "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+          "acortar los plazos de tramitación urbanística"
+        ],
+        "fija": {
+          "L04": 1,
+          "S02": -1
+        },
+        "todo": {
+          "mejoran": 14,
+          "conVueltaEnContra": 12,
+          "empeoran": 0,
+          "contrarias": 2,
+          "actoresConPerjuicio": 0,
+          "actoresLimpios": 4,
+          "actoresConMejora": 5,
+          "social": {
+            "mejoran": 11,
+            "empeoran": 0,
+            "contrarias": 1,
+            "saldo": 11,
+            "saldoFirme": 3
+          }
+        },
+        "empatados": [
+          [
+            "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+            "acortar los plazos de tramitación urbanística"
+          ]
+        ],
+        "firme": {
+          "mejoran": 8,
+          "empeoran": 3,
+          "contrarias": 0
+        }
+      },
+      {
+        "criterio": "P2",
+        "nombre": "Solo evidencia firme",
+        "medidas": [
+          "endurecer los criterios para conceder hipotecas",
+          "acortar los plazos de tramitación urbanística"
+        ],
+        "fija": {
+          "F03": 1,
+          "S02": -1
+        },
+        "todo": {
+          "mejoran": 12,
+          "conVueltaEnContra": 12,
+          "empeoran": 0,
+          "contrarias": 2,
+          "actoresConPerjuicio": 0,
+          "actoresLimpios": 4,
+          "actoresConMejora": 5,
+          "social": {
+            "mejoran": 9,
+            "empeoran": 0,
+            "contrarias": 1,
+            "saldo": 9,
+            "saldoFirme": 2
+          }
+        },
+        "empatados": [
+          [
+            "endurecer los criterios para conceder hipotecas",
+            "acortar los plazos de tramitación urbanística"
+          ]
+        ],
+        "firme": {
+          "mejoran": 6,
+          "empeoran": 0,
+          "contrarias": 0
+        }
+      },
+      {
+        "criterio": "P3",
+        "nombre": "Más actores beneficiados",
+        "medidas": [
+          "retirar los topes al precio del alquiler",
+          "dotar a ayuntamientos y comunidades para alojar a las personas vulnerables en su barrio",
+          "limitar la compra de vivienda por inversores"
+        ],
+        "fija": {
+          "L01": -1,
+          "G01": 1,
+          "L16": 1
+        },
+        "todo": {
+          "mejoran": 14,
+          "conVueltaEnContra": 12,
+          "empeoran": 3,
+          "contrarias": 3,
+          "actoresConPerjuicio": 2,
+          "actoresLimpios": 5,
+          "actoresConMejora": 7,
+          "social": {
+            "mejoran": 9,
+            "empeoran": 2,
+            "contrarias": 2,
+            "saldo": 7,
+            "saldoFirme": 5
+          }
+        },
+        "empatados": [
+          [
+            "retirar los topes al precio del alquiler",
+            "dotar a ayuntamientos y comunidades para alojar a las personas vulnerables en su barrio",
+            "limitar la compra de vivienda por inversores"
+          ],
+          [
+            "retirar los topes al precio del alquiler",
+            "retirar las ventajas fiscales de socimis y fondos",
+            "dotar a ayuntamientos y comunidades para alojar a las personas vulnerables en su barrio"
+          ]
+        ],
+        "firme": {
+          "mejoran": 7,
+          "empeoran": 5,
+          "contrarias": 0
+        }
+      },
+      {
+        "criterio": "P4",
+        "nombre": "Menor coste social",
+        "medidas": [
+          "restringir las viviendas de uso turístico",
+          "pactar un periodo largo sin cambios en las reglas del alquiler",
+          "ampliar la compra preferente de viviendas y edificios por la Administración"
+        ],
+        "fija": {
+          "L03": 1,
+          "L10": -1,
+          "L15": 1
+        },
+        "todo": {
+          "mejoran": 14,
+          "conVueltaEnContra": 11,
+          "empeoran": 5,
+          "contrarias": 2,
+          "actoresConPerjuicio": 3,
+          "actoresLimpios": 3,
+          "actoresConMejora": 5,
+          "social": {
+            "mejoran": 13,
+            "empeoran": 0,
+            "contrarias": 1,
+            "saldo": 13,
+            "saldoFirme": 8
+          }
+        },
+        "empatados": [
+          [
+            "restringir las viviendas de uso turístico",
+            "pactar un periodo largo sin cambios en las reglas del alquiler",
+            "ampliar la compra preferente de viviendas y edificios por la Administración"
+          ],
+          [
+            "restringir las viviendas de uso turístico",
+            "crear una garantía pública que pague o asegure la renta al pequeño propietario",
+            "pactar un periodo largo sin cambios en las reglas del alquiler"
+          ],
+          [
+            "restringir las viviendas de uso turístico",
+            "aumentar la inversión pública en vivienda protegida",
+            "pactar un periodo largo sin cambios en las reglas del alquiler"
+          ],
+          [
+            "restringir las viviendas de uso turístico",
+            "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+            "ampliar la compra preferente de viviendas y edificios por la Administración"
+          ],
+          [
+            "restringir las viviendas de uso turístico",
+            "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+            "crear una garantía pública que pague o asegure la renta al pequeño propietario"
+          ],
+          [
+            "restringir las viviendas de uso turístico",
+            "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+            "aumentar la inversión pública en vivienda protegida"
+          ]
+        ],
+        "firme": {
+          "mejoran": 8,
+          "empeoran": 4,
+          "contrarias": 1
+        }
+      },
+      {
+        "criterio": "P5",
+        "nombre": "Más personas beneficiadas",
+        "medidas": [
+          "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+          "endurecer los criterios para conceder hipotecas",
+          "ampliar la compra preferente de viviendas y edificios por la Administración"
+        ],
+        "fija": {
+          "L04": 1,
+          "F03": 1,
+          "L15": 1
+        },
+        "todo": {
+          "mejoran": 12,
+          "conVueltaEnContra": 8,
+          "empeoran": 4,
+          "contrarias": 1,
+          "actoresConPerjuicio": 3,
+          "actoresLimpios": 2,
+          "actoresConMejora": 4,
+          "social": {
+            "mejoran": 12,
+            "empeoran": 0,
+            "contrarias": 1,
+            "saldo": 12,
+            "saldoFirme": 7
+          }
+        },
+        "empatados": [
+          [
+            "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+            "endurecer los criterios para conceder hipotecas",
+            "ampliar la compra preferente de viviendas y edificios por la Administración"
+          ],
+          [
+            "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+            "endurecer los criterios para conceder hipotecas",
+            "crear una garantía pública que pague o asegure la renta al pequeño propietario"
+          ],
+          [
+            "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+            "aumentar la inversión pública en vivienda protegida",
+            "endurecer los criterios para conceder hipotecas"
+          ],
+          [
+            "restringir las viviendas de uso turístico",
+            "pactar un periodo largo sin cambios en las reglas del alquiler",
+            "ampliar la compra preferente de viviendas y edificios por la Administración"
+          ],
+          [
+            "restringir las viviendas de uso turístico",
+            "crear una garantía pública que pague o asegure la renta al pequeño propietario",
+            "pactar un periodo largo sin cambios en las reglas del alquiler"
+          ],
+          [
+            "restringir las viviendas de uso turístico",
+            "aumentar la inversión pública en vivienda protegida",
+            "pactar un periodo largo sin cambios en las reglas del alquiler"
+          ],
+          [
+            "restringir las viviendas de uso turístico",
+            "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+            "ampliar la compra preferente de viviendas y edificios por la Administración"
+          ],
+          [
+            "restringir las viviendas de uso turístico",
+            "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+            "crear una garantía pública que pague o asegure la renta al pequeño propietario"
+          ],
+          [
+            "restringir las viviendas de uso turístico",
+            "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+            "aumentar la inversión pública en vivienda protegida"
+          ]
+        ],
+        "firme": {
+          "mejoran": 7,
+          "empeoran": 4,
+          "contrarias": 0
+        }
+      },
+      {
+        "criterio": "P4I",
+        "nombre": "Menor coste social, solo intervención",
+        "medidas": [
+          "endurecer los criterios para conceder hipotecas",
+          "crear una garantía pública que pague o asegure la renta al pequeño propietario"
+        ],
+        "fija": {
+          "F03": 1,
+          "L13": 1
+        },
+        "todo": {
+          "mejoran": 12,
+          "conVueltaEnContra": 7,
+          "empeoran": 3,
+          "contrarias": 2,
+          "actoresConPerjuicio": 2,
+          "actoresLimpios": 2,
+          "actoresConMejora": 4,
+          "social": {
+            "mejoran": 12,
+            "empeoran": 0,
+            "contrarias": 1,
+            "saldo": 12,
+            "saldoFirme": 2
+          }
+        },
+        "empatados": [
+          [
+            "endurecer los criterios para conceder hipotecas",
+            "crear una garantía pública que pague o asegure la renta al pequeño propietario"
+          ]
+        ],
+        "firme": {
+          "mejoran": 3,
+          "empeoran": 3,
+          "contrarias": 0
+        }
+      },
+      {
+        "criterio": "P4M",
+        "nombre": "Menor coste social, solo mercado",
+        "medidas": [
+          "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+          "acortar los plazos de tramitación urbanística"
+        ],
+        "fija": {
+          "L04": 1,
+          "S02": -1
+        },
+        "todo": {
+          "mejoran": 14,
+          "conVueltaEnContra": 12,
+          "empeoran": 0,
+          "contrarias": 2,
+          "actoresConPerjuicio": 0,
+          "actoresLimpios": 4,
+          "actoresConMejora": 5,
+          "social": {
+            "mejoran": 11,
+            "empeoran": 0,
+            "contrarias": 1,
+            "saldo": 11,
+            "saldoFirme": 3
+          }
+        },
+        "empatados": [
+          [
+            "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+            "acortar los plazos de tramitación urbanística"
+          ]
+        ],
+        "firme": {
+          "mejoran": 8,
+          "empeoran": 3,
+          "contrarias": 0
+        }
+      }
+    ]
+  },
+  "inventario": {
+    "filas": 266,
+    "porEstado": {
+      "Contrastado": 130,
+      "Estimación oficial": 14,
+      "Calculado": 40,
+      "Estudio académico": 13,
+      "De parte": 28,
+      "Sin verificar": 13,
+      "No existe": 28
+    }
+  },
+  "indice": {
+    "personas": {
+      "pesos": [
+        51.5,
+        38.7,
+        9.8
+      ],
+      "valores": [
+        100,
+        100.4,
+        107.6,
+        101.5,
+        105.9
+      ],
+      "ultimo": "105,9"
+    },
+    "barrido": {
+      "total": 231,
+      "empeora": 108,
+      "parecido": 42,
+      "mejora": 81,
+      "pctEmpeora": "46,8",
+      "pctParecido": "18,2",
+      "pctMejora": "35,1",
+      "min": "71,4",
+      "max": "155,9",
+      "umbralII": 26
+    },
+    "anios": [
+      "2015",
+      "2019",
+      "2021",
+      "2023",
+      "2025"
+    ],
+    "total": [
+      100,
+      97,
+      107.6,
+      102.6,
+      105.9
+    ],
+    "subindices": {
+      "I": [
+        100,
+        88.7,
+        97.8,
+        77.4,
+        71.4
+      ],
+      "II": [
+        100,
+        120.8,
+        121.9,
+        135,
+        155.9
+      ],
+      "III": [
+        100,
+        81.4,
+        103.2,
+        95.4,
+        90.3
+      ]
+    },
+    "ultimo": "105,9",
+    "ultimoI": "71,4",
+    "ultimoII": "155,9",
+    "ultimoIII": "90,3",
+    "alternativas": [
+      {
+        "nombre": "Más peso a quien ya alquila",
+        "valores": [
+          100,
+          94.9,
+          105.2,
+          96.3,
+          97.3
+        ]
+      },
+      {
+        "nombre": "Más peso a quien no entra",
+        "valores": [
+          100,
+          102.9,
+          111.2,
+          110.7,
+          118.4
+        ]
+      },
+      {
+        "nombre": "Más peso a los hogares frágiles",
+        "valores": [
+          100,
+          93.1,
+          106.5,
+          100.8,
+          102
+        ]
+      }
+    ]
+  },
+  "fuentes": {
+    "total": 106,
+    "porLectura": {
+      "F": 24,
+      "C": 68,
+      "R": 10,
+      "T": 4
+    },
+    "actores": 140
+  },
+  "arquetipos": [
+    {
+      "id": "AQ1",
+      "nombre": "El tope que encoge el mercado",
+      "cumple": true,
+      "confianza": "Conjetura"
+    },
+    {
+      "id": "AQ2",
+      "nombre": "La ayuda que acaba en la renta",
+      "cumple": true,
+      "confianza": "Conjetura"
+    },
+    {
+      "id": "AQ3",
+      "nombre": "Lo urgente desplaza a lo estructural",
+      "cumple": true,
+      "confianza": "Conjetura"
+    },
+    {
+      "id": "AQ4",
+      "nombre": "La subida que se frena expulsando",
+      "cumple": true,
+      "confianza": "Baja"
+    },
+    {
+      "id": "AQ5",
+      "nombre": "Quien ya tiene, compra",
+      "cumple": true,
+      "confianza": "Baja"
+    },
+    {
+      "id": "AQ6",
+      "nombre": "Regular y esquivar",
+      "cumple": true,
+      "confianza": "Conjetura"
+    },
+    {
+      "id": "AQ7",
+      "nombre": "El freno lento de la oferta",
+      "cumple": true,
+      "confianza": "Baja"
+    },
+    {
+      "id": "AQ8",
+      "nombre": "La carestía que frena la llegada",
+      "cumple": true,
+      "confianza": "Media"
+    }
+  ]
+}

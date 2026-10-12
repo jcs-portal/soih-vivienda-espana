@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOIH - Simulador de tendencias</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Calibri, "Segoe UI", Arial, sans-serif; color:#1F2933; background:#F7F9FB; font-size:14px; }
+  header { padding:10px 18px; background:#12355B; color:#fff; }
+  header h1 { font-size:18px; margin:0; font-weight:600; }
+  header p { margin:3px 0 0; font-size:13.5px; color:#D9E2EC; }
+  #cuerpo { display:grid; grid-template-columns: 310px minmax(0,1fr) 620px; align-items:start; }
+  .col { padding:12px 14px; background:#fff; border-right:1px solid #CBD2D9; max-height:calc(100vh - 62px); overflow:auto; }
+  #centro { padding:0; border-right:1px solid #CBD2D9; background:#fff; }
+  h2 { font-size:15px; margin:0 0 6px; color:#12355B; }
+  h3 { font-size:12px; margin:12px 0 4px; color:#52606D; text-transform:uppercase; letter-spacing:.04em; }
+  .fila { display:flex; align-items:center; gap:6px; padding:3px 0; border-bottom:1px solid #EEF1F4; }
+  .fila span.n { flex:1; font-size:13px; }
+  .fila small { color:#829AB1; }
+  .bt { width:26px; height:24px; border:1px solid #CBD2D9; background:#fff; border-radius:4px; cursor:pointer; font-size:13px; line-height:1; padding:0; color:#52606D; }
+  .bt.on.s { background:#2B6CB0; color:#fff; border-color:#2B6CB0; } .bt.on.m { background:#52606D; color:#fff; border-color:#52606D; } .bt.on.b { background:#C05621; color:#fff; border-color:#C05621; }
+  .esc { display:inline-block; margin:0 5px 5px 0; padding:4px 9px; border:1px solid #12355B; color:#12355B; background:#fff; border-radius:14px; cursor:pointer; font-size:13px; font-family:inherit; }
+  .esc:hover { background:#EAF2F8; }
+  table { border-collapse:collapse; width:100%; }
+  th { text-align:left; font-size:12px; color:#52606D; font-weight:600; padding:4px 5px; border-bottom:2px solid #CBD2D9; }
+  td { padding:5px; border-bottom:1px solid #EEF1F4; vertical-align:top; font-size:13px; }
+  td.c { cursor:pointer; text-align:center; white-space:nowrap; } td.c:hover { background:#F0F4F8; }
+  tr.dim td { background:#F0F4F8; font-weight:700; color:#12355B; font-size:12.5px; }
+  .mej { color:#276749; font-weight:700; } .emp { color:#C05621; font-weight:700; } .mix { color:#6B46C1; font-weight:700; } .nul { color:#BCCCDC; }
+  .obs { font-size:11.5px; color:#52606D; }
+  .aviso { border:1px solid #B7791F; background:#FEF5E7; padding:6px 8px; border-radius:4px; font-size:12.5px; margin:8px 0; }
+  .cam { font-size:12.5px; padding:5px 0; border-bottom:1px solid #EEF1F4; }
+  .eti { display:inline-block; font-size:11px; padding:1px 6px; border-radius:9px; border:1px solid #CBD2D9; color:#52606D; margin-right:4px; }
+  select, input[type=text] { font:inherit; padding:3px 5px; border:1px solid #CBD2D9; border-radius:4px; max-width:100%; }
+  svg text { font-family: Calibri, "Segoe UI", Arial, sans-serif; }
+  @media (max-width: 1150px) { #cuerpo { grid-template-columns: 1fr; } .col { max-height:none; border-right:0; border-bottom:1px solid #CBD2D9; } }
+</style>
+</head>
+<body>
+<header><h1 id="titulo"></h1><p>Fija la tendencia de una o varias variables (sube, se mantiene, baja) y el simulador recorre el mapa causal para decir qué resultados empujan al alza o a la baja, en qué plazo y por qué vías. Indica sentido y plazo, no magnitud.</p></header>
+<div id="cuerpo">
+  <div class="col" id="izq"></div>
+  <div id="centro"><svg id="lienzo" viewBox="0 0 1440 900" style="display:block;width:100%"></svg><div style="padding:8px 14px" id="pie"></div></div>
+  <div class="col" id="der"></div>
+</div>
+<script>
+/*__DATOS__*/
+(function () {
+  const NS = 'http://www.w3.org/2000/svg';
+  const CONF = ['Conjetura', 'Baja', 'Media', 'Alta'], HOR = ['Menos de 1 año', 'De 1 a 4 años', 'Más de 4 años'], PROF = 6;
+  const nodo = Object.fromEntries(DATOS.nodos.map(n => [n.id, n]));
+  const col = Object.fromEntries(DATOS.clusters.map(c => [c.id, c.color]));
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const fl = s => s > 0 ? '▲' : s < 0 ? '▼' : '●';
+  document.getElementById('titulo').textContent = DATOS.titulo + ' · Simulador de tendencias';
+
+  const fijo = new Map();          // id -> 1 (sube) | 0 (se mantiene) | -1 (baja)
+  let minConf = 1, horizonte = 3;  // 3 = acumulado
+  let escActivo = null;
+  // Relaciones que entran en el calculo: las hipotesis del analista solo si se pide de forma expresa (-1)
+  const usa = a => a.h ? minConf === -1 : a.c >= Math.max(minConf, 0);
+  let res = new Map();             // id -> [ {pos,neg,cam:[]} x 3 ]
+  let ronda = new Map();           // id -> { l: pasos minimos, p, n: vias de primera ronda; P, N: vias posteriores }
+
+  // ---- Calculo: todos los caminos simples de hasta PROF relaciones desde cada variable fijada.
+  // Una variable fijada no cambia y corta los caminos que pasarian por ella.
+  function simular() {
+    res = new Map(); ronda = new Map();
+    const ady = {};
+    for (const a of DATOS.aristas) if (usa(a)) (ady[a.de] = ady[a.de] || []).push(a);
+    const celda = id => { if (!res.has(id)) res.set(id, [0, 1, 2].map(() => ({ pos: 0, neg: 0, cam: [] }))); return res.get(id); };
+    for (const [o, s0] of fijo) {
+      if (!s0) continue;
+      const vis = new Set([o]);
+      (function dfs(v, signo, ret, conf, rastro) {
+        for (const a of (ady[v] || [])) {
+          if (fijo.has(a.a) || vis.has(a.a)) continue;
+          const s = signo * (a.p === '+' ? 1 : -1), r = ret + a.r, c = Math.min(conf, a.c), h = r < 1 ? 0 : r <= 4 ? 1 : 2;
+          const k = celda(a.a)[h]; s > 0 ? k.pos++ : k.neg++;
+          const ids = [...rastro, a.id];
+          const q = ronda.get(a.a) || { l: Infinity, p: 0, n: 0, P: 0, N: 0 }; ronda.set(a.a, q);
+          if (ids.length < q.l) { q.P += q.p; q.N += q.n; q.l = ids.length; q.p = 0; q.n = 0; }
+          if (ids.length === q.l) { s > 0 ? q.p++ : q.n++; } else { s > 0 ? q.P++ : q.N++; }
+          if (k.cam.length < 80) k.cam.push({ o, s0, s, r, c, ids });
+          if (ids.length < PROF) { vis.add(a.a); dfs(a.a, s, r, c, ids); vis.delete(a.a); }
+        }
+      })(o, s0, 0, 3, []);
+    }
+  }
+  function veredicto(id, h) {
+    const r = res.get(id); if (!r) return { pos: 0, neg: 0, s: null };
+    const sel = h === 3 ? r : [r[h]];
+    const pos = sel.reduce((x, k) => x + k.pos, 0), neg = sel.reduce((x, k) => x + k.neg, 0);
+    return { pos, neg, s: !pos && !neg ? null : pos && neg ? 0 : pos ? 1 : -1 };
+  }
+
+  // ---- Columna izquierda: palancas
+  const izq = document.getElementById('izq');
+  function filaVar(id) {
+    const n = nodo[id], e = fijo.get(id);
+    return `<div class="fila"><span class="n">${esc(n.n)}${n.du ? `<br><small>${esc(n.du)}</small>` : ''}</span>` +
+      [['s', 1, '▲', 'Sube'], ['m', 0, '●', 'Se mantiene'], ['b', -1, '▼', 'Baja']].map(b => `<button class="bt ${b[0]}${e === b[1] ? ' on' : ''}" data-id="${id}" data-v="${b[1]}" title="${b[3]}">${b[2]}</button>`).join('') + '</div>';
+  }
+  function pintarIzq() {
+    const dec = DATOS.nodos.filter(n => n.t === 'decision').map(n => n.id), exo = DATOS.nodos.filter(n => n.t === 'exogena').map(n => n.id);
+    const otras = [...fijo.keys()].filter(id => !dec.includes(id) && !exo.includes(id));
+    izq.innerHTML = '<h2>1. Elige qué cambia</h2><h3>Escenarios de partida</h3>' + DATOS.escenarios.map((s, i) => `<button class="esc" data-e="${i}">${esc(s.nombre)}</button>`).join('') +
+      '<button class="esc" data-e="-1" style="border-color:#C05621;color:#C05621">Limpiar</button>' +
+      (escActivo !== null ? `<div class="aviso" style="background:#EAF2F8;border-color:#1F5A8A"><b>${esc(DATOS.escenarios[escActivo].nombre)}</b><br>${esc(DATOS.escenarios[escActivo].lectura || '')}${DATOS.escenarios[escActivo].supuesto ? '<br><b>Supuesto:</b> ' + esc(DATOS.escenarios[escActivo].supuesto) : ''}</div>` : '') +
+      '<h3>Decisiones de administraciones y banca</h3>' + dec.map(filaVar).join('') +
+      '<h3>Condiciones externas</h3>' + exo.map(filaVar).join('') +
+      '<h3>Cualquier otra variable</h3>' + otras.map(filaVar).join('') +
+      '<select id="otra"><option value="">Añadir variable…</option>' + DATOS.nodos.filter(n => !dec.includes(n.id) && !exo.includes(n.id) && !fijo.has(n.id)).sort((a, b) => a.n.localeCompare(b.n, 'es')).map(n => `<option value="${n.id}">${esc(n.n)}</option>`).join('') + '</select>' +
+      '<h3>Relaciones que se usan</h3><select id="conf"><option value="1">Confianza baja o superior (sin conjeturas)</option><option value="2">Solo confianza media o alta</option><option value="3">Solo confianza alta</option><option value="0">Añadir conjeturas (una sola afirmación, sin datos)</option><option value="-1">Añadir también hipótesis del analista (sin fuente)</option></select>' +
+      '<div class="aviso">«Se mantiene» significa que la variable no cambia: corta los efectos que pasarían por ella. Sirve para preguntar, por ejemplo, qué ocurre si se regula el precio <i>y</i> la oferta de alquiler no cae.</div>';
+    document.getElementById('conf').value = String(minConf);
+    izq.querySelectorAll('.bt').forEach(b => b.addEventListener('click', () => { const id = b.dataset.id, v = +b.dataset.v; fijo.get(id) === v ? fijo.delete(id) : fijo.set(id, v); todo(); }));
+    izq.querySelectorAll('.esc').forEach(b => b.addEventListener('click', () => { const i = +b.dataset.e; fijo.clear(); escActivo = i >= 0 ? i : null; if (i >= 0) for (const [k, v] of Object.entries(DATOS.escenarios[i].fija)) fijo.set(k, v); detalle = null; todo(); }));
+    document.getElementById('otra').addEventListener('change', ev => { if (ev.target.value) { fijo.set(ev.target.value, 1); todo(); } });
+    document.getElementById('conf').addEventListener('change', ev => { minConf = +ev.target.value; todo(); });
+  }
+
+  // ---- Columna derecha: resultados por dimension y plazo
+  const der = document.getElementById('der');
+  let detalle = null;   // { id, h }
+  function clase(s, mejorSi) { if (s === null) return 'nul'; if (s === 0) return 'mix'; return (s > 0) === (mejorSi === 'sube') ? 'mej' : 'emp'; }
+  function txt(v) { return v.s === null ? '·' : v.s === 0 ? `◆ ${v.pos}▲ ${v.neg}▼` : `${fl(v.s)} ${v.pos + v.neg}`; }
+  function pintarDer() {
+    let h = '<h2>2. Qué empuja a qué</h2>';
+    if (![...fijo.values()].some(v => v)) h += '<p>Elige un escenario o marca la tendencia de alguna variable.</p>';
+    h += '<table><tr><th>Resultado</th>' + HOR.map(x => `<th style="text-align:center">${x}</th>`).join('') + '<th style="text-align:center">Conjunto</th><th style="text-align:center">Primera ronda</th><th style="text-align:center">Efectos de vuelta</th></tr>';
+    for (const g of DATOS.resultados) {
+      h += `<tr class="dim"><td colspan="7">${esc(g.dimension)}</td></tr>`;
+      for (const [id, mejor] of g.variables) {
+        const n = nodo[id], o = n.o;
+        h += `<tr><td>${esc(n.n)}<div class="obs">Mejora si ${mejor}.${o ? ' Hoy: ' + (o.tend === null ? '' : fl(o.tend) + ' ') + o.valor.toLocaleString('es-ES') + ' ' + esc(o.unidad) + ' (' + esc(o.anio) + ')' : ''}</div></td>`;
+        for (const k of [0, 1, 2, 3]) { const v = fijo.has(id) ? { s: null } : veredicto(id, k); h += `<td class="c ${clase(v.s, mejor)}" data-id="${id}" data-h="${k}">${fijo.has(id) ? 'fijada' : txt(v)}</td>`; }
+        const q = fijo.has(id) ? null : ronda.get(id);
+        if (!q) h += '<td class="c nul">·</td><td class="c nul">·</td>';
+        else { const s1 = q.p && q.n ? 0 : q.p ? 1 : -1, fav = mejor === 'sube' ? q.P : q.N, con = mejor === 'sube' ? q.N : q.P;
+          h += `<td class="c ${clase(s1, mejor)}" data-id="${id}" data-h="3" title="${q.l} paso${q.l > 1 ? 's' : ''}">${s1 === 0 ? '◆ contrarias' : clase(s1, mejor) === 'mej' ? 'mejora' : 'empeora'}<br><small>${q.l} paso${q.l > 1 ? 's' : ''}</small></td><td class="c ${con ? 'mix' : 'nul'}" data-id="${id}" data-h="3">${fav + con ? fav + ' a favor<br>' + con + ' en contra' : 'ninguno'}</td>`; }
+        h += '</tr>';
+      }
+    }
+    h += '</table><p class="obs"><span class="mej">Verde</span>: todas las vías empujan hacia la mejora. <span class="emp">Naranja</span>: todas empujan hacia el empeoramiento. <span class="mix">Morado ◆</span>: hay vías en los dos sentidos y el resultado depende de magnitudes que el mapa no contiene. El número es la cantidad de vías. Pulsa una celda para verlas.</p><p class="obs"><b>Primera ronda</b>: el veredicto de las vías más cortas, las que llegan con menos pasos. <b>Efectos de vuelta</b>: las vías más largas, que rodean o realimentan, contadas según favorezcan o no lo que le conviene al actor. Es una convención: la primera ronda llega antes, pero el mapa no dice si pesa más.</p><div id="det"></div>';
+    der.innerHTML = h;
+    der.querySelectorAll('td.c').forEach(c => c.addEventListener('click', () => { detalle = { id: c.dataset.id, h: +c.dataset.h }; pintarDetalle(); pintarSvg(); }));
+    pintarDetalle();
+  }
+  function pintarDetalle() {
+    const d = document.getElementById('det'); if (!d) return;
+    if (!detalle || !res.get(detalle.id)) { d.innerHTML = ''; return; }
+    const r = res.get(detalle.id), sel = detalle.h === 3 ? r : [r[detalle.h]];
+    const cam = sel.flatMap(k => k.cam).sort((a, b) => b.c - a.c || a.ids.length - b.ids.length || a.r - b.r);
+    const ar = id => DATOS.aristas.find(a => a.id === id);
+    d.innerHTML = `<h3>Vías hacia «${esc(nodo[detalle.id].n)}» · ${detalle.h === 3 ? 'todos los plazos' : HOR[detalle.h].toLowerCase()} (${cam.length})</h3>` +
+      cam.slice(0, 40).map(c => { let s = c.s0; let t = `${fl(s)} ${esc(nodo[c.o].n)}`; for (const id of c.ids) { const a = ar(id); s *= a.p === '+' ? 1 : -1; t += ` →<b>(${a.p === '+' ? '+' : '−'})</b> ${fl(s)} ${esc(nodo[a.a].n)}`; }
+        return `<div class="cam">${t}<br><span class="eti">Confianza ${CONF[c.c]}</span><span class="eti">${c.r < 1 ? 'menos de 1 año' : '≈ ' + String(c.r).replace('.', ',') + ' años'}</span></div>`; }).join('') +
+      (cam.length > 40 ? `<p class="obs">Se muestran las 40 más firmes y cortas de ${cam.length}.</p>` : '');
+  }
+
+  // ---- Centro: esquema de las variables clave con el resultado encima
+  const svg = document.getElementById('lienzo');
+  const el = (t, at, p) => { const e = document.createElementNS(NS, t); for (const k in at) e.setAttribute(k, at[k]); (p || svg).appendChild(e); return e; };
+  const pos = DATOS.pos, RN = 13;
+  const partir = s => { if (s.length <= 24) return [s]; const m = s.length / 2; let b = -1; for (let i = 0; i < s.length; i++) if (s[i] === ' ' && (b < 0 || Math.abs(i - m) < Math.abs(b - m))) b = i; return b < 0 ? [s] : [s.slice(0, b), s.slice(b + 1)]; };
+  function pintarSvg() {
+    svg.innerHTML = '';
+    const defs = el('defs', {});
+    [['mas', '#2B6CB0'], ['menos', '#C05621'], ['gris', '#BCCCDC']].forEach(([id, c]) => { const m = el('marker', { id: 'f-' + id, viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 6, markerHeight: 6, orient: 'auto-start-reverse' }, defs); el('path', { d: 'M0,0 L10,5 L0,10 z', fill: c }, m); });
+    // relaciones activas: las que forman parte de alguna via hacia el resultado en detalle, o de cualquier via si no hay detalle
+    const activas = new Set();
+    const fuente = detalle && res.get(detalle.id) ? (detalle.h === 3 ? res.get(detalle.id) : [res.get(detalle.id)[detalle.h]]) : [...res.values()].flat();
+    fuente.forEach(k => k.cam.forEach(c => c.ids.forEach(id => activas.add(id))));
+    for (const a of DATOS.aristas) {
+      if (!pos[a.de] || !pos[a.a] || !usa(a)) continue;
+      const p = pos[a.de], q = pos[a.a], dx = q[0] - p[0], dy = q[1] - p[1], d = Math.hypot(dx, dy) || 1, ux = dx / d, uy = dy / d;
+      const x1 = p[0] + ux * (RN + 2), y1 = p[1] + uy * (RN + 2), x2 = q[0] - ux * (RN + 5), y2 = q[1] - uy * (RN + 5), mx = (x1 + x2) / 2 - dy * 0.16, my = (y1 + y2) / 2 + dx * 0.16;
+      const on = activas.has(a.id), c = on ? (a.p === '+' ? '#2B6CB0' : '#C05621') : '#BCCCDC';
+      el('path', { d: `M${x1},${y1} Q${mx},${my} ${x2},${y2}`, fill: 'none', stroke: c, 'stroke-width': on ? 3 : 1.2, 'stroke-dasharray': a.q ? '8 4' : '', 'marker-end': `url(#f-${on ? (a.p === '+' ? 'mas' : 'menos') : 'gris'})` });
+    }
+    for (const id of Object.keys(pos)) {
+      const n = nodo[id], [x, y] = pos[id], f = fijo.has(id), v = f ? { s: fijo.get(id) } : veredicto(id, horizonte);
+      const g = el('g', {});
+      if (f) el('circle', { cx: x, cy: y, r: RN + 9, fill: 'none', stroke: '#12355B', 'stroke-width': 3, 'stroke-dasharray': '5 3' }, g);
+      if (n.t === 'decision') el('rect', { x: x - RN, y: y - RN, width: RN * 2, height: RN * 2, transform: `rotate(45 ${x} ${y})`, fill: col[n.c], stroke: '#fff', 'stroke-width': 2 }, g);
+      else el('circle', { cx: x, cy: y, r: RN, fill: col[n.c], stroke: '#fff', 'stroke-width': 2 }, g);
+      if (v.s !== null && v.s !== undefined) { const t = el('text', { x, y: y + 6, 'text-anchor': 'middle', 'font-size': 17, 'font-weight': 700, fill: '#fff' }, g); t.textContent = v.s > 0 ? '▲' : v.s < 0 ? '▼' : (f ? '●' : '◆'); }
+      const lin = partir(n.n), arriba = y < 130 || DATOS.arriba.includes(id);
+      lin.forEach((s, i) => { const yy = arriba ? y - RN - 14 - (lin.length - 1 - i) * 15 : y + RN + 22 + i * 15;
+        const b = el('text', { x, y: yy, 'text-anchor': 'middle', 'font-size': 13, stroke: '#fff', 'stroke-width': 4, 'stroke-linejoin': 'round' }, g); b.textContent = s;
+        const t = el('text', { x, y: yy, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': f ? 700 : 400, fill: '#1F2933' }, g); t.textContent = s; });
+      g.style.cursor = 'pointer';
+      g.addEventListener('click', () => { const e = fijo.get(id); e === undefined ? fijo.set(id, 1) : e === 1 ? fijo.set(id, -1) : e === -1 ? fijo.set(id, 0) : fijo.delete(id); todo(); });
+      const tt = el('title', {}, g); tt.textContent = n.n + '\n' + n.d + (n.o ? `\nÚltimo dato: ${n.o.valor.toLocaleString('es-ES')} ${n.o.unidad} (${n.o.anio})` : '') + '\nPulsa para fijar: sube → baja → se mantiene → libre';
+    }
+    document.getElementById('pie').innerHTML = `<span class="obs">Esquema de las ${Object.keys(pos).length} variables clave; el cálculo recorre las ${DATOS.nodos.length} del mapa completo. Marca sobre cada variable: ▲ empujada al alza, ▼ a la baja, ◆ en ambos sentidos. Círculo a trazos: variable fijada por ti. Pulsa una variable para fijarla. Plazo que se dibuja: </span>` +
+      `<select id="hor">${[...HOR, 'Conjunto de plazos'].map((x, i) => `<option value="${i}"${i === horizonte ? ' selected' : ''}>${x}</option>`).join('')}</select>`;
+    document.getElementById('hor').addEventListener('change', ev => { horizonte = +ev.target.value; pintarSvg(); });
+  }
+
+  function todo() { simular(); pintarIzq(); pintarDer(); pintarSvg(); }
+  const ini = new URLSearchParams(location.search).get('esc');
+  if (ini !== null && DATOS.escenarios[+ini]) escActivo = +ini;
+  if (ini !== null && DATOS.escenarios[+ini]) for (const [k, v] of Object.entries(DATOS.escenarios[+ini].fija)) fijo.set(k, v);
+  todo();
+})();
+</script>
+</body>
+</html>

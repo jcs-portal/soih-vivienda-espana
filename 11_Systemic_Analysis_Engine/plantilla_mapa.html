@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOIH - Mapa causal N2</title>
+<style>
+  :root { --fondo:#F7F9FB; --tinta:#1F2933; --suave:#52606D; --linea:#CBD2D9; --panel:#FFFFFF; --mas:#2B6CB0; --menos:#C05621; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Calibri, "Segoe UI", Arial, sans-serif; color:var(--tinta); background:var(--fondo); }
+  header { padding:10px 16px; background:#12355B; color:#fff; display:flex; flex-wrap:wrap; gap:8px 20px; align-items:center; }
+  header h1 { font-size:17px; margin:0; font-weight:600; }
+  header .ctrl { font-size:13px; display:flex; gap:6px; align-items:center; }
+  header select, header input[type=text] { font:inherit; padding:3px 6px; border-radius:4px; border:1px solid #9FB3C8; }
+  #cuerpo { display:flex; height:calc(100vh - 52px); }
+  #lienzo { flex:1; min-width:0; background:var(--panel); cursor:grab; }
+  #lado { width:360px; border-left:1px solid var(--linea); padding:12px 14px; overflow:auto; background:var(--panel); font-size:14px; }
+  #lado h2 { font-size:16px; margin:0 0 4px; color:#12355B; }
+  #lado h3 { font-size:13px; margin:14px 0 4px; color:var(--suave); text-transform:uppercase; letter-spacing:.04em; }
+  #lado p { margin:0 0 6px; }
+  .rel { padding:5px 0; border-bottom:1px solid #E4E7EB; cursor:pointer; }
+  .rel:hover { background:#F0F4F8; }
+  .mas { color:var(--mas); font-weight:700; } .menos { color:var(--menos); font-weight:700; }
+  .eti { display:inline-block; font-size:11px; padding:1px 6px; border-radius:9px; border:1px solid var(--linea); color:var(--suave); margin-right:4px; }
+  .leyenda { font-size:12px; color:var(--suave); line-height:1.5; }
+  .leyenda i { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:5px; }
+  text.nodo { font-size:10px; fill:var(--tinta); pointer-events:none; }
+  text.clu { font-size:13px; font-weight:700; pointer-events:none; }
+  .apagado { opacity:.08; }
+  @media (max-width: 800px) { #cuerpo { flex-direction:column; height:auto; } #lienzo { height:70vh; } #lado { width:auto; border-left:0; border-top:1px solid var(--linea); } }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="titulo"></h1>
+  <div class="ctrl">Confianza mínima
+    <select id="fConf"><option value="0">Añadir conjeturas</option><option value="-1">Añadir también hipótesis del analista</option><option value="1" selected>Baja o superior</option><option value="2">Media o superior</option><option value="3">Solo alta</option></select>
+  </div>
+  <div class="ctrl"><label><input type="checkbox" id="fDisp"> Solo disputadas</label></div>
+  <div class="ctrl">Buscar <input type="text" id="fBusca" placeholder="variable..." size="16"></div>
+  <div class="ctrl" id="cuenta"></div>
+</header>
+<div id="cuerpo">
+  <svg id="lienzo"></svg>
+  <aside id="lado"></aside>
+</div>
+<script>
+/*__DATOS__*/
+(function () {
+  const svg = document.getElementById('lienzo'), lado = document.getElementById('lado');
+  const NS = 'http://www.w3.org/2000/svg';
+  document.getElementById('titulo').textContent = DATOS.titulo + ' · Mapa causal N2';
+  const CONF = ['Conjetura', 'Baja', 'Media', 'Alta'];
+  const col = Object.fromEntries(DATOS.clusters.map(c => [c.id, c.color]));
+  const nomC = Object.fromEntries(DATOS.clusters.map(c => [c.id, c.nombre]));
+  const nodo = Object.fromEntries(DATOS.nodos.map(n => [n.id, n]));
+
+  // Disposicion determinista: clusters en un circulo grande, variables en circulos pequenos
+  const R = 520, k = DATOS.clusters.length;
+  DATOS.clusters.forEach((c, i) => {
+    const ang = -Math.PI / 2 + 2 * Math.PI * i / k;
+    c.x = R * Math.cos(ang); c.y = R * Math.sin(ang);
+    const ns = DATOS.nodos.filter(n => n.c === c.id);
+    const r = Math.max(46, 15 * ns.length / 2.2);
+    c.r = r;
+    ns.forEach((n, j) => {
+      const a = ang + Math.PI + 2 * Math.PI * j / ns.length;   // el primero mira al centro
+      n.x = c.x + r * Math.cos(a); n.y = c.y + r * Math.sin(a);
+    });
+  });
+
+  function el(tag, attrs, padre) { const e = document.createElementNS(NS, tag); for (const a in attrs) e.setAttribute(a, attrs[a]); (padre || svg).appendChild(e); return e; }
+  const defs = el('defs', {});
+  [['mas', '#2B6CB0'], ['menos', '#C05621']].forEach(([id, c]) => {
+    const m = el('marker', { id: 'f-' + id, viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 6, markerHeight: 6, orient: 'auto-start-reverse' }, defs);
+    el('path', { d: 'M0,0 L10,5 L0,10 z', fill: c }, m);
+  });
+  const g = el('g', {});
+  const gClu = el('g', {}, g), gAr = el('g', {}, g), gNo = el('g', {}, g);
+
+  DATOS.clusters.forEach(c => {
+    el('circle', { cx: c.x, cy: c.y, r: c.r + 34, fill: c.color, 'fill-opacity': .06, stroke: c.color, 'stroke-opacity': .25 }, gClu);
+    const t = el('text', { x: c.x * 1.0, y: c.y + (c.y < 0 ? -(c.r + 42) : (c.r + 54)), 'text-anchor': 'middle', class: 'clu', fill: c.color }, gClu);
+    t.textContent = c.id + ' · ' + c.nombre;
+  });
+
+  DATOS.aristas.forEach(a => {
+    const p = nodo[a.de], q = nodo[a.a];
+    const dx = q.x - p.x, dy = q.y - p.y, d = Math.hypot(dx, dy) || 1;
+    const rq = 6 + Math.min(8, nodo[a.a].b / 12);
+    const x2 = q.x - dx / d * (rq + 3), y2 = q.y - dy / d * (rq + 3);
+    const mx = (p.x + x2) / 2 - dy * 0.12, my = (p.y + y2) / 2 + dx * 0.12;
+    a.el = el('path', {
+      d: `M${p.x},${p.y} Q${mx},${my} ${x2},${y2}`, fill: 'none',
+      stroke: a.p === '+' ? '#2B6CB0' : '#C05621', 'stroke-width': 0.7 + a.c * 0.55, 'stroke-opacity': .55,
+      'stroke-dasharray': a.c === 0 ? '2 4' : (a.q ? '7 3' : ''), 'marker-end': `url(#f-${a.p === '+' ? 'mas' : 'menos'})`
+    }, gAr);
+    a.el.style.cursor = 'pointer';
+    a.el.addEventListener('click', ev => { ev.stopPropagation(); verArista(a); });
+  });
+
+  DATOS.nodos.forEach(n => {
+    const r = 6 + Math.min(8, n.b / 12);
+    n.g = el('g', {}, gNo);
+    n.circ = el('circle', { cx: n.x, cy: n.y, r, fill: col[n.c], stroke: '#fff', 'stroke-width': 1.5 }, n.g);
+    const c = DATOS.clusters.find(x => x.id === n.c);
+    const fuera = Math.atan2(n.y - c.y, n.x - c.x), izq = Math.cos(fuera) < 0;
+    const t = el('text', { x: n.x + Math.cos(fuera) * (r + 4), y: n.y + Math.sin(fuera) * (r + 4) + 3, 'text-anchor': izq ? 'end' : 'start', class: 'nodo' }, n.g);
+    t.textContent = n.n.length > 34 ? n.n.slice(0, 33) + '…' : n.n;
+    n.mk = el('text', { x: n.x, y: n.y - r - 3, 'text-anchor': 'middle', 'font-size': 13, 'font-weight': 700 }, n.g);
+    n.g.style.cursor = 'pointer';
+    n.g.addEventListener('click', ev => { ev.stopPropagation(); verNodo(n); });
+  });
+
+  // Zoom y arrastre
+  let vista = { x: -900, y: -820, w: 1800, h: 1640 };
+  const pon = () => svg.setAttribute('viewBox', `${vista.x} ${vista.y} ${vista.w} ${vista.h}`);
+  pon();
+  svg.addEventListener('wheel', ev => {
+    ev.preventDefault();
+    const f = ev.deltaY > 0 ? 1.12 : 0.89, r = svg.getBoundingClientRect();
+    const px = vista.x + vista.w * (ev.clientX - r.left) / r.width, py = vista.y + vista.h * (ev.clientY - r.top) / r.height;
+    vista = { x: px - (px - vista.x) * f, y: py - (py - vista.y) * f, w: vista.w * f, h: vista.h * f }; pon();
+  }, { passive: false });
+  let arr = null;
+  svg.addEventListener('pointerdown', ev => { arr = { x: ev.clientX, y: ev.clientY, v: { ...vista } }; svg.style.cursor = 'grabbing'; });
+  window.addEventListener('pointermove', ev => {
+    if (!arr) return; const r = svg.getBoundingClientRect();
+    vista.x = arr.v.x - (ev.clientX - arr.x) * vista.w / r.width; vista.y = arr.v.y - (ev.clientY - arr.y) * vista.h / r.height; pon();
+  });
+  window.addEventListener('pointerup', () => { arr = null; svg.style.cursor = 'grab'; });
+  svg.addEventListener('click', () => { sel = null; modo = null; pintar(); inicio(); });
+
+  // Filtros y resaltado
+  let sel = null;
+  let modo = null;   // null | { tipo:'bucle', ar:Set, no:Set } | { tipo:'prop', paso:Map, signo:Map, ar:Set }
+  const fConf = document.getElementById('fConf'), fDisp = document.getElementById('fDisp'), fBusca = document.getElementById('fBusca');
+  const visible = a => (a.h ? +fConf.value === -1 : a.c >= Math.max(+fConf.value, 0)) && (!fDisp.checked || a.q);
+  function pintar() {
+    const txt = fBusca.value.trim().toLowerCase();
+    let n = 0;
+    const vecinos = new Set();
+    DATOS.aristas.forEach(a => {
+      const v = visible(a); if (v) n++;
+      a.el.style.display = v ? '' : 'none';
+      let enc;
+      if (modo) enc = modo.ar.has(a.id);
+      else { enc = !sel || a.de === sel || a.a === sel; if (sel && enc && v) { vecinos.add(a.de); vecinos.add(a.a); } }
+      a.el.classList.toggle('apagado', !enc);
+      a.el.setAttribute('stroke-opacity', modo && enc ? .95 : .55);
+    });
+    DATOS.nodos.forEach(x => {
+      const busca = txt && !x.n.toLowerCase().includes(txt);
+      let enc;
+      if (modo && modo.tipo === 'bucle') enc = modo.no.has(x.id);
+      else if (modo) enc = modo.paso.has(x.id);
+      else enc = !sel || vecinos.has(x.id) || x.id === sel;
+      x.g.classList.toggle('apagado', !enc || !!busca);
+      const sg = modo && modo.tipo === 'prop' ? modo.signo.get(x.id) : undefined;
+      x.mk.textContent = sg === undefined ? '' : sg > 0 ? '▲' : sg < 0 ? '▼' : '◆';
+      x.mk.setAttribute('fill', sg > 0 ? '#2B6CB0' : sg < 0 ? '#C05621' : '#52606D');
+    });
+    document.getElementById('cuenta').textContent = `${DATOS.nodos.length} variables · ${n} de ${DATOS.aristas.length} relaciones`;
+  }
+
+  // Propagacion de signo por oleadas: que variables se mueven, en que sentido y en cuantos pasos,
+  // si la variable de origen aumenta. Solo recorre las relaciones visibles con el filtro actual.
+  // Si a una variable llegan en el mismo paso un empuje al alza y otro a la baja, se marca como ambigua (0).
+  function propagar(origen, maxPasos) {
+    const paso = new Map([[origen, 0]]), signo = new Map([[origen, 1]]), ar = new Set();
+    let frente = [origen];
+    for (let k = 1; k <= maxPasos && frente.length; k++) {
+      const llegada = new Map();
+      for (const u of frente) {
+        const su = signo.get(u); if (su === 0) continue;
+        for (const a of DATOS.aristas) {
+          if (a.de !== u || !visible(a) || paso.has(a.a)) continue;
+          const s = su * (a.p === '+' ? 1 : -1);
+          ar.add(a.id);
+          llegada.set(a.a, llegada.has(a.a) && llegada.get(a.a) !== s ? 0 : s);
+        }
+      }
+      frente = [];
+      for (const [id, s] of llegada) { paso.set(id, k); signo.set(id, s); frente.push(id); }
+    }
+    return { tipo: 'prop', paso, signo, ar };
+  }
+  function verPropagacion(n) {
+    modo = propagar(n.id, 6); sel = null; pintar();
+    const porPaso = {};
+    for (const [id, k] of modo.paso) if (k > 0) (porPaso[k] = porPaso[k] || []).push(id);
+    const fl = s => s > 0 ? '<span class="mas">▲ sube</span>' : s < 0 ? '<span class="menos">▼ baja</span>' : '◆ ambiguo';
+    lado.innerHTML = `<h2>Si aumenta: ${esc(n.n)}</h2>
+      <p class="leyenda">Recorrido por oleadas sobre las relaciones visibles (filtro de confianza actual). Indica sentido y número de pasos, no magnitud ni plazo. «Ambiguo»: llegan empujes contrarios en el mismo paso.</p>` +
+      Object.keys(porPaso).map(k => `<h3>Paso ${k}</h3>` + porPaso[k].map(id => `<div class="rel" data-n="${id}">${fl(modo.signo.get(id))} · ${esc(nodo[id].n)}${DATOS.sintomas.includes(id) ? ' <span class="eti">síntoma</span>' : ''}</div>`).join('')).join('') +
+      `<p><a href="#" id="volverN">Volver a la ficha</a></p>`;
+    lado.querySelectorAll('[data-n]').forEach(d => d.addEventListener('click', () => { modo = null; verNodo(nodo[d.dataset.n]); }));
+    document.getElementById('volverN').addEventListener('click', ev => { ev.preventDefault(); modo = null; verNodo(n); });
+  }
+  function verBucle(b) {
+    const no = new Set(); b.a.forEach(id => { const a = DATOS.aristas.find(x => x.id === id); no.add(a.de); no.add(a.a); });
+    modo = { tipo: 'bucle', ar: new Set(b.a), no }; sel = null; pintar();
+    const ars = b.a.map(id => DATOS.aristas.find(x => x.id === id));
+    lado.innerHTML = `<h2>${b.id} · ${b.t === 'R' ? 'Bucle de refuerzo' : 'Bucle de equilibrio'}</h2>
+      <p><span class="eti">Confianza ${CONF[b.c]} (la de su relación más débil)</span></p>
+      <p class="leyenda">${b.t === 'R' ? 'Amplifica un cambio en cualquiera de sus variables.' : 'Contrarresta un cambio en cualquiera de sus variables.'} El tipo se calcula: número ${b.t === 'R' ? 'par' : 'impar'} de relaciones negativas.</p>
+      <h3>Cadena</h3>${ars.map(filaRel).join('')}<p><a href="#" id="volverI">Ver todos los bucles</a></p>`;
+    enganchar();
+    document.getElementById('volverI').addEventListener('click', ev => { ev.preventDefault(); modo = null; pintar(); inicio(); });
+  }
+  [fConf, fDisp].forEach(e => e.addEventListener('change', pintar));
+  fBusca.addEventListener('input', pintar);
+
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const signo = p => p === '+' ? '<span class="mas">(+)</span>' : '<span class="menos">(−)</span>';
+  function filaRel(a) {
+    return `<div class="rel" data-id="${a.id}">${esc(nodo[a.de].n)} → ${signo(a.p)} ${esc(nodo[a.a].n)}<br><span class="eti">${a.h ? 'Hipótesis del analista' : a.k ? 'Contable' : CONF[a.c]}</span><span class="eti">${a.P}/${a.D}</span>${a.q ? '<span class="eti" style="color:#C05621;border-color:#C05621">disputada</span>' : ''}</div>`;
+  }
+  function enganchar() { lado.querySelectorAll('.rel').forEach(d => d.addEventListener('click', () => verArista(DATOS.aristas.find(a => a.id === d.dataset.id)))); }
+  function verNodo(n) {
+    sel = n.id; modo = null; pintar();
+    const en = DATOS.aristas.filter(a => a.a === n.id && visible(a)), sa = DATOS.aristas.filter(a => a.de === n.id && visible(a));
+    lado.innerHTML = `<h2>${esc(n.n)}</h2><p><span class="eti" style="color:${col[n.c]};border-color:${col[n.c]}">${esc(nomC[n.c])}</span><span class="eti">${esc(n.t)}</span></p>
+      <p>${esc(n.d)}</p><p><b>Indicador:</b> ${esc(n.ind)}${n.f ? ' · <i>' + esc(n.f) + '</i>' : ''}</p>${n.du ? `<p><b>La controla:</b> ${esc(n.du)}</p>` : ''}
+      <p class="leyenda">Intermediación ${n.b}/100 · participa en ${n.l} bucles (sin conjeturas)</p>
+      <p><a href="#" id="simula"><b>¿Qué se mueve si esta variable aumenta?</b></a></p>
+      <h3>Qué influye en ella (${en.length})</h3>${en.map(filaRel).join('') || '<p class="leyenda">Nada, con el filtro actual.</p>'}
+      <h3>En qué influye (${sa.length})</h3>${sa.map(filaRel).join('') || '<p class="leyenda">Nada, con el filtro actual.</p>'}`;
+    enganchar();
+    document.getElementById('simula').addEventListener('click', ev => { ev.preventDefault(); verPropagacion(n); });
+  }
+  function verArista(a) {
+    lado.innerHTML = `<h2>${a.id}</h2><p>${esc(nodo[a.de].n)} → ${signo(a.p)} ${esc(nodo[a.a].n)}</p>
+      <p><span class="eti">${a.h ? 'Hipótesis del analista: sin afirmación ni fuente' : a.k ? 'Identidad contable' : 'Confianza ' + CONF[a.c]}</span><span class="eti">Percepción ${a.P}</span><span class="eti">Datos ${a.D}</span>${a.q ? '<span class="eti" style="color:#C05621;border-color:#C05621">disputada</span>' : ''}</p>
+      <h3>Mecanismo</h3><p>${esc(a.m)}</p>${a.r ? `<h3>Retardo</h3><p>${esc(a.r)}</p>` : ''}
+      ${a.ev ? `<h3>Evidencia</h3><p>${esc(a.ev)}</p>` : ''}${a.co ? `<h3>En contra</h3><p>${esc(a.co)}</p>` : ''}
+      <p><a href="#" id="volver">Ver la variable de origen</a></p>`;
+    document.getElementById('volver').addEventListener('click', ev => { ev.preventDefault(); verNodo(nodo[a.de]); });
+  }
+  function inicio() {
+    lado.innerHTML = `<h2>Cómo leer el mapa</h2>
+      <p>Cada punto es una variable; su tamaño indica cuánto hace de puente entre otras. Cada flecha es una relación causal hipotética.</p>
+      <p class="leyenda"><span class="mas">Azul (+)</span>: si el origen aumenta, el destino tiende a ser mayor.<br><span class="menos">Naranja (−)</span>: si el origen aumenta, el destino tiende a ser menor.<br>Grosor: confianza. Punteada: conjetura. A trazos: disputada.</p>
+      <p>Pulsa una variable o una flecha para ver su ficha. Rueda del ratón para acercar; arrastra para mover.</p>
+      <h3>Dominios</h3><p class="leyenda">${DATOS.clusters.map(c => `<i style="background:${c.color}"></i>${esc(c.id)} · ${esc(c.nombre)}`).join('<br>')}</p>
+      <h3>Bucles (${DATOS.bucles.length}, conjunto reducido)</h3>` +
+      DATOS.bucles.map(b => `<div class="rel" data-b="${b.id}"><b>${b.id}</b> · ${b.t === 'R' ? 'refuerzo' : 'equilibrio'} · ${b.a.length} relaciones · <span class="eti">${CONF[b.c]}</span><br><span class="leyenda">${b.a.map(id => esc(nodo[DATOS.aristas.find(x => x.id === id).de].n)).join(' → ')}</span></div>`).join('');
+    lado.querySelectorAll('[data-b]').forEach(d => d.addEventListener('click', ev => { ev.stopPropagation(); verBucle(DATOS.bucles.find(b => b.id === d.dataset.b)); }));
+  }
+  pintar(); inicio();
+})();
+</script>
+</body>
+</html>
