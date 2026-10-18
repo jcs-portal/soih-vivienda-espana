@@ -33,13 +33,21 @@ sentidos, el resultado depende de cuál pese más, y eso el modelo no lo sabe.
 
 ## Cómo abrirlo
 
-1. En la página del proyecto en GitHub, pulsa el botón verde **Code** y luego **Download ZIP**.
-2. Descomprime el archivo en tu ordenador.
-3. Entra en la carpeta `12_Cases`, luego en `Vivienda Espana`, y haz doble clic en
-   `Simulador_de_tendencias.html`. Se abre en tu navegador (Chrome, Edge, Firefox o Safari).
+**En línea, sin instalar nada:** https://jcs-portal.github.io/soih-vivienda-espana/
 
-Funciona sin conexión. Se ve bien en un ordenador; en un móvil las tres zonas se apilan una debajo
-de otra y es incómodo.
+Funciona en el ordenador y en el móvil. En el móvil las tres zonas se apilan una debajo de otra, y una
+barra al pie de la pantalla salta de una a otra con el recuento de lo que mejora y empeora a la vista.
+
+La primera vez que lo abres aparece un resumen de cómo se juega; el botón **? Cómo se usa** lo vuelve
+a abrir. Se abre con un ejemplo ya cargado (el tope al alquiler) para que haya algo que mirar desde el
+primer momento: cámbialo como quieras.
+
+**Sin conexión:** en la página del proyecto en GitHub, pulsa **Code** y luego **Download ZIP**,
+descomprímelo y abre `index.html` (en la raíz) con el navegador.
+
+| Así se abre en el móvil | Y la guía rápida de la primera visita |
+|---|---|
+| ![El simulador en un teléfono](12_Cases/Vivienda%20Espana/imagenes/manual_12_movil.png) | ![La guía rápida en un teléfono](12_Cases/Vivienda%20Espana/imagenes/manual_13_movil_guia.png) |
 
 ## La pantalla tiene tres zonas
 
@@ -48,19 +56,27 @@ de otra y es incómodo.
 | Zona | Para qué sirve |
 |---|---|
 | **1. Elige qué cambia** (izquierda) | Aquí decides tú: qué medida se toma o qué condición cambia. |
-| **2. El mapa** (centro) | El dibujo del sistema. Se iluminan las relaciones por las que viaja el efecto. |
-| **3. Qué empuja a qué** (derecha) | El resultado: qué mejora y qué empeora, para quién y en qué plazo. |
+| **2. Qué empuja a qué** (derecha) | El resultado: qué mejora y qué empeora, para quién y en qué plazo. |
+| **3. El mapa** (centro) | El dibujo del sistema. Se iluminan las relaciones por las que viaja el efecto. |
 
-Se lee siempre de izquierda a derecha: eliges en la zona 1, miras el resultado en la 3 y usas la 2
-para entender por qué.
+Se usan en ese orden: eliges en la 1, miras el resultado en la 2 y usas la 3 para entender por qué.
+En el móvil aparecen en ese mismo orden, una debajo de otra.
+
+**Un solo código de colores.** El color solo dice si algo es bueno o malo: **verde** mejora, **rojo**
+empeora, **morado** hay vías en los dos sentidos. Lo que indica una dirección (los botones ▲ ● ▼, las
+flechas del mapa) va en azul oscuro o gris, sin juicio.
 
 ## Zona 1: elegir qué cambia
 
 Hay dos maneras.
 
 **La rápida: un escenario ya preparado.** Arriba hay una lista de botones con medidas y paquetes de
-medidas. Pulsa uno y el simulador lo carga entero. Debajo aparece un recuadro azul que explica en qué
-consiste. El botón **Limpiar** lo borra todo.
+medidas. Pulsa uno y el simulador lo carga entero. Aparece un recuadro azul que explica en qué
+consiste y, debajo, **Lo que cambia ahora**: las variables que mueve ese escenario, con sus botones,
+para que las cambies o las quites con **✕**. El botón **Limpiar todo y empezar de cero** lo borra todo.
+
+En **Prueba esto** hay comparaciones de un clic: ver solo la evidencia firme, comparar con otro
+escenario o volver al ejemplo inicial.
 
 ![Los escenarios de partida](12_Cases/Vivienda%20Espana/imagenes/manual_02_escenarios.png)
 
@@ -76,13 +92,16 @@ la llegada de turistas). Cada una tiene tres botones:
 | **●** | Se mantiene | Esa variable no cambia, pase lo que pase |
 | **▼** | Baja | Se restringe menos: se liberaliza |
 
-Pulsa otra vez el mismo botón para soltarlo. Debajo de cada nombre, en gris, pone quién tiene esa
-decisión en su mano.
+Pulsa otra vez el mismo botón para soltarlo, o **✕** para quitar la variable. Debajo de cada nombre,
+en gris, pone quién tiene esa decisión en su mano.
 
-Puedes marcar varias a la vez. Y si quieres mover una variable que no está en la lista, elígela en el
-desplegable **Añadir variable…**.
+Puedes marcar varias a la vez. Y si quieres mover cualquier otra de las 97 variables del mapa, elígela
+en el desplegable **Añadir variable…**: entra subiendo (▲) y la cambias en «Lo que cambia ahora».
 
-## Zona 3: leer el resultado
+Cualquiera puede cambiar lo que quiera. Lo que hagas se queda en tu pantalla y no cambia el modelo para
+nadie más.
+
+## Zona 2: leer el resultado
 
 Es la tabla de la derecha. Cada fila es un resultado que le importa a alguien, y están agrupados por
 a quién afectan: hogares que alquilan, jóvenes y hogares que quieren comprar, personas vulnerables,
@@ -98,14 +117,14 @@ propietarios que alquilan, promotores, etc.
 | Color | Significa |
 |---|---|
 | **Verde** | Todas las vías empujan hacia la mejora |
-| **Naranja** | Todas empujan hacia el empeoramiento |
+| **Rojo** | Todas empujan hacia el empeoramiento |
 | **Morado ◆** | Hay vías en los dos sentidos: el modelo no puede decir cuál gana |
 | Un punto gris | Ninguna vía llega hasta ahí |
 
 **Los símbolos dicen hacia dónde y por cuántas vías.** «▼ 1» significa que una vía empuja ese
 resultado a la baja. «◆ 2▲ 3▼» significa que dos vías lo empujan al alza y tres a la baja. Cuidado:
 la flecha dice si sube o baja, y el color dice si eso es bueno o malo. Que baje el precio del
-alquiler es verde; que baje la oferta de alquiler es naranja.
+alquiler es verde; que baje la oferta de alquiler es rojo.
 
 **Las columnas:**
 
@@ -125,7 +144,7 @@ rebotes, las consecuencias que no estaban en el plan.
 
 **Pulsa cualquier celda** para ver, debajo de la tabla, las vías una por una.
 
-## Zona 2: el mapa
+## Zona 3: el mapa
 
 ![El mapa con una medida aplicada](12_Cases/Vivienda%20Espana/imagenes/manual_04_mapa.png)
 
@@ -137,7 +156,7 @@ rebotes, las consecuencias que no estaban en el plan.
 | Un **círculo a trazos** alrededor | La variable que has fijado tú |
 | **▲ ▼ ◆** dentro | Empujada al alza, a la baja, o en los dos sentidos |
 | Flecha **azul** | Relación de signo (+): se mueven en el mismo sentido |
-| Flecha **naranja** | Relación de signo (−): se mueven en sentido contrario |
+| Flecha **gris oscuro** | Relación de signo (−): se mueven en sentido contrario |
 | Flecha **a trazos** | Relación disputada: unos actores la afirman y otros la niegan |
 | Flecha **gris y fina** | Relación que existe, pero por la que ahora no pasa ningún efecto |
 
@@ -155,10 +174,11 @@ El mapa dibuja las 48 variables principales para que se pueda leer. El cálculo 
 
 **La pregunta:** ¿qué pasa con el precio del alquiler si se restringe el alquiler turístico?
 
-**Paso 1.** En la zona 1, busca «Restricción al alquiler turístico» y pulsa **▲**. (O pulsa el primer
-escenario, «Recuperar para residentes los pisos turísticos», que hace lo mismo.)
+**Paso 1.** En la zona 1, pulsa **Limpiar todo y empezar de cero**; luego, en **Todas las variables**,
+busca «Restricción al alquiler turístico» y pulsa **▲**. (O pulsa el primer escenario, «Recuperar para
+residentes los pisos turísticos», que hace lo mismo.)
 
-**Paso 2.** En la zona 3, busca la fila «Precio del alquiler». Dice:
+**Paso 2.** En la zona 2, busca la fila «Precio del alquiler». Dice:
 
 - Conjunto: **◆ 2▲ 3▼** en morado. Hay cinco vías: tres lo empujan a la baja y dos al alza.
 - Primera ronda: **mejora**, en 2 pasos.
@@ -198,15 +218,16 @@ cerrarla, pulsa también **▲** en «Regulación del alquiler de temporada» y 
 
 **La pregunta:** ¿qué pasa si se limita el precio del alquiler?
 
-**Paso 1.** Pulsa **Limpiar**. Luego pulsa **▲** en «Intensidad de la regulación del precio del
-alquiler».
+**Paso 1.** Es el ejemplo con el que se abre el simulador. Para hacerlo a mano: pulsa **Limpiar todo y
+empezar de cero** y luego **▲** en «Intensidad de la regulación del precio del alquiler», dentro de
+**Todas las variables**.
 
 ![El tope al alquiler](12_Cases/Vivienda%20Espana/imagenes/manual_08_tope.png)
 
 **Paso 2.** Lee la fila «Precio del alquiler» de izquierda a derecha, que es leerla en el tiempo:
 
 - Menos de 1 año: **▼ 1 en verde**. El precio baja. Es el efecto directo.
-- De 1 a 4 años: **▲ 2 en naranja**. Dos vías lo empujan al alza.
+- De 1 a 4 años: **▲ 2 en rojo**. Dos vías lo empujan al alza.
 - Más de 4 años: **◆ morado**. Vías en los dos sentidos.
 
 Y dos filas más abajo está la explicación: «Oferta de alquiler habitual», **empeora** en un paso.
@@ -216,12 +237,12 @@ casero elige más.
 
 **Paso 3.** Ahora la pregunta interesante: ¿y si se consigue que la oferta no caiga? Es lo que
 intentan las medidas que acompañan a un tope (incentivos al propietario, garantía de cobro). En
-«Añadir variable…» elige «Oferta de alquiler habitual». Aparece en la lista marcada con ▲; pulsa su
-botón **●** (Se mantiene).
+«Añadir variable…» elige «Oferta de alquiler habitual». Aparece en **Lo que cambia ahora** marcada con
+▲; pulsa su botón **●** (Se mantiene).
 
 ![El tope al alquiler, con la oferta mantenida](12_Cases/Vivienda%20Espana/imagenes/manual_09_tope_oferta.png)
 
-La fila de la oferta dice ahora «fijada». En «Precio del alquiler» ha desaparecido el naranja de 1 a
+La fila de la oferta dice ahora «fijada». En «Precio del alquiler» ha desaparecido el rojo de 1 a
 4 años, y los efectos de vuelta bajan de «4 a favor, 4 en contra» a «2 a favor, 2 en contra».
 
 **Qué se aprende:** el botón **●** sirve para preguntar «¿y si esto no se mueve?». Corta todos los
@@ -246,7 +267,7 @@ Al final de la zona 1 hay un desplegable, **Relaciones que se usan**:
 | Añadir también hipótesis del analista | También las relaciones sin ninguna fuente |
 
 **Pruébalo.** Vuelve al ejemplo 1 (restringir el alquiler turístico) y elige «Solo confianza media o
-alta»:
+alta». (Con el botón **¿Cuánto de esto está demostrado?** de «Prueba esto» se hace en un clic.)
 
 ![El ejemplo 1, solo con evidencia media o alta](12_Cases/Vivienda%20Espana/imagenes/manual_10_firme.png)
 
@@ -268,7 +289,8 @@ hipótesis es una pregunta que alguien tendría que investigar.
 - **Leer el punto gris como «no afecta».** Significa que el modelo no tiene ninguna relación
   respaldada que llegue hasta ahí. Puede que afecte y nadie lo haya medido.
 - **Olvidar el plazo.** Una medida puede mejorar algo en un año y empeorarlo en cinco. Mira siempre
-  las tres columnas de plazo.
+  las tres columnas de plazo (en el móvil se ocultan para que quepa la tabla: ábrelo en una pantalla
+  ancha para verlas).
 - **Quedarse con un solo resultado.** Baja la vista por toda la tabla: lo que mejora para quien
   alquila puede empeorar para quien quiere comprar.
 
@@ -288,5 +310,5 @@ posiciones opuestas. Están todas en `datos/fuentes.csv` y en el documento de fu
 no te convence, puedes quitarla o cambiarla en `datos/caso.js` y recalcular; el archivo `LEEME.md`
 explica cómo.
 
-Las capturas de esta guía son de la versión 0.8.2. Si el modelo cambia, los números de los
+Las capturas de esta guía son de la versión 0.8.3. Si el modelo cambia, los números de los
 ejemplos pueden variar.

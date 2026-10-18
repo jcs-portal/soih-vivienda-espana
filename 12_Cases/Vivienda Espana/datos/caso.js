@@ -964,9 +964,29 @@ datos.Q05.nota = 'El 1,28 % del parque, pero muy concentradas: 5,0 % de las vivi
 datos.A08 = { valor: 49.3, anio: '2024', previo: null, anioPrevio: null, unidad: '% de las viviendas alquiladas por particulares cuyo dueño alquila dos o más', fuente: 'Banco de España, Informe Anual 2025, con datos de la Agencia Tributaria', nota: 'Con 11 o más: 2,4 %. No incluye a las sociedades. Titulares con más de 10 viviendas, alquiladas o no: 26.897, con 1.040.955 viviendas, el 4,3 % del parque (Catastro, 2025).' };
 Object.assign(esquema.posExtra, { F10: [930, 100] });
 
+// ---------------------------------------------------------------- Simulador publicado
+// Escenario con el que se abre y pruebas que se proponen al visitante. Las pruebas no son conclusiones:
+// invitan a comparar. Comprobadas contra el calculo (13/10/2026 y 18/10/2026): con R1, en primera ronda,
+// 8 resultados mejoran, 8 empeoran y 4 tienen vias contrarias; con solo evidencia media o alta, 11 se quedan sin via.
+const simulador = {
+  inicio: 'R1',
+  pruebas: [
+    { texto: '¿Cuánto de esto está demostrado? Mira solo la evidencia firme', confianza: 2 },
+    { texto: 'Compáralo con recuperar para residentes los pisos turísticos', escenario: 'E1' },
+    { texto: 'Mira el paquete que propone el autor', escenario: 'E7' }
+  ],
+  publico: {
+    url: 'https://jcs-portal.github.io/soih-vivienda-espana/',
+    imagen: 'https://jcs-portal.github.io/soih-vivienda-espana/vista_previa.png',
+    repo: 'https://github.com/jcs-portal/soih-vivienda-espana',
+    guia: 'https://github.com/jcs-portal/soih-vivienda-espana/blob/main/GUIA_SIMULADOR.md',
+    descripcion: 'Simulación abierta: elige qué cambia en la vivienda en España y mira a qué empuja, a quién beneficia y a quién perjudica. 97 variables; cada relación que entra en el cálculo lleva su fuente.'
+  }
+};
+
 // ---------------------------------------------------------------- Exportacion
 module.exports = {
-  datos, resultados, escenarios, palancas, criterioSocial, gruposPersonas, premisas, maxMedidasPaquete: 5,
+  datos, resultados, escenarios, palancas, criterioSocial, gruposPersonas, premisas, maxMedidasPaquete: 5, simulador,
   titulo: 'El sistema de la vivienda en España',
   longitudMaximaBucle: 8,
   fuentes: F, tiposActor, statements, clusters, variables, edges, arquetipos, esquema

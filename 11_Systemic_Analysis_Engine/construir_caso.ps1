@@ -34,8 +34,12 @@ foreach ($a in $vistas) {
 $sim = Join-Path $Caso 'Simulador_de_tendencias.html'
 if (Test-Path $sim) {
     $out = Join-Path $img 'simulador_esc0.png'
-    $u = ([uri]$sim).AbsoluteUri + '?esc=0'
+    $u = ([uri]$sim).AbsoluteUri + '?esc=0&guia=0'
     Start-Process -FilePath $edge -ArgumentList '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1900,1150', "--screenshot=`"$out`"", "`"$u`"" -Wait -WindowStyle Hidden
+    # Vista previa al compartir el enlace (LinkedIn y otras redes): proporcion 1,91:1, con el escenario de inicio
+    $out = Join-Path $img 'vista_previa.png'
+    $u = ([uri]$sim).AbsoluteUri + '?guia=0'
+    Start-Process -FilePath $edge -ArgumentList '--headless=new', '--disable-gpu', '--hide-scrollbars', '--window-size=1440,754', "--screenshot=`"$out`"", "`"$u`"" -Wait -WindowStyle Hidden
 }
 "Imagenes: $($vistas.Count) del esquema y 1 del simulador"
 

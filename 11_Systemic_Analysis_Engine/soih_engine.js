@@ -839,7 +839,16 @@ if (caso.resultados) {
     paquetes.forEach(p => datosSim.escenarios.push({ id: p.c.id, nombre: `Paquete ${p.c.id}: ${p.c.nombre}`, fija: p.mejor.fija, lectura: 'Paquete elegido por cálculo entre todas las combinaciones de palancas. ' + p.c.regla, supuesto: Object.keys(p.mejor.fija).map(id => pal(id).supuesto).filter(Boolean).join('; ') || 'Ninguno.' }));
   }
 
-  const htmlSim = fs.readFileSync(path.join(__dirname, 'plantilla_simulador.html'), 'utf8').replace('/*__DATOS__*/', 'const DATOS = ' + JSON.stringify(datosSim) + ';');
+  // Simulador publicado: escenario de inicio, pruebas propuestas y datos para la vista previa al compartir el enlace
+  const pub = caso.simulador || {};
+  const hayEsc = id => datosSim.escenarios.some(s => s.id === id);
+  if (pub.inicio && !hayEsc(pub.inicio)) { console.error(`Simulador: escenario de inicio desconocido ${pub.inicio}`); process.exit(1); }
+  for (const p of (pub.pruebas || [])) if (p.escenario && !hayEsc(p.escenario)) { console.error(`Simulador: prueba con escenario desconocido ${p.escenario}`); process.exit(1); }
+  datosSim.inicio = pub.inicio || null; datosSim.pruebas = pub.pruebas || []; datosSim.publico = pub.publico || null;
+  const atr = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  const meta = pub.publico ? [['og:type', 'website'], ['og:title', caso.titulo + ' · Simulador'], ['og:description', pub.publico.descripcion], ['og:url', pub.publico.url], ['og:image', pub.publico.imagen]]
+    .filter(([, v]) => v).map(([k, v]) => `<meta property="${k}" content="${atr(v)}">`).concat(pub.publico.descripcion ? [`<meta name="description" content="${atr(pub.publico.descripcion)}">`, '<meta name="twitter:card" content="summary_large_image">'] : []).join('\n') : '';
+  const htmlSim = fs.readFileSync(path.join(__dirname, 'plantilla_simulador.html'), 'utf8').replace('<!--__META__-->', meta).replace('/*__DATOS__*/', 'const DATOS = ' + JSON.stringify(datosSim) + ';');
   fs.writeFileSync(path.join(dirCaso, 'Simulador_de_tendencias.html'), htmlSim, 'utf8');
 }
 frag.observado = tabla(['Variable', 'Último dato', 'Referencia', 'Variación', 'Tendencia calculada', 'Fuente y nota'],

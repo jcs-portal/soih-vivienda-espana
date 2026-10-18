@@ -4,7 +4,7 @@ Un modelo causal del sistema de la vivienda en España, con sus datos, sus fuent
 lo calcula. Está hecho para que cualquiera pueda **revisarlo, discutirlo, cambiarle un dato y ver
 qué pasa**.
 
-Autor: Juan Carlos Siria · Versión del paquete: 0.8.2 · Fecha: 13 de octubre de 2026
+Autor: Juan Carlos Siria · Versión del paquete: 0.8.3 · Fecha: 18 de octubre de 2026
 
 ## Qué es
 
@@ -26,7 +26,7 @@ Autor: Juan Carlos Siria · Versión del paquete: 0.8.2 · Fecha: 13 de octubre 
 | Si quieres… | Abre |
 |---|---|
 | Entenderlo en diez minutos | `12_Cases/Vivienda Espana/SOIH_12_Vivienda_Articulo_v0.1.pdf` |
-| Jugar con él | `12_Cases/Vivienda Espana/Simulador_de_tendencias.html` (se abre en el navegador, sin instalar nada). **Cómo se usa: [Guía del simulador](GUIA_SIMULADOR.md)**, con ejemplos e imágenes |
+| Jugar con él | **En línea: https://jcs-portal.github.io/soih-vivienda-espana/** (ordenador o móvil, sin instalar nada). **Cómo se usa: [Guía del simulador](GUIA_SIMULADOR.md)**, con ejemplos e imágenes |
 | Ver el mapa entero | `Mapa_interactivo_N2.html` y `Esquema_del_sistema.html`, en la misma carpeta |
 | Comprobar una cifra | `SOIH_12_Vivienda_Tabla_de_datos_v0.1.pdf` o `datos/tabla_datos.csv`: 266 cifras con fecha, fuente y estado |
 | Saber de dónde sale cada cosa | `SOIH_12_Vivienda_Fuentes_v0.1.pdf` o `datos/fuentes.csv`: cada documento, para qué se usó y hasta dónde se leyó |
@@ -38,10 +38,12 @@ Autor: Juan Carlos Siria · Versión del paquete: 0.8.2 · Fecha: 13 de octubre 
 
 ## Tres maneras de usarlo
 
-1. **Sin instalar nada.** Descarga el paquete (en GitHub, botón «Code» y «Download ZIP»), descomprímelo
-   y abre `12_Cases/Vivienda Espana/Simulador_de_tendencias.html` en el navegador. Elige una medida o
-   varias y mira qué resultados mejoran y empeoran, para quién y por qué camino. La
-   [Guía del simulador](GUIA_SIMULADOR.md) lo explica paso a paso, sin dar nada por sabido.
+1. **Sin instalar nada.** Abre https://jcs-portal.github.io/soih-vivienda-espana/ en el ordenador o
+   en el móvil. Se abre con un ejemplo cargado; cambia lo que quieras (sube, baja o fija variables,
+   quítalas o añade otras) y mira qué resultados mejoran y empeoran, para quién y por qué camino. Lo
+   que hagas se queda en tu pantalla. Sin conexión: descarga el paquete («Code» y «Download ZIP») y
+   abre `index.html`. La [Guía del simulador](GUIA_SIMULADOR.md) lo explica paso a paso, sin dar nada
+   por sabido.
 2. **Cambiando los datos.** Edita `caso.js` y recalcula, como se explica abajo. Hace falta Node.js.
 3. **Con tus propias convicciones.** Lo que creas y no puedas demostrar, escríbelo como hipótesis
    (`H(...)`) o como premisa. No se mezcla con lo comprobado: el programa calcula aparte qué pasaría
@@ -153,4 +155,4 @@ Indica siempre el documento, la página y el enlace.
 ## Licencia y cita
 
 Ver `LICENCIA.md`. Si lo usas, cita: *Juan Carlos Siria, «SOIH · La vivienda en España como
-sistema», versión 0.8.2, 13 de octubre de 2026.*
+sistema», versión 0.8.3, 18 de octubre de 2026.*
