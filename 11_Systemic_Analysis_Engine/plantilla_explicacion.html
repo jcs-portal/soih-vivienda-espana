@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo se construye el modelo</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: Calibri, "Segoe UI", Arial, sans-serif; color:#1F2933; background:#F7F9FB; font-size:15px; }
+  header { padding:12px 20px; background:#12355B; color:#fff; }
+  header h1 { margin:0; font-size:19px; font-weight:600; }
+  header p { margin:3px 0 0; font-size:13.5px; color:#D9E2EC; }
+  #cuerpo { display:grid; grid-template-columns: minmax(0,1fr) 400px; min-height:calc(100vh - 60px); }
+  #lienzo-caja { background:#fff; border-right:1px solid #CBD2D9; display:flex; flex-direction:column; }
+  #lienzo-scroll { flex:1; display:flex; }
+  #lienzo { width:100%; height:auto; display:block; }
+  #desliza { display:none; font-size:12.5px; color:#52606D; padding:6px 14px 0; }
+  #leyenda { display:flex; flex-wrap:wrap; gap:6px 16px; padding:8px 16px 12px; border-top:1px solid #EEF1F4; font-size:12.5px; color:#52606D; align-items:center; }
+  #leyenda svg { vertical-align:middle; }
+  #panel { padding:18px 20px; display:flex; flex-direction:column; gap:10px; }
+  .paso-n { font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:#52606D; font-weight:700; }
+  #panel h2 { margin:0; font-size:22px; line-height:1.2; color:#12355B; }
+  #texto p { margin:0 0 10px; line-height:1.45; }
+  #texto .dato { background:#EAF2F8; border-left:4px solid #1F5A8A; padding:7px 10px; border-radius:3px; margin:8px 0 10px; }
+  #texto .aviso { background:#FEF5E7; border-left:4px solid #B7791F; padding:7px 10px; border-radius:3px; margin:8px 0 10px; }
+  #nuevas h3 { font-size:12px; text-transform:uppercase; letter-spacing:.05em; color:#52606D; margin:6px 0 4px; }
+  .rel { display:flex; gap:8px; align-items:flex-start; width:100%; text-align:left; background:#fff; border:1px solid #CBD2D9; border-radius:5px; padding:7px 9px; margin:0 0 6px; cursor:pointer; font:inherit; font-size:13.5px; color:#1F2933; }
+  .rel:hover, .rel.act { border-color:#12355B; background:#F5F9FC; }
+  .chip { flex:none; font-size:11px; font-weight:700; padding:2px 7px; border-radius:10px; color:#fff; white-space:nowrap; }
+  .n-FIRME { background:#12355B; } .n-APOYO { background:#2B6CB0; } .n-DEBIL { background:#7B8794; } .n-H { background:#fff; color:#52606D; border:1px dashed #7B8794; } .n-PENDIENTE { background:#fff; color:#52606D; border:1px dashed #7B8794; } .n-DATO { background:#52606D; } .n-C { background:#52606D; } .n-NOHAY { background:#fff; color:#9B2C2C; border:1px dashed #9B2C2C; }
+  #ficha { border:1px solid #12355B; border-radius:6px; padding:10px 12px; background:#fff; font-size:13.5px; line-height:1.4; display:none; }
+  #ficha.ver { display:block; }
+  #ficha b.t { display:block; font-size:14.5px; margin-bottom:4px; color:#12355B; }
+  #ficha dl { margin:6px 0 0; display:grid; grid-template-columns: 92px 1fr; gap:3px 8px; }
+  #ficha dt { color:#52606D; } #ficha dd { margin:0; }
+  #nav { display:flex; align-items:center; gap:8px; margin-top:auto; padding-top:12px; border-top:1px solid #EEF1F4; }
+  #nav button { font:inherit; font-weight:700; padding:8px 16px; border-radius:18px; border:1px solid #12355B; cursor:pointer; }
+  #ant { background:#fff; color:#12355B; } #sig { background:#12355B; color:#fff; margin-left:auto; }
+  #nav button:disabled { opacity:.35; cursor:default; }
+  #puntos { display:flex; gap:4px; flex-wrap:wrap; }
+  #puntos span { width:9px; height:9px; border-radius:50%; background:#CBD2D9; cursor:pointer; }
+  #puntos span.act { background:#12355B; } #puntos span.hecho { background:#829AB1; }
+  footer { font-size:12px; color:#52606D; padding:10px 20px 16px; background:#F7F9FB; border-top:1px solid #CBD2D9; line-height:1.45; }
+  footer a { color:#1F5A8A; }
+  svg text { font-family: Calibri, "Segoe UI", Arial, sans-serif; }
+  .nodo, .enlace { transition: opacity .35s; }
+  .enlace { cursor:pointer; }
+  @media (max-width: 900px) {
+    #cuerpo { grid-template-columns: minmax(0,1fr); min-height:0; }
+    #lienzo-caja { border-right:0; border-bottom:1px solid #CBD2D9; min-width:0; }
+    #lienzo-scroll { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    #lienzo { width:880px; max-width:none; }
+    #desliza { display:block; }
+    #panel { padding:14px 14px 18px; }
+    #panel h2 { font-size:20px; }
+    #nav { position:sticky; bottom:0; background:#F7F9FB; padding:10px 0; }
+  }
+</style>
+</head>
+<body>
+<header><h1 id="titulo"></h1><p id="subtitulo"></p></header>
+<div id="cuerpo">
+  <div id="lienzo-caja">
+    <div id="desliza">Desliza el mapa a los lados. Pulsa una flecha para ver su fuente.</div>
+    <div id="lienzo-scroll"><svg id="lienzo" role="img" aria-label="Diagrama causal del modelo"></svg></div>
+    <div id="leyenda"></div>
+  </div>
+  <div id="panel">
+    <div class="paso-n" id="pason"></div>
+    <h2 id="pasot"></h2>
+    <div id="texto"></div>
+    <div id="nuevas"></div>
+    <div id="ficha" aria-live="polite"></div>
+    <div id="nav"><button id="ant" type="button">← Anterior</button><div id="puntos"></div><button id="sig" type="button">Siguiente →</button></div>
+  </div>
+</div>
+<footer id="pie"></footer>
+<script>
+/*__DATOS__*/
+(function () {
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('lienzo');
+  const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const NIV = {
+    FIRME: { et: 'Firme', d: 'Estudio con diseño causal, leído, con datos de España o la UE', w: 4.2, c: '#12355B', dash: '' },
+    APOYO: { et: 'Con apoyo', d: 'Causal de otros países, o correlación leída en texto completo', w: 2.6, c: '#2B6CB0', dash: '' },
+    DEBIL: { et: 'Débil', d: 'Informe, estudio cualitativo, modelo, teoría o lectura parcial', w: 2, c: '#7B8794', dash: '8 5' },
+    H: { et: 'Hipótesis', d: 'Plausible, pero ningún estudio leído lo mide', w: 2, c: '#9AA5B1', dash: '2 5' },
+    PENDIENTE: { et: 'Pendiente de lectura', d: 'Solo se ha leído el resumen de la fuente', w: 2, c: '#9AA5B1', dash: '2 5' },
+    DATO: { et: 'Dato oficial', d: 'Cifra oficial o cálculo con ella, sin relación causal', w: 2, c: '#52606D', dash: '' },
+    C: { et: 'Contable', d: 'Identidad: se cumple por definición', w: 2, c: '#52606D', dash: '' },
+    NOHAY: { et: 'No medido', d: 'Ningún estudio leído lo afirma, ni siquiera como hipótesis', w: 2, c: '#9B2C2C', dash: '3 6' }
+  };
+  const nivelDe = n => NIV[n] ? n : n === 'DÉBIL' ? 'DEBIL' : 'H';
+  document.getElementById('titulo').textContent = DATOS.titulo;
+  document.getElementById('subtitulo').textContent = DATOS.subtitulo;
+  document.title = DATOS.titulo;
+  document.getElementById('pie').innerHTML = DATOS.pie;
+  svg.setAttribute('viewBox', `0 0 ${DATOS.ancho} ${DATOS.alto}`);
+
+  const nodo = Object.fromEntries(DATOS.nodos.map(n => [n.id, n]));
+  const flujo = Object.fromEntries(DATOS.flujos.map(f => [f.id, f]));
+  const enlace = Object.fromEntries(DATOS.enlaces.map(e => [e.id, e]));
+  const el = (t, at, p) => { const e = document.createElementNS(NS, t); for (const k in at) e.setAttribute(k, at[k]); (p || svg).appendChild(e); return e; };
+
+  // Leyenda: líneas por nivel de evidencia y piezas del diagrama
+  (function () {
+    const ley = document.getElementById('leyenda');
+    let h = '';
+    for (const k of ['FIRME', 'APOYO', 'DEBIL', 'H', 'NOHAY']) { const v = NIV[k];
+      h += `<span title="${esc(v.d)}"><svg width="34" height="10"><line x1="1" y1="5" x2="33" y2="5" stroke="${v.c}" stroke-width="${v.w}" stroke-dasharray="${v.dash}"/></svg> ${v.et}</span>`; }
+    h += '<span><svg width="22" height="14"><rect x="1" y="1" width="20" height="12" fill="#fff" stroke="#12355B" stroke-width="1.6"/></svg> Depósito (se acumula)</span>';
+    h += '<span><svg width="22" height="14"><circle cx="11" cy="7" r="6" fill="#fff" stroke="#52606D"/><text x="11" y="11" text-anchor="middle" font-size="11" font-weight="700" fill="#1F2933">+</text></svg> Se mueven igual · <b>−</b> al contrario</span>';
+    h += '<span><svg width="20" height="14"><path d="M2 12 L10 2 L18 12 Z" fill="#fff" stroke="#12355B"/></svg> Decisión</span>';
+    ley.innerHTML = h;
+  })();
+
+  // Geometría
+  const caja = n => ({ w: n.w || (n.tipo === 'deposito' ? 150 : 136), h: n.h || (n.tipo === 'deposito' ? 62 : 46) });
+  function borde(n, hacia) {
+    const { w, h } = caja(n), dx = hacia.x - n.x, dy = hacia.y - n.y;
+    if (!dx && !dy) return { x: n.x, y: n.y };
+    const s = Math.min(Math.abs((w / 2 + 4) / (dx || 1e-9)), Math.abs((h / 2 + 4) / (dy || 1e-9)));
+    return { x: n.x + dx * s, y: n.y + dy * s };
+  }
+  const punto = id => nodo[id] ? { x: nodo[id].x, y: nodo[id].y, n: nodo[id] } : flujo[id] ? { x: flujo[id].vx, y: flujo[id].vy, valvula: true } : null;
+
+  let pasoAct = 0, sel = null;
+  function visibles(k) {
+    const N = new Set(), E = new Set(), F = new Set();
+    for (let i = 0; i <= k; i++) { const p = DATOS.pasos[i]; (p.nodos || []).forEach(x => N.add(x)); (p.enlaces || []).forEach(x => E.add(x)); (p.flujos || []).forEach(x => F.add(x)); }
+    return { N, E, F };
+  }
+  function pintar() {
+    const p = DATOS.pasos[pasoAct], { N, E, F } = visibles(pasoAct);
+    const nuevo = new Set([...(p.nodos || []), ...(p.enlaces || []), ...(p.flujos || []), ...(p.resaltar || [])]);
+    const todo = !!p.todo;
+    const op = id => todo || nuevo.has(id) ? 1 : 0.28;
+    svg.innerHTML = '';
+    const defs = el('defs', {});
+    for (const [k, v] of Object.entries(NIV)) { const m = el('marker', { id: 'p-' + k, viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 5.5, markerHeight: 5.5, orient: 'auto-start-reverse' }, defs); el('path', { d: 'M0,0 L10,5 L0,10 z', fill: v.c }, m); }
+    // Flujos (tuberías con válvula)
+    for (const id of F) { const f = flujo[id], a = nodo[f.de], b = nodo[f.a], g = el('g', { class: 'nodo', opacity: op(id) });
+      const p1 = borde(a, { x: f.vx, y: f.vy }), p2 = borde(b, { x: f.vx, y: f.vy });
+      for (const d of [-4, 4]) { const hz = Math.abs(p2.y - p1.y) < Math.abs(p2.x - p1.x);
+        el('path', { d: hz ? `M${p1.x},${p1.y + d} L${p2.x},${p2.y + d}` : `M${p1.x + d},${p1.y} L${p2.x + d},${p2.y}`, stroke: '#52606D', 'stroke-width': 2, fill: 'none' }, g); }
+      el('path', { d: `M${f.vx - 11},${f.vy - 9} L${f.vx + 11},${f.vy + 9} L${f.vx + 11},${f.vy - 9} L${f.vx - 11},${f.vy + 9} Z`, fill: '#fff', stroke: '#12355B', 'stroke-width': 2 }, g);
+      const t = el('text', { x: f.vx + (f.tx || 0), y: f.vy + (f.ty || 26), 'text-anchor': 'middle', 'font-size': 13, fill: '#1F2933', 'font-style': 'italic' }, g); t.textContent = f.et; }
+    // Enlaces causales
+    for (const id of E) { const e = enlace[id]; if (!e) continue; const A = punto(e.de), B = punto(e.a); if (!A || !B) continue;
+      const k = nivelDe(e.nivel), v = NIV[k], curva = e.curva == null ? 0.18 : e.curva;
+      const p1 = A.n ? borde(A.n, B) : A, p2 = B.n ? borde(B.n, A) : { x: B.x + (A.x - B.x) * 14 / Math.hypot(A.x - B.x, A.y - B.y), y: B.y + (A.y - B.y) * 14 / Math.hypot(A.x - B.x, A.y - B.y) };
+      const mx = (p1.x + p2.x) / 2 - (p2.y - p1.y) * curva, my = (p1.y + p2.y) / 2 + (p2.x - p1.x) * curva;
+      const g = el('g', { class: 'enlace', opacity: op(id), tabindex: 0, role: 'button', 'aria-label': `${e.etDe} → ${e.etA}` });
+      el('path', { d: `M${p1.x},${p1.y} Q${mx},${my} ${p2.x},${p2.y}`, stroke: 'transparent', 'stroke-width': 16, fill: 'none' }, g);
+      el('path', { d: `M${p1.x},${p1.y} Q${mx},${my} ${p2.x},${p2.y}`, stroke: v.c, 'stroke-width': sel === id ? v.w + 2 : v.w, 'stroke-dasharray': v.dash, fill: 'none', 'marker-end': `url(#p-${k})` }, g);
+      const t = 0.55, bx = (1 - t) ** 2 * p1.x + 2 * (1 - t) * t * mx + t * t * p2.x, by = (1 - t) ** 2 * p1.y + 2 * (1 - t) * t * my + t * t * p2.y;
+      const sg = e.signoCorto;
+      el('circle', { cx: bx, cy: by, r: sg.length > 1 ? 15 : 10, fill: '#fff', stroke: v.c, 'stroke-width': 1.5 }, g);
+      const st = el('text', { x: bx, y: by + 5, 'text-anchor': 'middle', 'font-size': sg.length > 1 ? 11 : 15, 'font-weight': 700, fill: '#1F2933' }, g); st.textContent = sg;
+      if (e.retardoLargo) { const ang = Math.atan2(p2.y - mx, p2.x - mx), t2 = 0.78, cx = (1 - t2) ** 2 * p1.x + 2 * (1 - t2) * t2 * mx + t2 * t2 * p2.x, cy = (1 - t2) ** 2 * p1.y + 2 * (1 - t2) * t2 * my + t2 * t2 * p2.y, nx = Math.cos(ang + Math.PI / 2) * 7, ny = Math.sin(ang + Math.PI / 2) * 7, ox = Math.cos(ang) * 3, oy = Math.sin(ang) * 3;
+        for (const s of [-1, 1]) el('line', { x1: cx - nx + ox * s, y1: cy - ny + oy * s, x2: cx + nx + ox * s, y2: cy + ny + oy * s, stroke: v.c, 'stroke-width': 2 }, g); }
+      g.addEventListener('click', () => verFicha(id)); g.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); verFicha(id); } });
+      const tt = el('title', {}, g); tt.textContent = `${e.etDe} → ${e.etA} (${v.et}). Pulsa para ver la fuente.`; }
+    // Nodos
+    for (const id of N) { const n = nodo[id], { w, h } = caja(n), g = el('g', { class: 'nodo', opacity: op(id) });
+      if (n.tipo === 'deposito') el('rect', { x: n.x - w / 2, y: n.y - h / 2, width: w, height: h, fill: '#fff', stroke: '#12355B', 'stroke-width': 2.2 }, g);
+      else if (n.tipo === 'decision') { el('rect', { x: n.x - w / 2, y: n.y - h / 2, width: w, height: h, rx: 6, fill: '#F5F9FC', stroke: '#12355B', 'stroke-width': 1.4 }, g); el('path', { d: `M${n.x - w / 2 + 6},${n.y - h / 2 + 15} L${n.x - w / 2 + 13},${n.y - h / 2 + 5} L${n.x - w / 2 + 20},${n.y - h / 2 + 15} Z`, fill: '#12355B' }, g); }
+      else el('rect', { x: n.x - w / 2, y: n.y - h / 2, width: w, height: h, rx: h / 2, fill: n.tipo === 'resultado' ? '#F0F4F8' : '#fff', stroke: '#9AA5B1', 'stroke-width': 1.2 }, g);
+      const lin = n.et.split('\n'), dato = n.dato ? 1 : 0, total = lin.length + dato, y0 = n.y - (total - 1) * 8 + 5;
+      lin.forEach((s, i) => { const t = el('text', { x: n.x, y: y0 + i * 16, 'text-anchor': 'middle', 'font-size': 14, 'font-weight': n.tipo === 'deposito' ? 700 : 600, fill: '#1F2933' }, g); t.textContent = s; });
+      if (dato) { const t = el('text', { x: n.x, y: y0 + lin.length * 16, 'text-anchor': 'middle', 'font-size': 12.5, fill: '#1F5A8A', 'font-weight': 700 }, g); t.textContent = n.dato; }
+      if (n.def) { const tt = el('title', {}, g); tt.textContent = n.def; } }
+    // Panel
+    document.getElementById('pason').textContent = `Paso ${pasoAct + 1} de ${DATOS.pasos.length}`;
+    document.getElementById('pasot').textContent = p.titulo;
+    document.getElementById('texto').innerHTML = p.texto;
+    const lista = (p.enlaces || []).filter(id => enlace[id]);
+    document.getElementById('nuevas').innerHTML = lista.length ? '<h3>Las flechas de este paso</h3>' + lista.map(id => { const e = enlace[id], k = nivelDe(e.nivel);
+      return `<button class="rel${sel === id ? ' act' : ''}" data-id="${id}" type="button"><span class="chip n-${k}">${NIV[k].et}</span><span>${esc(e.etDe)} <b>${esc(e.signoCorto)}</b> → ${esc(e.etA)}</span></button>`; }).join('') : '';
+    document.querySelectorAll('#nuevas .rel').forEach(b => b.addEventListener('click', () => verFicha(b.dataset.id)));
+    const pts = document.getElementById('puntos'); pts.innerHTML = DATOS.pasos.map((_, i) => `<span class="${i === pasoAct ? 'act' : i < pasoAct ? 'hecho' : ''}" data-i="${i}" title="Paso ${i + 1}"></span>`).join('');
+    pts.querySelectorAll('span').forEach(s => s.addEventListener('click', () => ir(+s.dataset.i)));
+    document.getElementById('ant').disabled = pasoAct === 0; document.getElementById('sig').disabled = pasoAct === DATOS.pasos.length - 1;
+  }
+  function verFicha(id) {
+    const e = enlace[id], k = nivelDe(e.nivel), f = document.getElementById('ficha');
+    sel = id; pintar();
+    f.innerHTML = `<b class="t">${esc(e.etDe)} ${esc(e.signoCorto)} → ${esc(e.etA)}</b><span class="chip n-${k}">${NIV[k].et}</span> <span style="color:#52606D">${esc(NIV[k].d)}</span>` +
+      `<dl>${e.mecanismo ? `<dt>Mecanismo</dt><dd>${esc(e.mecanismo)}</dd>` : ''}<dt>Signo</dt><dd>${esc(e.signo)}</dd>${e.retardo ? `<dt>Tarda</dt><dd>${esc(e.retardo)}</dd>` : ''}` +
+      `<dt>Evidencia</dt><dd>${esc(e.tipo || '—')}${e.ambito ? ' · ' + esc(e.ambito) : ''}</dd><dt>Fuente</dt><dd>${esc(e.fuente || 'Ninguna')}</dd>${e.lectura ? `<dt>Leído</dt><dd>${esc(e.lectura)}</dd>` : ''}${e.contra ? `<dt>En contra</dt><dd>${esc(e.contra)}</dd>` : ''}${e.ref ? `<dt>Ficha</dt><dd>${esc(e.ref)}</dd>` : ''}</dl>`;
+    f.classList.add('ver');
+    if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches) f.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  // En pantallas estrechas el mapa se desplaza de lado: se centra en lo que aparece en cada paso
+  function centrar() {
+    const sc = document.getElementById('lienzo-scroll'), p = DATOS.pasos[pasoAct];
+    if (!sc || sc.scrollWidth <= sc.clientWidth + 4) return;
+    const xs = [];
+    for (const id of [...(p.nodos || []), ...(p.resaltar || [])]) if (nodo[id]) xs.push(nodo[id].x);
+    for (const id of p.enlaces || []) { const e = enlace[id]; if (e && nodo[e.de] && nodo[e.a]) xs.push((nodo[e.de].x + nodo[e.a].x) / 2); }
+    const cx = xs.length && !p.todo ? xs.reduce((a, b) => a + b, 0) / xs.length : DATOS.ancho / 2;
+    sc.scrollLeft = cx * sc.scrollWidth / DATOS.ancho - sc.clientWidth / 2;
+  }
+  function ir(i) { pasoAct = Math.max(0, Math.min(DATOS.pasos.length - 1, i)); sel = null; document.getElementById('ficha').classList.remove('ver'); pintar(); centrar(); try { history.replaceState(null, '', '#paso' + (pasoAct + 1)); } catch (e) { } }
+  document.getElementById('ant').addEventListener('click', () => ir(pasoAct - 1));
+  document.getElementById('sig').addEventListener('click', () => ir(pasoAct + 1));
+  document.addEventListener('keydown', ev => { if (ev.target.closest && ev.target.closest('button,[role=button]') && (ev.key === 'Enter' || ev.key === ' ')) return; if (ev.key === 'ArrowRight') ir(pasoAct + 1); if (ev.key === 'ArrowLeft') ir(pasoAct - 1); });
+  const m = /#paso(\d+)/.exec(location.hash); ir(m ? +m[1] - 1 : 0);
+})();
+</script>
+</body>
+</html>

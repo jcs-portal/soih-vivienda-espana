@@ -126,14 +126,18 @@ resultado a la baja. «◆ 2▲ 3▼» significa que dos vías lo empujan al alz
 la flecha dice si sube o baja, y el color dice si eso es bueno o malo. Que baje el precio del
 alquiler es verde; que baje la oferta de alquiler es rojo.
 
-**Las columnas:**
+**Las columnas.** En el simulador, la caja «Cómo leer la tabla», justo encima, también las explica. Y si pasas
+el ratón por la cabecera de una columna, sale un resumen.
 
 | Columna | Qué responde |
 |---|---|
-| Menos de 1 año · De 1 a 4 años · Más de 4 años | ¿Cuándo llega el efecto? |
-| Conjunto | Todo junto, sin distinguir plazos |
-| **Primera ronda** | ¿Qué dice el camino más corto? Es el efecto más directo, y debajo pone cuántos pasos tiene |
-| **Efectos de vuelta** | ¿Y los caminos más largos? Cuántos van a favor y cuántos en contra |
+| **Tiempo en notarse:** menos de 1 año · de 1 a 4 años · más de 4 años | ¿Cuánto tarda en notarse el efecto? Cada relación del mapa tarda en notarse (inmediata, meses, de 1 a 3 años o más de 3). Se suman los retrasos de todos los eslabones de una vía, y la vía va a la columna que le toca |
+| Conjunto | Todas las vías juntas, sin distinguir plazos |
+| **Primera ronda** | ¿Qué dicen las vías más cortas, las de menos eslabones? Es el efecto más directo, y debajo pone cuántos pasos tiene. Es el mismo veredicto del resumen de arriba |
+| **Efectos de vuelta** | ¿Y las vías más largas, las que dan un rodeo o vuelven sobre sí mismas? Cuántas van a favor de lo que le conviene a ese resultado y cuántas en contra |
+
+Ojo: «más corta» quiere decir con menos pasos, no más rápida. Una vía de dos pasos lentos puede tardar
+años, y aparecerá en la columna de más de 4 años aunque sea de primera ronda.
 
 Si solo vas a mirar dos columnas, que sean las dos últimas. **Primera ronda** es lo que promete quien
 propone la medida. **Efectos de vuelta** es lo que el sistema devuelve después: los rodeos, los
@@ -310,5 +314,5 @@ posiciones opuestas. Están todas en `datos/fuentes.csv` y en el documento de fu
 no te convence, puedes quitarla o cambiarla en `datos/caso.js` y recalcular; el archivo `LEEME.md`
 explica cómo.
 
-Las capturas de esta guía son de la versión 0.8.3. Si el modelo cambia, los números de los
+Las capturas de esta guía son de la versión 0.8.4. Si el modelo cambia, los números de los
 ejemplos pueden variar.

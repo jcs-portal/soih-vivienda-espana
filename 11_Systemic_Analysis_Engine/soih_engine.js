@@ -2,6 +2,29 @@
 // Uso: node soih_engine.js <carpeta_del_caso>
 // Lee <caso>/datos/caso.js y escribe CSV, fragmentos HTML y el mapa interactivo.
 // No interpreta nada: valida, aplica la regla de confianza y calcula sobre el grafo.
+//
+// Ampliacion del 25/10/2026 (caso «Participacion democratica»), opcional y sin efecto en los casos que no la usan:
+//  1. Relaciones CONDICIONALES: una relacion puede llevar «condicion» (texto no vacio: la variable y el umbral, el
+//     periodo, el pais o el grupo en que vale su signo). Su signo es + o - como las demas y se valida igual. No entra en
+//     el calculo principal (metricas, bucles, arquetipos, escenarios, simulador ni busqueda de paquetes): se calcula en
+//     un NIVEL APARTE, rotulado «con condicionales» (bucles que las necesitan y saldo social de cada escenario si la
+//     condicion se cumpliera). Se listan en relaciones.csv con su condicion. No puede ser a la vez hipotesis ni contable.
+//     Una premisa del decisor puede activar una relacion condicional (darla por cumplida).
+//  2. caso.buscarPaquetes = false desactiva la busqueda de paquetes: solo se evaluan las medidas aisladas.
+//  3. SENALES (25/10/2026): caso.senales = [{ id, rotulo }] son variables que se informan en cada escenario (si suben,
+//     bajan, tienen vias contrarias o no tienen via, a los dos niveles de confianza) y NO puntuan: no son resultado de
+//     ningun actor ni entran en ningun saldo. Salen en resumen.senales, fragmentos.senalesEscenarios y senales.csv. El
+//     motor se detiene si una senal no existe o es a la vez resultado.
+//  4. REGLA DE FINANCIACION (26/10/2026): caso.financiacion = { gasto: [ids], ingreso: [ids], deficit: id }. Todo escenario
+//     que sube gasto (o baja ingresos, o baja el deficit) debe fijar a la vez algo que lo financie (subir ingresos, subir el
+//     deficit o bajar otro gasto), y al reves; si no, el motor se detiene. Una palanca de gasto o de ingresos declara su
+//     «pareja» por sentido (p. ej. pareja: { sube: { E35: 1 } }) y el motor la fija junto con ella: se evalua la pareja,
+//     nunca cada mitad. Las variables de la pareja que no son palancas aparecen en el texto de la medida.
+//  5. AJUSTE DIFERIDO (26/10/2026): un escenario que sube el deficit debe declarar «diferido: { vars: {...}, retardo: anos,
+//     motivo }», el ajuste que vendra despues (subir ingresos o bajar gasto): el deficit no evita el ajuste, lo aplaza. El
+//     motor evalua el escenario con esas variables tambien fijadas, como origenes que empiezan con ese retardo; su efecto
+//     entra en la primera ronda y en el saldo, no queda escondido como efecto de vuelta. Se detiene si falta o no ajusta.
+// Con caso.js sin «condicion», «buscarPaquetes», «senales», «financiacion» ni «diferido», las salidas son identicas.
 'use strict';
 const fs = require('fs');
 const path = require('path');
@@ -29,6 +52,7 @@ for (const v of caso.variables) {
 }
 const S = new Map((caso.statements || []).map(s => [s.id, s]));
 const E = [];
+const EC = [];   // relaciones condicionales (ampliacion del 25/10/2026)
 const vistos = new Set();
 for (const e of caso.edges) {
   if (!V.has(e.de)) errores.push(`${e.id}: origen desconocido ${e.de}`);
@@ -55,7 +79,11 @@ for (const e of caso.edges) {
   if (vistos.has(clave)) errores.push(`${e.id}: relacion repetida ${clave}`);
   vistos.add(clave);
   for (const sid of (e.statements || [])) if (!S.has(sid)) errores.push(`${e.id}: statement desconocido ${sid}`);
-  E.push(e);
+  if ('condicion' in e) {
+    if (typeof e.condicion !== 'string' || !e.condicion.trim()) errores.push(`${e.id}: relacion condicional sin condicion declarada`);
+    if (e.hip || e.contable) errores.push(`${e.id}: una relacion condicional no puede ser hipotesis ni contable`);
+    EC.push(e);   // nivel aparte: fuera del calculo principal
+  } else E.push(e);
 }
 if (errores.length) {
   console.error('ERRORES DE VALIDACION:\n' + errores.join('\n'));
@@ -75,6 +103,7 @@ function confianza(e) {
   return n;
 }
 for (const e of E) { e.nConf = e.hip ? 0 : confianza(e); e.conf = e.hip ? 'Hipótesis del analista' : e.contable ? 'Contable' : NIVELES[e.nConf]; }
+for (const e of EC) { e.nConf = confianza(e); e.conf = 'Condicional (' + NIVELES[e.nConf].toLowerCase() + ')'; e.naturaleza = 'condicional: vale ' + e.condicion; }
 // «Con apoyo» = confianza baja o superior. Las conjeturas (una sola afirmacion, sin datos) y las hipotesis
 // del analista quedan fuera de todos los calculos.
 
@@ -334,7 +363,7 @@ csv('variables.csv',
   ids.map((id, i) => { const v = V.get(id); return [id, v.nombre, v.definicion, v.tipo, v.unidad || '', v.escala, v.indicador, v.fuente || '', nomCluster(v.cluster), v.frontera, v.dueno || '', (v.actores || []).join(', '), ent[i].length, sal[i].length, Math.round(100 * cb[i] / cbMax), partFirme[i], distSint[i] === Infinity ? 'sin camino' : distSint[i]]; }));
 csv('relaciones.csv',
   ['ID', 'Origen', 'Destino', 'Polaridad', 'Mecanismo', 'Retardo', 'Magnitud', 'Naturaleza', 'Percepcion', 'Datos', 'Disputada', 'Confianza', 'Ambito', 'Evidencia', 'Contradicciones', 'Statements'],
-  E.map(e => [e.id, nombre(e.de), nombre(e.a), e.pol, e.mecanismo, e.retardo || '', e.magnitud || '', e.naturaleza || '', e.P, e.D, e.disputada ? 'SI' : '', e.conf, e.ambito || '', e.evidencia || '', e.contra || '', (e.statements || []).join(', ')]));
+  E.concat(EC).map(e => [e.id, nombre(e.de), nombre(e.a), e.pol, e.mecanismo, e.retardo || '', e.magnitud || '', e.naturaleza || '', e.P, e.D, e.disputada ? 'SI' : '', e.conf, e.ambito || '', e.evidencia || '', e.contra || '', (e.statements || []).join(', ')]));
 csv('statements.csv',
   ['ID', 'Actor', 'Tipo de actor', 'Fecha', 'Expresion', 'Literal', 'Afirmacion causal', 'Fuente'],
   (caso.statements || []).map(s => [s.id, s.actor, s.tipo, s.fecha || '', s.texto, s.literal ? 'cita' : 'parafrasis', s.afirma || '', s.url || '']));
@@ -472,6 +501,12 @@ const resumen = {
   aisladas: ids.filter((id, i) => ent[i].length + sal[i].length === 0).map(nombre),
   avisos
 };
+if (EC.length) {
+  // Nivel aparte: bucles que solo se cierran si se cumplen las condiciones (ninguno entra en el calculo principal)
+  const bc = buscarBucles(E.filter(e => e.nConf >= 1).concat(EC.filter(e => e.nConf >= 1))).filter(b => b.aristas.some(e => 'condicion' in e));
+  resumen.condicionales = { total: EC.length, bucles: bc.length, R: bc.filter(b => b.tipo === 'R').length, B: bc.filter(b => b.tipo === 'B').length,
+    lista: EC.map(e => ({ id: e.id, de: e.de, a: e.a, signo: e.pol, condicion: e.condicion, confianza: NIVELES[e.nConf] })) };
+}
 fs.writeFileSync(path.join(dirDatos, 'resumen.json'), JSON.stringify(resumen, null, 2), 'utf8');
 fs.writeFileSync(path.join(dirDatos, 'fragmentos.json'), JSON.stringify(frag), 'utf8');
 
@@ -517,6 +552,34 @@ for (const [id, x] of Object.entries(caso.datos || {})) {
 if (caso.resultados) {
   for (const g of caso.resultados) for (const [id] of g.variables) if (!V.has(id)) { console.error(`Resultados: variable desconocida ${id}`); process.exit(1); }
   for (const s of (caso.escenarios || [])) for (const id of Object.keys(s.fija)) if (!V.has(id)) { console.error(`Escenarios: variable desconocida ${id}`); process.exit(1); }
+  if (caso.financiacion) {
+    // Regla de financiacion (26/10/2026): cada movimiento que usa recursos va con otro que los aporta, y al reves
+    const FN = caso.financiacion, G = new Set(FN.gasto || []), I = new Set(FN.ingreso || []);
+    for (const id of [...G, ...I, ...(FN.deficit ? [FN.deficit] : [])]) if (!V.has(id)) { console.error('Financiacion: variable desconocida ' + id); process.exit(1); }
+    const equilibrada = fija => { let usa = 0, da = 0; for (const [id, v] of Object.entries(fija)) { if (!v) continue; if (G.has(id)) v > 0 ? usa++ : da++; else if (I.has(id) || id === FN.deficit) v > 0 ? da++ : usa++; } return (usa > 0) === (da > 0); };
+    for (const s of (caso.escenarios || [])) if (!equilibrada(s.fija)) { console.error('Financiacion: el escenario ' + s.id + ' mueve gasto, ingresos o deficit sin su pareja'); process.exit(1); }
+    // Ajuste diferido: el deficit de hoy se paga con un ajuste mas adelante, que el escenario declara y el motor fija con su retardo
+    for (const s of (caso.escenarios || [])) {
+      const subeDef = FN.deficit && s.fija[FN.deficit] > 0;
+      if (subeDef && !s.diferido) { console.error('Financiacion: el escenario ' + s.id + ' sube el deficit sin declarar el ajuste diferido'); process.exit(1); }
+      if (!s.diferido) continue;
+      const dv = s.diferido.vars || {};
+      const ajusta = Object.entries(dv).some(([id, v]) => (I.has(id) && v > 0) || (G.has(id) && v < 0));
+      if (!ajusta || !(s.diferido.retardo >= 0)) { console.error('Financiacion: el ajuste diferido de ' + s.id + ' debe subir ingresos o bajar gasto y declarar su retardo'); process.exit(1); }
+      for (const id of Object.keys(dv)) {
+        if (!V.has(id)) { console.error('Financiacion: ajuste diferido con variable desconocida ' + id); process.exit(1); }
+        if (id in s.fija) { console.error('Financiacion: ' + id + ' esta a la vez en el escenario ' + s.id + ' y en su ajuste diferido'); process.exit(1); }
+      }
+      s.fijaHoy = Object.assign({}, s.fija);
+      s.fija = Object.assign({}, s.fija, dv);
+      Object.defineProperty(s.fija, '__ret', { value: Object.fromEntries(Object.keys(dv).map(id => [id, s.diferido.retardo])), enumerable: false });
+    }
+    for (const p of (caso.palancas || [])) for (const dir of ['sube', 'baja']) if (p[dir]) {
+      const par = (p.pareja && p.pareja[dir]) || {};
+      for (const id of Object.keys(par)) if (!V.has(id)) { console.error('Financiacion: la pareja de ' + p.id + ' cita una variable desconocida ' + id); process.exit(1); }
+      if (!equilibrada(Object.assign({ [p.id]: dir === 'sube' ? 1 : -1 }, par))) { console.error('Financiacion: la palanca ' + p.id + ' (' + dir + ') no declara su pareja de financiacion'); process.exit(1); }
+    }
+  }
   const datosSim = {
     titulo: caso.titulo, umbral: UMBRAL,
     clusters: datosMapa.clusters,
@@ -546,7 +609,7 @@ if (caso.resultados) {
           k.cam.push({ o, s0, s, r, c, ids, disp: ids.some(id => E.find(x => x.id === id).disputada) });
           if (ids.length < PROF) { vis.add(e.a); dfs(e.a, s, r, c, ids); vis.delete(e.a); }
         }
-      })(o, s0, 0, 3, []);
+      })(o, s0, (fija.__ret && fija.__ret[o]) || 0, 3, []);
     }
     return res;
   }
@@ -624,6 +687,31 @@ if (caso.resultados) {
   csv('escenarios.csv', ['Escenario', 'Actor', 'Resultado', 'Mejora si', 'Primera ronda', 'Pasos', 'Plazo (años)', 'Confianza', 'Vuelta a favor', 'Vuelta en contra', 'Primera ronda (media o alta)'],
     evaluados.flatMap(ev => ev.grupos.flatMap((g, gi) => g.filas.map((f, i) => [ev.sc.id + ' ' + ev.sc.nombre, g.dimension, nombre(f.id), f.mejor, f.prim, f.pasos == null ? '' : f.pasos, f.plazo == null ? '' : f.plazo, f.confPrim == null ? '' : NIVELES[f.confPrim], f.nFav, f.nCon, ev.grupos2[gi].filas[i].prim]))));
   resumen.escenarios = evaluados.map(ev => Object.assign({ id: ev.sc.id }, ev.cuenta));
+  // ---- Senales (ampliacion del 25/10/2026): variables que se informan en cada escenario (sube / baja), sin juicio de
+  // mejora y fuera de todo saldo. No pueden ser a la vez resultado de ningun actor.
+  if (caso.senales && caso.senales.length) {
+    const enRes = new Set(caso.resultados.flatMap(g => g.variables.map(([id]) => id)));
+    for (const s of caso.senales) {
+      if (!V.has(s.id)) { console.error(`Senales: variable desconocida ${s.id}`); process.exit(1); }
+      if (enRes.has(s.id)) { console.error(`Senales: ${s.id} es tambien un resultado; una senal no puntua`); process.exit(1); }
+    }
+    const sentido = j => j === 'mejora' ? 'sube' : j === 'empeora' ? 'baja' : j;   // evaluada con «sube» como referencia
+    const filasS = (caso.escenarios || []).map(sc => {
+      const r1 = evaluar(sc.fija), r2 = evaluar(sc.fija, 2);
+      return { sc, s: caso.senales.map(x => {
+        if (x.id in sc.fija) return { id: x.id, prim: 'fijada', firme: 'fijada', pasos: null, confPrim: null };
+        const f = resumenFila(x.id, 'sube', r1);
+        return { id: x.id, prim: sentido(f.prim), firme: sentido(resumenFila(x.id, 'sube', r2).prim), pasos: f.pasos, confPrim: f.confPrim };
+      }) };
+    });
+    const TXT = { sube: '▲ sube', baja: '▼ baja', contrario: '◆ vías contrarias', nada: 'sin vía', fijada: 'fijada' };
+    frag.senalesEscenarios = tabla(['Escenario', ...caso.senales.map(x => esc(nombre(x.id)) + ' (' + esc(x.rotulo || 'señal') + ')')],
+      filasS.map(r => ['<b>' + esc(r.sc.id) + '</b> ' + esc(r.sc.nombre), ...r.s.map(y => TXT[y.prim] + (y.pasos ? ` <span style="color:#52606D">(${y.pasos} pasos, confianza ${NIVELES[y.confPrim].toLowerCase()}; con media o alta: ${TXT[y.firme]})</span>` : ''))]));
+    csv('senales.csv', ['Escenario', 'Señal', 'Primera ronda', 'Pasos', 'Confianza', 'Primera ronda (media o alta)'],
+      filasS.flatMap(r => r.s.map(y => [r.sc.id + ' ' + r.sc.nombre, nombre(y.id), y.prim, y.pasos == null ? '' : y.pasos, y.confPrim == null ? '' : NIVELES[y.confPrim], y.firme])));
+    resumen.senales = { variables: caso.senales.map(x => ({ id: x.id, rotulo: x.rotulo || 'señal' })),
+      escenarios: Object.fromEntries(filasS.map(r => [r.sc.id, Object.fromEntries(r.s.map(y => [y.id, { primeraRonda: y.prim, mediaOAlta: y.firme }]))])) };
+  }
 
   // ---- Busqueda de paquetes: se prueban TODAS las combinaciones de palancas y se ordenan con criterios escritos.
   // No se optimiza ninguna cantidad: se cuenta, por primera ronda, que resultados mejoran, empeoran o reciben senales contrarias.
@@ -634,8 +722,8 @@ if (caso.resultados) {
     // Nivel 3 = calculo base (nivel 1) modificado por las premisas del decisor: relaciones que se dan por ciertas o que se retiran
     if (caso.premisas) {
       const clave = (a, b) => a + '>' + b, act = new Set(caso.premisas.activa.map(p => clave(p[0], p[1]))), des = new Set(caso.premisas.desactiva.map(p => clave(p[0], p[1])));
-      for (const k of [...act, ...des]) if (!E.some(e => clave(e.de, e.a) === k)) { console.error('Premisas: no existe la relacion ' + k); process.exit(1); }
-      const a = {}; for (const e of E) { const k = clave(e.de, e.a); if (des.has(k)) continue; if (act.has(k) || (e.nConf >= 1 && !e.hip)) (a[e.de] = a[e.de] || []).push({ a: e.a, s: e.pol === '+' ? 1 : -1 }); }
+      for (const k of [...act, ...des]) if (!E.concat(EC).some(e => clave(e.de, e.a) === k)) { console.error('Premisas: no existe la relacion ' + k); process.exit(1); }
+      const a = {}; for (const e of E.concat(EC)) { const k = clave(e.de, e.a); if (des.has(k)) continue; if (act.has(k) || (!('condicion' in e) && e.nConf >= 1 && !e.hip)) (a[e.de] = a[e.de] || []).push({ a: e.a, s: e.pol === '+' ? 1 : -1 }); }
       adyN.push(a);
     }
     const esOut = new Set(outs.map(o => o.id));
@@ -682,14 +770,22 @@ if (caso.resultados) {
       const limpios = [...gMej].filter(g => !gEmp.has(g) && !gCon.has(g)).length;
       return { mej, emp, con, reb, gEmp: gEmp.size, gCon: gCon.size, gMej: gMej.size, limpios, det, vuelta, sMej, sEmp, sCon, sReb, sBal: sMej - sEmp, pIdx, pG };
     }
-    const MAXK = caso.maxMedidasPaquete || 5;
+    const BUSCAR = caso.buscarPaquetes !== false;   // false: solo medidas aisladas, sin paquetes
+    const MAXK = BUSCAR ? (caso.maxMedidasPaquete || 5) : 1;
     const todos = [];
     (function gen(i, fija, k) {
       if (i === caso.palancas.length) { if (k) { const a = valora(fija, 1), b = valora(fija, 2); todos.push({ fija: Object.assign({}, fija), k, a, b }); } return; }
       gen(i + 1, fija, k);
       if (k >= MAXK) return;
       const p = caso.palancas[i];
-      for (const v of [...(p.sube ? [1] : []), ...(p.baja ? [-1] : [])]) { fija[p.id] = v; gen(i + 1, fija, k + 1); delete fija[p.id]; }
+      for (const v of [...(p.sube ? [1] : []), ...(p.baja ? [-1] : [])]) {
+        const par = (p.pareja && p.pareja[v > 0 ? 'sube' : 'baja']) || {};   // regla de financiacion: la pareja va siempre junta
+        if (p.id in fija || Object.entries(par).some(([q, w]) => q in fija && fija[q] !== w)) continue;
+        const anad = Object.keys(par).filter(q => !(q in fija));
+        fija[p.id] = v; for (const q of anad) fija[q] = par[q];
+        gen(i + 1, fija, k + 1);
+        delete fija[p.id]; for (const q of anad) delete fija[q];
+      }
     })(0, {}, 0);
     const orden = (claves) => (x, y) => { for (const f of claves) { const d = f(x) - f(y); if (d) return d; } return 0; };
     const CRIT = [
@@ -703,7 +799,7 @@ if (caso.resultados) {
         regla: 'El mayor número de actores con algún resultado que mejora en primera ronda, aunque otros empeoren; después, menos actores con resultados que empeoran; menos resultados que empeoran; menos con señales contrarias; más resultados que mejoran; menos efectos de vuelta en contra; menos medidas. Con todas las relaciones que tienen apoyo.',
         f: orden([x => -x.a.gMej, x => x.a.gEmp, x => x.a.emp, x => x.a.con, x => -x.a.mej, x => x.a.reb, x => x.k]) }
     ];
-    const familia = x => { const s = new Set(Object.entries(x.fija).map(([id, v]) => { const p = caso.palancas.find(q => q.id === id); return (v > 0 ? p.familiaSube : p.familiaBaja) || 'sin clasificar'; })); return s.size === 1 ? [...s][0] : 'mixto'; };
+    const familia = x => { const s = new Set(Object.entries(x.fija).filter(([id]) => caso.palancas.some(q => q.id === id)).map(([id, v]) => { const p = caso.palancas.find(q => q.id === id); return (v > 0 ? p.familiaSube : p.familiaBaja) || 'sin clasificar'; })); return s.size === 1 ? [...s][0] : 'mixto'; };
     if (SOC.size) {
       const reglaSoc = 'Solo cuentan los resultados que describen cómo viven las personas; la rentabilidad de quien ofrece no puntúa ni penaliza. Primero, el mayor saldo entre resultados sociales que mejoran y que empeoran en primera ronda; después, menos resultados sociales que empeoran; menos con señales contrarias; menos mejoras con efectos de vuelta en contra; mayor saldo usando solo evidencia media o alta; menos medidas.';
       const fSoc = orden([x => -x.a.sBal, x => x.a.sEmp, x => x.a.sCon, x => x.a.sReb, x => -x.b.sBal, x => x.k]);
@@ -714,9 +810,9 @@ if (caso.resultados) {
       CRIT.push({ id: 'P4I', nombre: 'Menor coste social, solo intervención', filtro: x => x.a.sMej >= 1 && familia(x) === 'intervencion', regla: 'La misma regla, eligiendo solo entre medidas que intervienen el mercado. ' + reglaSoc, f: fSoc });
       CRIT.push({ id: 'P4M', nombre: 'Menor coste social, solo mercado', filtro: x => x.a.sMej >= 1 && familia(x) === 'mercado', regla: 'La misma regla, eligiendo solo entre medidas que dejan actuar a la oferta y la demanda. ' + reglaSoc, f: fSoc });
     }
-    const texto = (fija) => Object.entries(fija).map(([id, v]) => { const p = caso.palancas.find(q => q.id === id); return v > 0 ? p.sube : p.baja; });
+    const texto = (fija) => Object.entries(fija).filter(([id]) => caso.palancas.some(q => q.id === id)).map(([id, v]) => { const p = caso.palancas.find(q => q.id === id); const t = v > 0 ? p.sube : p.baja; const par = p.pareja && p.pareja[v > 0 ? 'sube' : 'baja']; return par ? t + ' (pareja: ' + Object.entries(par).map(([q, w]) => (w > 0 ? '▲ ' : '▼ ') + nombre(q)).join(', ') + ')' : t; });
     const pal = id => caso.palancas.find(q => q.id === id);
-    const paquetes = CRIT.map(c => { const s = todos.filter(c.filtro).sort(c.f); return { c, mejor: s[0], top: s.slice(0, 8), empate: s.filter(x => c.f(x, s[0]) === 0) }; }).filter(p => p.mejor);
+    const paquetes = !BUSCAR ? [] : CRIT.map(c => { const s = todos.filter(c.filtro).sort(c.f); return { c, mejor: s[0], top: s.slice(0, 8), empate: s.filter(x => c.f(x, s[0]) === 0) }; }).filter(p => p.mejor);
     const SIM = { mejora: '<b style="color:#276749">Mejora</b>', empeora: '<b style="color:#C05621">Empeora</b>', contrario: '<b style="color:#6B46C1">Señales contrarias</b>', nada: '<span style="color:#9FB3C8">Sin vía</span>', fijada: '<span style="color:#52606D">Fijada</span>' };
     frag.paquetesResumen = tabla(['Criterio', 'Medidas del paquete', 'Mejoran', 'De ellos, con vuelta en contra', 'Empeoran', 'Señales contrarias', 'Actores con algún perjuicio', 'Con evidencia media o alta: mejoran / empeoran / contrarias'],
       paquetes.map(p => [`<b>${p.c.id} · ${esc(p.c.nombre)}</b>`, '<ul style="margin:0;padding-left:14pt">' + texto(p.mejor.fija).map(t => `<li>${esc(t.charAt(0).toUpperCase() + t.slice(1))}</li>`).join('') + '</ul>', p.mejor.a.mej, p.mejor.a.reb, p.mejor.a.emp, p.mejor.a.con, p.mejor.a.gEmp, `${p.mejor.b.mej} / ${p.mejor.b.emp} / ${p.mejor.b.con}`]),
@@ -726,7 +822,7 @@ if (caso.resultados) {
       const ciego = Object.keys(m.fija).flatMap(id => E.filter(e => e.de === id && (e.hip || e.nConf === 0)).map(e => [esc(nombre(id)), `→(${e.pol === '+' ? '+' : '−'}) ${esc(nombre(e.a))}`, e.hip ? 'Hipótesis del analista' : 'Conjetura: lo afirma un solo actor o está disputada sin datos', esc(e.mecanismo)]));
       frag['paq_' + p.c.id] =
         `<p><b>Regla de selección.</b> ${esc(p.c.regla)}</p>` +
-        tabla(['Medida', 'Variable del mapa y sentido', 'Supuesto que añade'], Object.entries(m.fija).map(([id, v]) => [esc((v > 0 ? pal(id).sube : pal(id).baja).replace(/^./, c => c.toUpperCase())), `${v > 0 ? '▲' : '▼'} ${esc(nombre(id))}`, esc(pal(id).supuesto ? 'Supone ' + pal(id).supuesto + '.' : 'Ninguno: es una variable de decisión del mapa.')]), ['45%', '27%', '28%']) +
+        tabla(['Medida', 'Variable del mapa y sentido', 'Supuesto que añade'], Object.entries(m.fija).filter(([id]) => pal(id)).map(([id, v]) => [esc((v > 0 ? pal(id).sube : pal(id).baja).replace(/^./, c => c.toUpperCase())), `${v > 0 ? '▲' : '▼'} ${esc(nombre(id))}`, esc(pal(id).supuesto ? 'Supone ' + pal(id).supuesto + '.' : 'Ninguno: es una variable de decisión del mapa.')]), ['45%', '27%', '28%']) +
         tabla(['Actor', 'Resultado', 'Le conviene que…', 'Primera ronda', 'Efectos de vuelta (a favor · en contra)', 'Primera ronda, solo con confianza media o alta'],
           outs.map((o, i) => [i === 0 || outs[i - 1].gi !== o.gi ? `<b>${esc(caso.resultados[o.gi].dimension)}</b>` : '', esc(nombre(o.id)), o.mejor, SIM[m.a.det[i]], m.a.vuelta[i] ? `${m.a.vuelta[i][0]} · <span style="color:${m.a.vuelta[i][1] ? '#C05621' : '#52606D'}">${m.a.vuelta[i][1]}</span>` : '—', SIM[m.b.det[i]]]), ['18%', '28%', '11%', '14%', '15%', '14%']) +
         (ciego.length ? '<p><b>Lo que el cálculo no ve.</b> Efectos de estas medidas que solo constan como conjetura o como hipótesis y que, por tanto, no cuentan:</p>' + tabla(['Variable', 'Efecto no contado', 'Por qué no cuenta', 'Mecanismo'], ciego, ['20%', '25%', '20%', '35%']) : '<p><b>Lo que el cálculo no ve.</b> Ninguna relación sin apoyo sale de las variables de este paquete.</p>') +
@@ -777,7 +873,7 @@ if (caso.resultados) {
       // mejor paquete de cada familia si todas las hipotesis fueran ciertas
       const fH = orden([x => -x.h.sBal, x => x.h.sEmp, x => x.h.sCon, x => x.k]);
       const todosH = todos.map(x => ({ fija: x.fija, k: x.k, a: x.a, h: valora(x.fija, adyTodo) })).filter(x => x.h.sMej >= 1);
-      const filasH = [['Cualquiera (se pueden mezclar)', null], ['Solo intervención', 'intervencion'], ['Solo mercado', 'mercado']].map(([n, fam]) => [n, todosH.filter(x => !fam || familia(x) === fam).sort(fH)[0]]).filter(r => r[1]);
+      const filasH = !BUSCAR ? [] : [['Cualquiera (se pueden mezclar)', null], ['Solo intervención', 'intervencion'], ['Solo mercado', 'mercado']].map(([n, fam]) => [n, todosH.filter(x => !fam || familia(x) === fam).sort(fH)[0]]).filter(r => r[1]);
       frag.hipTesis = tabla(['Familia de medidas', 'Mejor paquete si todas las hipótesis fueran ciertas', 'Mejoran', 'Empeoran', 'Señales contrarias', 'Saldo', 'Saldo del mismo paquete con la evidencia'],
         filasH.map(([n, x]) => ['<b>' + n + '</b>', esc(texto(x.fija).join('; ')), x.h.sMej, x.h.sEmp, x.h.sCon, '<b>' + sg(x.h.sBal) + '</b>', sg(x.a.sBal)]), ['15%', '43%', '8%', '8%', '9%', '7%', '10%']);
       // sensibilidad: cada hipotesis o conjetura, una a una, sobre el calculo base
@@ -798,13 +894,30 @@ if (caso.resultados) {
         escenarios: Object.fromEntries(hE.map(r => [r.sc.id, { firme: r.b.sBal, apoyo: r.a.sBal, hipotesis: r.h.sBal }])),
         primeras: conEfecto.slice(0, 8).map(s => ({ de: nombre(s.e.de), a: nombre(s.e.a), signo: s.e.pol, clase: clase(s.e), medidas: s.n, cambio: s.suma })) };
     }
+    if (SOC.size && EC.length) {
+      // ---- Relaciones condicionales (ampliacion del 25/10/2026): nivel aparte, «si la condicion se cumpliera»
+      const sg = n => (n > 0 ? '+' : '') + n;
+      const CA = EC.filter(e => e.nConf >= 1);
+      const conC = extra => { const ady = Object.assign({}, adyN[0]); for (const e of extra) ady[e.de] = (ady[e.de] || []).concat({ a: e.a, s: e.pol === '+' ? 1 : -1 }); return ady; };
+      const adyC = conC(CA);
+      const eC = (caso.escenarios || []).map(sc => ({ sc, a: valora(sc.fija, 1), c: valora(sc.fija, adyC) }));
+      frag.condEscenarios = tabla(['Escenario', 'Saldo con la evidencia incondicional', 'Saldo si se cumplieran todas las condiciones', 'Mejoran / empeoran / contrarias con condicionales'],
+        eC.map(r => ['<b>' + esc(r.sc.id) + '</b> ' + esc(r.sc.nombre), sg(r.a.sBal), '<b>' + sg(r.c.sBal) + '</b>', r.c.sMej + ' / ' + r.c.sEmp + ' / ' + r.c.sCon]), ['46%', '16%', '18%', '20%']);
+      const sueltasC = todos.filter(x => x.k === 1);
+      const sensC = CA.map(e => { const ady = conC([e]); const esc2 = eC.filter(r => valora(r.sc.fija, ady).sBal !== r.a.sBal).map(r => r.sc.id); const med = sueltasC.filter(x => valora(x.fija, ady).sBal !== x.a.sBal).length; return { e, esc2, med }; });
+      frag.condLista = tabla(['ID', 'Relación', 'Vale', 'Confianza', 'Escenarios cuyo saldo cambia', 'Medidas aisladas cuyo saldo cambia'],
+        EC.map(e => { const s = sensC.find(x => x.e === e); return [esc(e.id), esc(nombre(e.de)) + ' →(' + (e.pol === '+' ? '+' : '−') + ') ' + esc(nombre(e.a)), esc(e.condicion), esc(NIVELES[e.nConf]), s ? esc(s.esc2.join(', ')) || '—' : 'sin apoyo', s ? s.med : '—']; }), ['6%', '30%', '30%', '9%', '15%', '10%']);
+      Object.assign(resumen.condicionales, { conApoyo: CA.length,
+        escenarios: Object.fromEntries(eC.map(r => [r.sc.id, { base: r.a.sBal, conCondicionales: r.c.sBal, mejoran: r.c.sMej, empeoran: r.c.sEmp, contrarias: r.c.sCon }])),
+        conEfecto: sensC.filter(s => s.esc2.length || s.med).map(s => ({ id: s.e.id, de: nombre(s.e.de), a: nombre(s.e.a), signo: s.e.pol, escenarios: s.esc2, medidas: s.med })) });
+    }
     if (SOC.size && caso.premisas) {
       const sg = n => (n > 0 ? '+' : '') + n;
       const socL = (m, j) => outs.map((o, i) => [o, i]).filter(([o, i]) => SOC.has(o.id) && m.det[i] === j).map(([o]) => esc(nombre(o.id))).join('; ') || '<span style="color:#9FB3C8">ninguno</span>';
       const fP = orden([x => -x.p.sBal, x => x.p.sEmp, x => x.p.sCon, x => x.p.sReb, x => x.k]);
       const todosP = todos.map(x => ({ fija: x.fija, k: x.k, a: x.a, p: valora(x.fija, 3) })).filter(x => x.p.sMej >= 1);
       const mejorP = fam => todosP.filter(x => !fam || familia(x) === fam).sort(fP)[0];
-      const filasT = [['Cualquiera (se pueden mezclar)', null], ['Solo intervención', 'intervencion'], ['Solo mercado', 'mercado']].map(([n, fam]) => [n, mejorP(fam)]).filter(r => r[1]);
+      const filasT = !BUSCAR ? [] : [['Cualquiera (se pueden mezclar)', null], ['Solo intervención', 'intervencion'], ['Solo mercado', 'mercado']].map(([n, fam]) => [n, mejorP(fam)]).filter(r => r[1]);
       frag.premisasLista = tabla(['Nº', 'Lo que sostiene el autor', 'Qué cambia en el cálculo', 'Lo que dice lo localizado'], caso.premisas.lista.map(p => [p.n, esc(p.dice), esc(p.cambia), esc(p.frente)]), ['4%', '30%', '28%', '38%']);
       frag.premisasTesis = tabla(['Familia de medidas', 'Mejor paquete si las premisas son ciertas', 'Mejoran', 'Empeoran', 'Señales contrarias', 'Saldo con premisas', 'Saldo del mismo paquete solo con evidencia', 'Qué resultados sociales empeoran'],
         filasT.map(([n, x]) => ['<b>' + n + '</b>', esc(texto(x.fija).join('; ')), x.p.sMej, x.p.sEmp, x.p.sCon, '<b>' + sg(x.p.sBal) + '</b>', sg(x.a.sBal), socL(x.p, 'empeora')]), ['13%', '33%', '7%', '7%', '8%', '8%', '9%', '15%']);
@@ -835,8 +948,9 @@ if (caso.resultados) {
         paquetes: Object.fromEntries(paquetes.map(p => [p.c.id, { indice: p.mejor.a.pIdx, firme: p.mejor.b.pIdx, medidas: texto(p.mejor.fija) }])),
         escenarios: Object.fromEntries(escP.map(r => [r.sc.id, { indice: r.a.pIdx, firme: r.b.pIdx }])) };
     }
-    resumen.busqueda = { maxMedidas: MAXK, familias: Object.fromEntries(['intervencion', 'mercado', 'mixto', 'sin clasificar'].map(k => [k, todos.filter(x => familia(x) === k).length])), combinaciones: todos.length, palancas: caso.palancas.length, paquetes: paquetes.map(p => ({ criterio: p.c.id, nombre: p.c.nombre, medidas: texto(p.mejor.fija), fija: p.mejor.fija, todo: { mejoran: p.mejor.a.mej, conVueltaEnContra: p.mejor.a.reb, empeoran: p.mejor.a.emp, contrarias: p.mejor.a.con, actoresConPerjuicio: p.mejor.a.gEmp, actoresLimpios: p.mejor.a.limpios, actoresConMejora: p.mejor.a.gMej, social: { mejoran: p.mejor.a.sMej, empeoran: p.mejor.a.sEmp, contrarias: p.mejor.a.sCon, saldo: p.mejor.a.sBal, saldoFirme: p.mejor.b.sBal } }, empatados: p.empate.map(x => texto(x.fija)), firme: { mejoran: p.mejor.b.mej, empeoran: p.mejor.b.emp, contrarias: p.mejor.b.con } })) };
-    paquetes.forEach(p => datosSim.escenarios.push({ id: p.c.id, nombre: `Paquete ${p.c.id}: ${p.c.nombre}`, fija: p.mejor.fija, lectura: 'Paquete elegido por cálculo entre todas las combinaciones de palancas. ' + p.c.regla, supuesto: Object.keys(p.mejor.fija).map(id => pal(id).supuesto).filter(Boolean).join('; ') || 'Ninguno.' }));
+    if (!BUSCAR) resumen.busqueda = { desactivada: caso.motivoSinPaquetes || true, palancas: caso.palancas.length, medidasAisladas: todos.length };
+    else resumen.busqueda = { maxMedidas: MAXK, familias: Object.fromEntries(['intervencion', 'mercado', 'mixto', 'sin clasificar'].map(k => [k, todos.filter(x => familia(x) === k).length])), combinaciones: todos.length, palancas: caso.palancas.length, paquetes: paquetes.map(p => ({ criterio: p.c.id, nombre: p.c.nombre, medidas: texto(p.mejor.fija), fija: p.mejor.fija, todo: { mejoran: p.mejor.a.mej, conVueltaEnContra: p.mejor.a.reb, empeoran: p.mejor.a.emp, contrarias: p.mejor.a.con, actoresConPerjuicio: p.mejor.a.gEmp, actoresLimpios: p.mejor.a.limpios, actoresConMejora: p.mejor.a.gMej, social: { mejoran: p.mejor.a.sMej, empeoran: p.mejor.a.sEmp, contrarias: p.mejor.a.sCon, saldo: p.mejor.a.sBal, saldoFirme: p.mejor.b.sBal } }, empatados: p.empate.map(x => texto(x.fija)), firme: { mejoran: p.mejor.b.mej, empeoran: p.mejor.b.emp, contrarias: p.mejor.b.con } })) };
+    paquetes.forEach(p => datosSim.escenarios.push({ id: p.c.id, nombre: `Paquete ${p.c.id}: ${p.c.nombre}`, fija: p.mejor.fija, lectura: 'Paquete elegido por cálculo entre todas las combinaciones de palancas. ' + p.c.regla, supuesto: Object.keys(p.mejor.fija).filter(id => pal(id)).map(id => pal(id).supuesto).filter(Boolean).join('; ') || 'Ninguno.' }));
   }
 
   // Simulador publicado: escenario de inicio, pruebas propuestas y datos para la vista previa al compartir el enlace
@@ -845,6 +959,13 @@ if (caso.resultados) {
   if (pub.inicio && !hayEsc(pub.inicio)) { console.error(`Simulador: escenario de inicio desconocido ${pub.inicio}`); process.exit(1); }
   for (const p of (pub.pruebas || [])) if (p.escenario && !hayEsc(p.escenario)) { console.error(`Simulador: prueba con escenario desconocido ${p.escenario}`); process.exit(1); }
   datosSim.inicio = pub.inicio || null; datosSim.pruebas = pub.pruebas || []; datosSim.publico = pub.publico || null;
+  // Variable foco (opcional): el simulador enseña cómo le llega el efecto de cada palanca, cadena a cadena.
+  // Tiene que ser un resultado, para saber en qué sentido mejora. Sin foco, el simulador es el de siempre.
+  if (pub.foco) {
+    const r = (caso.resultados || []).flatMap(g => g.variables).find(([id]) => id === pub.foco.id);
+    if (!V.has(pub.foco.id) || !r) { console.error(`Simulador: la variable foco ${pub.foco.id} no existe o no es un resultado`); process.exit(1); }
+    datosSim.foco = { id: pub.foco.id, mejor: r[1], titulo: pub.foco.titulo || V.get(pub.foco.id).nombre, corto: pub.foco.corto || V.get(pub.foco.id).nombre };
+  }
   const atr = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
   const meta = pub.publico ? [['og:type', 'website'], ['og:title', caso.titulo + ' · Simulador'], ['og:description', pub.publico.descripcion], ['og:url', pub.publico.url], ['og:image', pub.publico.imagen]]
     .filter(([, v]) => v).map(([k, v]) => `<meta property="${k}" content="${atr(v)}">`).concat(pub.publico.descripcion ? [`<meta name="description" content="${atr(pub.publico.descripcion)}">`, '<meta name="twitter:card" content="summary_large_image">'] : []).join('\n') : '';

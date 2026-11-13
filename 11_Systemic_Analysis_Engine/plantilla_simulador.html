@@ -46,8 +46,43 @@
   #resumen { display:flex; flex-wrap:wrap; gap:6px; margin:0 0 8px; }
   #resumen span { padding:3px 9px; border-radius:12px; border:1px solid currentColor; font-size:13px; background:#fff; }
   .leyenda { font-size:12px; color:#52606D; margin:0 0 6px; }
+  details.leeT { border:1px solid #D9E2EC; background:#F8FAFC; border-radius:6px; padding:6px 10px; margin:4px 0 8px; font-size:12.5px; color:#334E68; }
+  details.leeT summary { cursor:pointer; font-weight:700; color:#12355B; }
+  details.leeT dl { margin:6px 0 2px; } details.leeT dt { font-weight:700; margin-top:6px; } details.leeT dd { margin:1px 0 0 0; }
+  details.leeT p { margin:6px 0 0; }
+  th[rowspan] { vertical-align:bottom; }
+  th.plazoG { text-align:center; color:#12355B; border-bottom:1px solid #CBD2D9; padding-bottom:2px; }
+  th abbr { text-decoration:none; cursor:help; border-bottom:1px dotted #9FB3C8; }
   select, input[type=text] { font:inherit; padding:3px 5px; border:1px solid #CBD2D9; border-radius:4px; max-width:100%; }
   svg text { font-family: Calibri, "Segoe UI", Arial, sans-serif; }
+  /* Panel de la variable foco: cómo le llega el efecto, cadena a cadena (solo si el caso declara foco) */
+  #foco { border:2px solid #12355B; border-radius:8px; padding:10px 12px; margin:0 0 12px; background:#FBFCFD; }
+  #foco h2 { margin:0 0 8px; }
+  .veredF { display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:6px; cursor:pointer; animation:pop .5s both; animation-delay:calc(var(--d,0) * .45s); }
+  .veredF .fle { font-size:34px; line-height:1; font-weight:700; }
+  .veredF .tx b { display:block; font-size:19px; letter-spacing:.02em; }
+  .veredF .tx span { font-size:12.5px; }
+  .veredF.mej { background:#E6F4EA; color:#276749; border:1px solid #276749; } .veredF.emp { background:#FDECEC; color:#C53030; border:1px solid #C53030; }
+  .veredF.mix { background:#F1EBFB; color:#6B46C1; border:1px solid #6B46C1; } .veredF.nul { background:#F0F4F8; color:#52606D; border:1px solid #CBD2D9; }
+  .veredF .tx span, .veredF .tx small { color:#3E4C59; font-weight:400; }
+  .palF { margin:10px 0 0; padding:8px 0 0; border-top:1px solid #EEF1F4; }
+  .palF .cab { font-size:13px; margin:0 0 5px; }
+  .palF .cab .tag { display:inline-block; font-size:11px; padding:1px 7px; border-radius:9px; margin:2px 0 0 4px; }
+  .tag.sube { background:#E6F4EA; color:#276749; } .tag.baja { background:#FDECEC; color:#C53030; } .tag.dos { background:#F1EBFB; color:#6B46C1; } .tag.nada, .tag.tarde { background:#F0F4F8; color:#52606D; }
+  .cad { display:flex; flex-wrap:wrap; align-items:center; gap:3px 0; margin:0 0 6px; }
+  .ch { display:inline-block; padding:3px 8px; border-radius:12px; border:1px solid #CBD2D9; background:#fff; font-size:12.5px; animation:entra .35s both; animation-delay:calc(var(--d) * .45s); }
+  .ch i { font-style:normal; font-weight:700; color:#12355B; margin-right:3px; }
+  .ch.fin.mej { background:#E6F4EA; border-color:#276749; color:#276749; font-weight:700; } .ch.fin.emp { background:#FDECEC; border-color:#C53030; color:#C53030; font-weight:700; }
+  .ch.fin i { color:inherit; }
+  .fx { display:inline-flex; align-items:center; gap:1px; margin:0 4px; padding:0 3px 1px; font-size:16px; line-height:1.1; color:#3E4C59; cursor:pointer; border-bottom:2px solid #3E4C59; animation:entra .35s both; animation-delay:calc(var(--d) * .45s); }
+  .fx small { font-size:12px; font-weight:700; }
+  .fx.c0, .fx.c1 { border-bottom:2px dashed #829AB1; color:#52606D; }
+  .leyF { font-size:11.5px; color:#52606D; margin:8px 0 0; }
+  #foco details.masF { border-top:0; margin:0 0 4px; } #foco details.masF summary { text-transform:none; letter-spacing:0; font-weight:400; padding:0 0 6px; }
+  .otra { font-size:12px; color:#1F5A8A; background:none; border:0; padding:0; cursor:pointer; text-decoration:underline; font-family:inherit; }
+  @keyframes entra { from { opacity:0; transform:translateX(-10px); } to { opacity:1; transform:none; } }
+  @keyframes pop { 0% { opacity:0; transform:scale(.9); } 70% { opacity:1; transform:scale(1.03); } 100% { transform:none; } }
+  @media (prefers-reduced-motion: reduce) { .ch, .fx, .veredF { animation:none; } }
   #mapa { overflow-x:auto; max-width:100%; } .tabla { overflow-x:auto; max-width:100%; }
   header .corto { display:none; }
   #desliza { display:none; }
@@ -121,7 +156,7 @@
   const fijo = new Map();          // id -> 1 (sube) | 0 (se mantiene) | -1 (baja)
   let minConf = 1, horizonte = 3;  // 3 = acumulado
   let escActivo = null, tocado = false;
-  let abreEsc = !movil(), abreVar = !movil();
+  let abreEsc = !movil(), abreVar = !movil(), abreLee = !movil();
   // Relaciones que entran en el calculo: las hipotesis del analista solo si se pide de forma expresa (-1)
   const usa = a => a.h ? minConf === -1 : a.c >= Math.max(minConf, 0);
   let res = new Map();             // id -> [ {pos,neg,cam:[]} x 3 ]
@@ -129,8 +164,12 @@
 
   // ---- Calculo: todos los caminos simples de hasta PROF relaciones desde cada variable fijada.
   // Una variable fijada no cambia y corta los caminos que pasarian por ella.
+  // Variable foco: vias que le llegan, separadas por la palanca de la que salen (mismo recorrido, sin tope de 80)
+  const F = DATOS.foco || null;
+  let focoO = new Map();           // origen -> { l: pasos minimos desde esa palanca, p, n: vias de esa longitud, P, N: mas largas, cam }
+  const arista = Object.fromEntries(DATOS.aristas.map(a => [a.id, a]));
   function simular() {
-    res = new Map(); ronda = new Map();
+    res = new Map(); ronda = new Map(); focoO = new Map();
     const ady = {};
     for (const a of DATOS.aristas) if (usa(a)) (ady[a.de] = ady[a.de] || []).push(a);
     const celda = id => { if (!res.has(id)) res.set(id, [0, 1, 2].map(() => ({ pos: 0, neg: 0, cam: [] }))); return res.get(id); };
@@ -147,6 +186,11 @@
           if (ids.length < q.l) { q.P += q.p; q.N += q.n; q.l = ids.length; q.p = 0; q.n = 0; }
           if (ids.length === q.l) { s > 0 ? q.p++ : q.n++; } else { s > 0 ? q.P++ : q.N++; }
           if (k.cam.length < 80) k.cam.push({ o, s0, s, r, c, ids });
+          if (F && a.a === F.id) {
+            const f = focoO.get(o) || { l: Infinity, p: 0, n: 0, P: 0, N: 0, cam: [] }; focoO.set(o, f);
+            if (ids.length < f.l) { f.P += f.p; f.N += f.n; f.l = ids.length; f.p = 0; f.n = 0; f.cam = []; }
+            if (ids.length === f.l) { s > 0 ? f.p++ : f.n++; if (f.cam.length < 200) f.cam.push({ o, s0, s, r, c, ids }); } else { s > 0 ? f.P++ : f.N++; }
+          }
           if (ids.length < PROF) { vis.add(a.a); dfs(a.a, s, r, c, ids); vis.delete(a.a); }
         }
       })(o, s0, 0, 3, []);
@@ -218,13 +262,84 @@
   const der = document.getElementById('der');
   let detalle = null;   // { id, h }
   function txt(v) { return v.s === null ? '·' : v.s === 0 ? `◆ ${v.pos}▲ ${v.neg}▼` : `${fl(v.s)} ${v.pos + v.neg}`; }
+  // ---- Panel de la variable foco: el veredicto en grande y, palanca a palanca, la cadena por la que le llega el efecto.
+  // Mismo veredicto que la tabla (primera ronda). Todas las piezas tienen el mismo tamaño: el modelo no dice cuánto.
+  const pasos = k => k + ' paso' + (k > 1 ? 's' : '');
+  function cadena(c) {
+    let s = c.s0, h = `<span class="ch" style="--d:0"><i>${fl(s)}</i>${esc(nodo[c.o].n)}</span>`;
+    c.ids.forEach((id, i) => {
+      const a = arista[id], fin = i === c.ids.length - 1; s *= a.p === '+' ? 1 : -1;
+      const m = (a.p === '+' ? '(+) Se mueven en el mismo sentido' : '(−) Se mueven en sentido contrario') + ' · confianza ' + CONF[a.c].toLowerCase() + '. ' + (a.m || '');
+      h += `<span class="fx c${a.c}" style="--d:${i + .5}" data-m="${esc(nodo[a.de].n + ' → ' + nodo[a.a].n + ': ' + m)}" title="${esc(m)}"><small>${a.p === '+' ? '+' : '−'}</small>→</span>` +
+        `<span class="ch${fin ? ' fin ' + clase(s, F.mejor) : ''}" style="--d:${i + 1}"><i>${fl(s)}</i>${esc(nodo[a.a].n)}</span>`;
+    });
+    return `<div class="cad">${h}</div><p class="obs mec" hidden></p>`;
+  }
+  function pintarFoco() {
+    if (!F) return '';
+    const n = nodo[F.id];
+    let h = `<div id="foco"><h2>${esc(F.titulo)}</h2>`;
+    const mov = [...fijo].filter(([, v]) => v);
+    if (fijo.has(F.id)) return h + (fijo.get(F.id)
+      ? `<p class="pista">Aquí «${esc(n.n)}» es la causa, no el efecto: está fijada (${fijo.get(F.id) > 0 ? 'sube' : 'baja'}) para ver qué arrastra; lo tienes en la tabla de abajo. Para ver qué la mueve a ella, suéltala en «Lo que cambia ahora» o carga otro escenario.</p></div>`
+      : `<p class="pista">Está fijada para que no se mueva: corta los efectos que pasarían por ella. Suéltala para ver cómo le llega el efecto de las demás variables.</p></div>`);
+    if (!mov.length) return h + `<p class="pista">Mueve alguna variable (▲ o ▼) y aquí verás, eslabón a eslabón, cómo llega su efecto a «${esc(n.n)}».</p></div>`;
+    const q = ronda.get(F.id), s = q ? (q.p && q.n ? 0 : q.p ? 1 : -1) : null, L = q ? q.l : 0;
+    const tit = s === null ? 'no le llega' : s === 0 ? 'empujones en los dos sentidos' : s > 0 ? 'sube' : 'baja';
+    const sub = s === null ? 'Ninguna de las variables que has movido tiene un camino hasta ella con las relaciones que se usan.'
+      : s === 0 ? `Por las vías más cortas (${pasos(L)}), ${q.p} empujan a subir y ${q.n} a bajar. El modelo no sabe cuál pesa más.`
+      : `${q.p + q.n > 1 ? 'Las ' + (q.p + q.n) + ' vías más cortas' : 'La vía más corta'} (${pasos(L)}) empuja${q.p + q.n > 1 ? 'n' : ''} a ${s > 0 ? 'subir' : 'bajar'}.`;
+    const vuelta = q && (q.P + q.N) ? ` Por vías más largas (efectos de vuelta): ${q.P} a subir y ${q.N} a bajar.` : '';
+    h += `<div class="veredF ${clase(s, F.mejor)}" id="verF" style="--d:${Math.min(L, 6)}" role="button" tabindex="0" title="Pulsa para ver todas las vías y dibujarlas en el mapa"><span class="fle">${s === null ? '·' : s === 0 ? '◆' : fl(s)}</span><span class="tx"><b>${esc(n.n)}: ${tit}</b><span>${sub}${vuelta}</span></span></div>`;
+    h += '<h3>Cómo le llega, variable a variable</h3>';
+    for (const [o, s0] of mov) {
+      const f = focoO.get(o);
+      let tag = '<span class="tag nada">no le llega</span>';
+      if (f) { const sf = f.p && f.n ? 0 : f.p ? 1 : -1;
+        tag = `<span class="tag ${sf === 0 ? 'dos' : sf > 0 ? 'sube' : 'baja'}">${sf === 0 ? 'empuja en los dos sentidos' : sf > 0 ? 'empuja a que suba' : 'empuja a que baje'}</span>` +
+          (f.l > L ? `<span class="tag tarde">llega más tarde (${pasos(f.l)}): cuenta como efecto de vuelta</span>` : ''); }
+      h += `<div class="palF"><div class="cab"><b>${fl(s0)} ${esc(nodo[o].n)}</b> ${tag}</div>`;
+      if (f) {
+        const cam = f.cam.slice().sort((a, b) => b.c - a.c || a.r - b.r);
+        // a la vista, la vía más firme de cada sentido; las demás, desplegables
+        const ver = [cam.find(c => c.s > 0), cam.find(c => c.s < 0)].filter(Boolean);
+        if (ver.length < 2 && cam[1]) ver.push(cam[1]);
+        h += ver.map(cadena).join('');
+        const resto = cam.filter(c => !ver.includes(c));
+        if (resto.length) h += `<details class="masF"><summary class="otra">Ver ${resto.length === 1 ? 'la otra vía' : 'las otras ' + resto.length + ' vías'} de ${pasos(f.l)}</summary>${resto.slice(0, 30).map(cadena).join('')}${resto.length > 30 ? `<p class="obs">Y ${resto.length - 30} más.</p>` : ''}</details>`;
+      }
+      h += '</div>';
+    }
+    h += '<p class="leyF">▲ sube, ▼ baja. Flecha <b>+</b>: las dos variables se mueven en el mismo sentido; <b>−</b>: en sentido contrario. Línea continua: confianza media o alta; a trazos: baja. <b>Pulsa una flecha</b> para ver por qué. Todas las piezas miden lo mismo porque el modelo dice hacia dónde, no cuánto: más vías no significa más efecto.</p>' +
+      '<button class="otra" id="otraVez" type="button">▶ Ver la cadena otra vez</button></div>';
+    return h;
+  }
+  function enlazarFoco() {
+    const caja = document.getElementById('foco'); if (!caja) return;
+    caja.querySelectorAll('.fx').forEach(x => x.addEventListener('click', () => { const p = x.closest('.cad').nextElementSibling; const igual = !p.hidden && p.textContent === x.dataset.m; p.textContent = x.dataset.m; p.hidden = igual; }));
+    const v = document.getElementById('verF');
+    if (v) { const abre = () => { detalle = { id: F.id, h: 3 }; pintarDetalle(); pintarSvg(); const d = document.getElementById('det'); if (d && d.firstChild) d.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+      v.addEventListener('click', abre); v.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); abre(); } }); }
+    const b = document.getElementById('otraVez');
+    if (b) b.addEventListener('click', () => { caja.outerHTML = pintarFoco(); enlazarFoco(); });
+  }
   function pintarDer() {
-    let h = '<h2>2. Qué empuja a qué</h2>';
+    let h = pintarFoco() + '<h2>2. Qué empuja a qué</h2>';
     if (![...fijo.values()].some(v => v)) h += '<p>Elige un escenario o marca la tendencia de alguna variable.</p>';
     else { const t = recuento();
       h += `<p class="pista">En primera ronda, de ${t.total} resultados que le importan a alguien:</p><div id="resumen"><span class="mej">✓ ${t.mej} mejoran</span><span class="emp">✗ ${t.emp} empeoran</span><span class="mix">◆ ${t.mix} con vías contrarias</span><span class="nul">${t.nul} sin vía</span></div>` +
         `<p class="leyenda"><span class="mej">Verde</span>: todas las vías empujan a mejor. <span class="emp">Rojo</span>: a peor. <span class="mix">Morado ◆</span>: hay vías en los dos sentidos y el modelo no sabe cuál pesa más. <b>Pulsa una celda para ver por qué.</b></p>`; }
-    h += '<div class="tabla"><table><tr><th>Resultado</th>' + HOR.map(x => `<th class="hz" style="text-align:center">${x}</th>`).join('') + '<th style="text-align:center">Conjunto</th><th style="text-align:center">Primera ronda</th><th style="text-align:center">Efectos de vuelta</th></tr>';
+    const tip = { plazo: 'Cuándo llega cada vía: se suman los retrasos de sus eslabones', conj: 'Todas las vías juntas, sin separar por plazo', pr: 'Lo que dicen las vías más cortas (menos eslabones)', ev: 'Las vías más largas: rodeos y realimentaciones, a favor o en contra' };
+    const th = (t, x, hz, fil) => `<th${hz ? ' class="hz"' : ''}${fil ? ' rowspan="2"' : ''} style="text-align:center"><abbr title="${tip[t]}">${x}</abbr></th>`;
+    h += `<details class="leeT"${abreLee ? ' open' : ''}><summary>Cómo leer la tabla</summary>` +
+      '<p>Cada fila es un resultado. Cada celda cuenta las <b>vías</b>: cadenas de causas que van de lo que has movido hasta ese resultado. «▲ 3» son tres vías que lo empujan a subir; «◆ 2▲ 1▼», vías en los dos sentidos. El color dice si eso es bueno o malo para ese resultado. <b>Pulsa una celda</b> para ver las vías.</p><dl>' +
+      (movil() ? '<dt>Plazos</dt><dd>En una pantalla ancha hay además tres columnas de plazo: menos de 1 año, de 1 a 4 y más de 4.</dd>'
+        : '<dt>Tiempo en notarse: menos de 1 año · de 1 a 4 años · más de 4 años</dt><dd>Cuánto tarda en notarse cada vía. Cada relación del mapa tarda en notarse (inmediata, meses, de 1 a 3 años o más de 3); se suman los retrasos de todos los eslabones de la vía y se coloca en su columna.</dd>') +
+      '<dt>Conjunto</dt><dd>Todas las vías juntas, sin separar por plazo.</dd>' +
+      '<dt>Primera ronda</dt><dd>Lo que dicen solo las vías más cortas, las de menos eslabones; debajo, cuántos pasos tienen. Es el efecto directo, lo que promete quien propone la medida, y el veredicto que usan el resumen y el recuadro de arriba. Ojo: corta no quiere decir rápida; una vía de dos pasos lentos puede tardar años.</dd>' +
+      '<dt>Efectos de vuelta</dt><dd>Las vías más largas, que dan un rodeo o vuelven sobre sí mismas. Se cuentan a favor o en contra de lo que le conviene al resultado (lo que pone «Mejora si…»). Avisan de que el efecto directo puede quedar compensado, en parte o del todo, más adelante.</dd></dl>' +
+      '<p>Que mande la primera ronda es una convención: llega antes, pero el modelo no sabe si pesa más. Y el número de vías no mide la fuerza del efecto.</p></details>';
+    h += '<div class="tabla"><table><tr><th rowspan="2">Resultado</th><th class="hz plazoG" colspan="3"><abbr title="' + tip.plazo + '">⏱ Tiempo en notarse</abbr></th>' + th('conj', 'Conjunto', 0, 1) + th('pr', 'Primera ronda', 0, 1) + th('ev', 'Efectos de vuelta', 0, 1) + '</tr><tr>' + HOR.map(x => th('plazo', x, 1)).join('') + '</tr>';
     for (const g of DATOS.resultados) {
       h += `<tr class="dim"><td colspan="7">${esc(g.dimension)}</td></tr>`;
       for (const [id, mejor] of g.variables) {
@@ -238,8 +353,10 @@
         h += '</tr>';
       }
     }
-    h += '</table></div><p class="obs">El número es la cantidad de vías. <b>Conjunto</b>: todas las vías, sumando los plazos' + (movil() ? ' (en una pantalla ancha se ven por separado)' : '') + '.</p><p class="obs"><b>Primera ronda</b>: el veredicto de las vías más cortas, las que llegan con menos pasos. <b>Efectos de vuelta</b>: las vías más largas, que rodean o realimentan, contadas según favorezcan o no lo que le conviene al actor. Es una convención: la primera ronda llega antes, pero el mapa no dice si pesa más.</p><div id="det"></div>';
+    h += '</table></div><div id="det"></div>';
     der.innerHTML = h;
+    enlazarFoco();
+    const lee = der.querySelector('details.leeT'); if (lee) lee.addEventListener('toggle', () => { abreLee = lee.open; });
     der.querySelectorAll('td.c').forEach(c => c.addEventListener('click', () => { detalle = { id: c.dataset.id, h: +c.dataset.h }; pintarDetalle(); pintarSvg(); const d = document.getElementById('det'); if (d && d.firstChild) d.scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
     pintarDetalle();
   }
@@ -303,6 +420,9 @@
     const t = recuento(), hay = [...fijo.values()].some(v => v);
     barra.innerHTML = '<button data-ir="izq">1<br>Elige</button>' +
       `<button data-ir="der">${hay ? `<b><span style="color:#9AE6B4">✓${t.mej}</span> <span style="color:#FEB2B2">✗${t.emp}</span> <span style="color:#D6BCFA">◆${t.mix}</span></b>` : '2'}<br>Resultado</button>` +
+      (F ? (() => { const q = fijo.has(F.id) ? null : ronda.get(F.id), s = q ? (q.p && q.n ? 0 : q.p ? 1 : -1) : null;
+        const c = { mej: '#9AE6B4', emp: '#FEB2B2', mix: '#D6BCFA', nul: '#D9E2EC' }[clase(s, F.mejor)];
+        return `<button data-ir="foco"><b style="color:${c}">${hay ? (s === null ? '·' : s === 0 ? '◆' : fl(s)) : '·'}</b><br>${esc(F.corto)}</button>`; })() : '') +
       '<button data-ir="centro">3<br>Mapa</button>';
     barra.querySelectorAll('button').forEach(b => b.addEventListener('click', () => irA(b.dataset.ir)));
   }
@@ -314,6 +434,7 @@
     document.getElementById('guiaTx').innerHTML = '<h2 id="guiaTit">Cómo se juega</h2>' +
       `<p>El simulador recorre un mapa de ${DATOS.nodos.length} variables y te enseña a qué empuja un cambio: qué mejora, qué empeora, para quién y por qué camino.</p><ol>` +
       `<li><b>Elige qué cambia</b> (${movil() ? 'arriba' : 'a la izquierda'}). ${iIni >= 0 ? `Ya tienes cargado un ejemplo: <i>${esc(DATOS.escenarios[iIni].nombre.replace(/^Referencia: /, ''))}</i>. ` : ''}Cámbialo como quieras: ▲ sube, ● se mantiene, ▼ baja. Quita variables, añade otras o carga otro escenario.</li>` +
+      (F ? `<li><b>Mira cómo le llega a la variable que importa</b>. En el recuadro «${esc(F.titulo)}» ves si sube o baja y, para cada variable que hayas movido, la cadena de causas por la que llega el efecto, eslabón a eslabón.</li>` : '') +
       `<li><b>Mira qué empuja a qué</b> (${movil() ? 'debajo' : 'a la derecha'}). <span class="mej">Verde</span>: todas las vías empujan a mejor. <span class="emp">Rojo</span>: a peor. <span class="mix">Morado ◆</span>: hay vías en los dos sentidos y el modelo no sabe cuál pesa más.</li>` +
       '<li><b>Pregunta por qué.</b> Pulsa una celda del resultado: verás las cadenas de causas, con el nivel de evidencia de cada una, y el mapa las dibuja.</li></ol>' +
       '<p class="nota"><b>Dice hacia dónde, no cuánto.</b> No es una predicción: es una manera ordenada de ver a la vez todos los efectos de una decisión, también los que no se suelen contar.</p>' +
