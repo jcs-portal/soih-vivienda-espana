@@ -276,7 +276,7 @@ alta». (Con el botón **¿Cuánto de esto está demostrado?** de «Prueba esto�
 ![El ejemplo 1, solo con evidencia media o alta](12_Cases/Vivienda%20Espana/imagenes/manual_10_firme.png)
 
 La tabla se vacía mucho, y lo que queda es más limpio: el precio del alquiler pasa a **verde**, con
-dos vías a la baja y ninguna al alza. La vía de escape del ejemplo 1 ha desaparecido, porque su
+una vía a la baja y ninguna al alza. La vía de escape del ejemplo 1 ha desaparecido, porque su
 respaldo es bajo. Y filas como «Mudanzas forzosas» o «Sobreocupación» se quedan sin ninguna vía: lo
 que se decía de ellas se apoyaba en evidencia débil.
 
@@ -314,5 +314,5 @@ posiciones opuestas. Están todas en `datos/fuentes.csv` y en el documento de fu
 no te convence, puedes quitarla o cambiarla en `datos/caso.js` y recalcular; el archivo `LEEME.md`
 explica cómo.
 
-Las capturas de esta guía son de la versión 0.8.4. Si el modelo cambia, los números de los
+Las capturas de esta guía son de la versión 0.8.5. Si el modelo cambia, los números de los
 ejemplos pueden variar.
