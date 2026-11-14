@@ -534,7 +534,7 @@ e('G01', 'O01', '-', 'Quien accede a alquiler social paga menos.', 'inmediato', 
 H('G01', 'A03', '-', 'Cada hogar alojado en vivienda social deja de competir en el mercado.', '1-3 años');
 // G01 -> O04: ver la sexta revision
 // --- Politica y percepcion: la respuesta politica a la presion social es, entera, hipotesis del analista
-e('O01', 'M01', '+', 'Cuando el alquiler ahoga a muchos hogares, la vivienda sube entre las preocupaciones.', '1-3 años', 'D1', [], 'CIS, barómetro de enero de 2026 (leído en la fuente): el 42,6 % cita la vivienda entre los principales problemas de España, máximo de la serie. Manifestaciones de 2024-2026 (vistas en prensa).', 'Dato compatible, no estimación.');
+e('O01', 'M01', '+', 'Cuando el alquiler ahoga a muchos hogares, la vivienda sube entre las preocupaciones.', '1-3 años', 'D1', [], 'CIS (leído en la fuente): la vivienda entre los tres principales problemas de España pasa del 3,4 % (enero de 2023) al 42,6 % (enero de 2026) y al 55,7 % (barómetro 3582, octubre de 2026), máximo de la serie. Manifestaciones de 2024-2026 y huelga general por la vivienda del 11/11/2026 (vistas en prensa).', 'Dato compatible, no estimación.');
 H('O03', 'M01', '+', 'Una generación que no puede emanciparse se moviliza.', '1-3 años');
 H('O04', 'M01', '+', 'Los desahucios visibles movilizan.', 'meses');
 H('O08', 'M01', '+', 'La expulsión de residentes genera protesta vecinal.', '1-3 años');
@@ -969,6 +969,14 @@ Object.assign(esquema.posExtra, { F10: [930, 100] });
 // oferta que trae la construcción, y medidas como agilizar el suelo saldrían reduciendo la oferta. Va al núcleo numérico
 // (investigacion/numerico), donde las magnitudes se compensan.
 
+// ================================================================ Aplicación territorial (14/11/2026)
+// Pedido de JC: el efecto de que comunidades y ayuntamientos apliquen o bloqueen las leyes de vivienda. La ley estatal solo
+// topa el alquiler donde la comunidad pide declarar la zona tensionada. Se miden conductas, no etiquetas de partido.
+v('L17', 'Aplicación autonómica de la regulación del alquiler', 'Disposición de cada comunidad autónoma a pedir la declaración de zonas tensionadas y a aplicar el índice de referencia. Sin ella, la regulación estatal no llega al mercado.', 'decision', '% de la población en zona tensionada', 'comunidad autónoma', 'Zonas de mercado residencial tensionado declaradas', 'Ministerio de Vivienda', 'C10', { dueno: 'Comunidades autónomas' });
+e('L17', 'L01', '+', 'La ley estatal solo topa el alquiler donde la comunidad autónoma pide declarar la zona tensionada y hay índice de referencia.', 'meses', 'D3', [], 'Ley 12/2023, art. 18 y disposición final 1.ª.6: la declaración la tramita la comunidad y el tope solo rige donde hay índice aprobado (Defensor del Pueblo, noviembre de 2026, p. 241). A 2T 2026, 317 municipios con más de 9,3 millones de personas, en torno al 18,9 % de la población (Ministerio de Vivienda, «Zonas de mercado residencial tensionado 1T2024-2T2026», p. 5; tabla de datos, bloque V). Cataluña aporta unos 7 millones.', 'Fedea (Apuntes 2026/15): la contención de rentas solo se ha desplegado de forma efectiva en Cataluña.');
+H('M02', 'L17', '-', 'Con el diagnóstico polarizado, las comunidades que se oponen a la ley no la aplican.', 'meses', 'Conductas documentadas, sin estimación de efecto: Andalucía, Madrid e Illes Balears recurrieron la ley y no declaran zonas; las demás comunidades que no declaran alegan que no se cumplen las condiciones o que prefieren su política propia (Defensor del Pueblo, noviembre de 2026, pp. 247-256). Galicia declaró A Coruña y Santiago. Es una coincidencia entre conducta y gobierno, no un efecto medido.');
+Object.assign(esquema.posExtra, { L17: [745, 205] });
+
 // ---------------------------------------------------------------- Simulador publicado
 // Escenario con el que se abre y pruebas que se proponen al visitante. Las pruebas no son conclusiones:
 // invitan a comparar. Comprobadas contra el calculo (13/10/2026 y 18/10/2026): con R1, en primera ronda,
@@ -985,7 +993,7 @@ const simulador = {
     imagen: 'https://jcs-portal.github.io/soih-vivienda-espana/vista_previa.png',
     repo: 'https://github.com/jcs-portal/soih-vivienda-espana',
     guia: 'https://github.com/jcs-portal/soih-vivienda-espana/blob/main/GUIA_SIMULADOR.md',
-    descripcion: 'Simulación abierta: elige qué cambia en la vivienda en España y mira a qué empuja, a quién beneficia y a quién perjudica. 97 variables; cada relación que entra en el cálculo lleva su fuente.'
+    descripcion: 'Simulación abierta: elige qué cambia en la vivienda en España y mira a qué empuja, a quién beneficia y a quién perjudica. 98 variables; cada relación que entra en el cálculo lleva su fuente.'
   }
 };
 

@@ -314,5 +314,5 @@ posiciones opuestas. Están todas en `datos/fuentes.csv` y en el documento de fu
 no te convence, puedes quitarla o cambiarla en `datos/caso.js` y recalcular; el archivo `LEEME.md`
 explica cómo.
 
-Las capturas de esta guía son de la versión 0.8.5. Si el modelo cambia, los números de los
+Las capturas de esta guía son de la versión 0.8.6. Si el modelo cambia, los números de los
 ejemplos pueden variar.

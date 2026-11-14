@@ -4,15 +4,15 @@ Un modelo causal del sistema de la vivienda en España, con sus datos, sus fuent
 lo calcula. Está hecho para que cualquiera pueda **revisarlo, discutirlo, cambiarle un dato y ver
 qué pasa**.
 
-Autor: Juan Carlos Siria · Versión del paquete: 0.8.5 · Fecha: 14 de noviembre de 2026
+Autor: Juan Carlos Siria · Versión del paquete: 0.8.6 · Fecha: 14 de noviembre de 2026
 
 ## Qué es
 
-- **Un mapa de causas y efectos**: 97 factores (precios, oferta, salarios, turismo,
+- **Un mapa de causas y efectos**: 98 factores (precios, oferta, salarios, turismo,
   inmigración, leyes, inversores, vivienda pública) unidos por relaciones del tipo «si esto sube,
   aquello sube o baja».
 - **Solo cuenta lo que tiene fuente.** Cada relación necesita un dato oficial, un estudio, o que la
-  afirmen actores de posiciones opuestas. Hay 117 relaciones con respaldo y 37
+  afirmen actores de posiciones opuestas. Hay 118 relaciones con respaldo y 38
   hipótesis sin fuente. Las hipótesis no entran en el cálculo principal: se calculan en un nivel
   aparte, rotulado «por confirmar», y el programa dice cuáles cambiarían más el resultado.
 - **Un objetivo declarado**: se mide cómo viven las personas (poder pagar, tener dónde, no ser
@@ -28,7 +28,7 @@ Autor: Juan Carlos Siria · Versión del paquete: 0.8.5 · Fecha: 14 de noviembr
 | Entenderlo en diez minutos | `12_Cases/Vivienda Espana/SOIH_12_Vivienda_Articulo_v0.1.pdf` |
 | Jugar con él | **En línea: https://jcs-portal.github.io/soih-vivienda-espana/** (ordenador o móvil, sin instalar nada). **Cómo se usa: [Guía del simulador](GUIA_SIMULADOR.md)**, con ejemplos e imágenes |
 | Ver el mapa entero | `Mapa_interactivo_N2.html` y `Esquema_del_sistema.html`, en la misma carpeta |
-| Comprobar una cifra | `SOIH_12_Vivienda_Tabla_de_datos_v0.1.pdf` o `datos/tabla_datos.csv`: 266 cifras con fecha, fuente y estado |
+| Comprobar una cifra | `SOIH_12_Vivienda_Tabla_de_datos_v0.1.pdf` o `datos/tabla_datos.csv`: 272 cifras con fecha, fuente y estado |
 | Saber de dónde sale cada cosa | `SOIH_12_Vivienda_Fuentes_v0.1.pdf` o `datos/fuentes.csv`: cada documento, para qué se usó y hasta dónde se leyó |
 | Ver qué falta por comprobar | `datos/hipotesis_a_contrastar.csv`: las relaciones sin confirmar, ordenadas por cuánto moverían el resultado |
 | Ver qué medidas salen mejor y por qué | `SOIH_12_Vivienda_Coste_social_v0.1.pdf` |
@@ -126,7 +126,7 @@ del programa. **La prosa no se actualiza sola**: si cambias el modelo, revisa el
 - **Cómo se reunió la evidencia.** La búsqueda y lectura de fuentes se hizo con ayuda de asistentes
   de inteligencia artificial, con una regla escrita: solo vale lo que se abrió y se leyó en la fuente,
   y se dice cuándo solo se leyó el resumen o se llegó a través de un tercero. En la tabla de datos,
-  13 cifras están marcadas «Sin verificar» por ese motivo. Si vas a citar una cifra,
+  14 cifras están marcadas «Sin verificar» por ese motivo. Si vas a citar una cifra,
   ve a su fuente.
 - **Errores ya corregidos, por si reaparecen**: se dio dos veces por inexistente algo que existía (la
   literatura sobre fondos de inversión y el desglose de propietarios por tramos, que publica el
@@ -155,4 +155,4 @@ Indica siempre el documento, la página y el enlace.
 ## Licencia y cita
 
 Ver `LICENCIA.md`. Si lo usas, cita: *Juan Carlos Siria, «SOIH · La vivienda en España como
-sistema», versión 0.8.5, 14 de noviembre de 2026.*
+sistema», versión 0.8.6, 14 de noviembre de 2026.*

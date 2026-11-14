@@ -1,14 +1,14 @@
 {
   "afirmacionesCotejadas": 52,
-  "variables": 97,
-  "relaciones": 197,
+  "variables": 98,
+  "relaciones": 199,
   "statements": 140,
   "clusters": 12,
   "porConfianza": {
-    "Conjetura": 60,
+    "Conjetura": 61,
     "Baja": 71,
     "Media": 35,
-    "Alta": 31
+    "Alta": 32
   },
   "disputadas": 11,
   "porTipo": {
@@ -16,7 +16,7 @@
     "flujo": 17,
     "exogena": 7,
     "auxiliar": 33,
-    "decision": 16,
+    "decision": 17,
     "sintoma": 5
   },
   "noMedidas": 22,
@@ -24,14 +24,14 @@
   "R": 10,
   "B": 10,
   "buclesConConjeturas": 24,
-  "buclesConHipotesis": 444,
+  "buclesConHipotesis": 487,
   "conjuntoReducido": 14,
   "longitudMaxima": 8,
-  "hipotesis": 37,
+  "hipotesis": 38,
   "contables": 20,
-  "conApoyo": 117,
+  "conApoyo": 118,
   "conjeturas": 23,
-  "altaNoContable": 11,
+  "altaNoContable": 12,
   "mediaNoContable": 35,
   "bajaNoContable": 71,
   "sinCaminoASintoma": [
@@ -302,11 +302,11 @@
   },
   "resultadosSociales": 15,
   "hipotesisCalc": {
-    "total": 60,
-    "hipotesis": 37,
+    "total": 61,
+    "hipotesis": 38,
     "conjeturas": 23,
     "conEfecto": 22,
-    "sinEfecto": 38,
+    "sinEfecto": 39,
     "paquetes": [
       {
         "familia": "Cualquiera (se pueden mezclar)",
@@ -1069,15 +1069,15 @@
     ]
   },
   "inventario": {
-    "filas": 266,
+    "filas": 272,
     "porEstado": {
-      "Contrastado": 130,
+      "Contrastado": 132,
       "Estimación oficial": 14,
-      "Calculado": 40,
+      "Calculado": 42,
       "Estudio académico": 13,
       "De parte": 28,
-      "Sin verificar": 13,
-      "No existe": 28
+      "Sin verificar": 14,
+      "No existe": 29
     }
   },
   "indice": {
