@@ -4,7 +4,7 @@ Un modelo causal del sistema de la vivienda en España, con sus datos, sus fuent
 lo calcula. Está hecho para que cualquiera pueda **revisarlo, discutirlo, cambiarle un dato y ver
 qué pasa**.
 
-Autor: Juan Carlos Siria · Versión del paquete: 0.8.6 · Fecha: 14 de noviembre de 2026
+Autor: Juan Carlos Siria · Versión del paquete: 0.8.7 · Fecha: 15 de noviembre de 2026
 
 ## Qué es
 
@@ -12,7 +12,7 @@ Autor: Juan Carlos Siria · Versión del paquete: 0.8.6 · Fecha: 14 de noviembr
   inmigración, leyes, inversores, vivienda pública) unidos por relaciones del tipo «si esto sube,
   aquello sube o baja».
 - **Solo cuenta lo que tiene fuente.** Cada relación necesita un dato oficial, un estudio, o que la
-  afirmen actores de posiciones opuestas. Hay 118 relaciones con respaldo y 38
+  afirmen actores de posiciones opuestas. Hay 120 relaciones con respaldo y 37
   hipótesis sin fuente. Las hipótesis no entran en el cálculo principal: se calculan en un nivel
   aparte, rotulado «por confirmar», y el programa dice cuáles cambiarían más el resultado.
 - **Un objetivo declarado**: se mide cómo viven las personas (poder pagar, tener dónde, no ser
@@ -155,4 +155,4 @@ Indica siempre el documento, la página y el enlace.
 ## Licencia y cita
 
 Ver `LICENCIA.md`. Si lo usas, cita: *Juan Carlos Siria, «SOIH · La vivienda en España como
-sistema», versión 0.8.6, 14 de noviembre de 2026.*
+sistema», versión 0.8.7, 15 de noviembre de 2026.*

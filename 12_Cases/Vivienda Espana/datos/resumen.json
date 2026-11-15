@@ -1,16 +1,16 @@
 {
   "afirmacionesCotejadas": 52,
   "variables": 98,
-  "relaciones": 199,
+  "relaciones": 200,
   "statements": 140,
   "clusters": 12,
   "porConfianza": {
-    "Conjetura": 61,
-    "Baja": 71,
+    "Conjetura": 60,
+    "Baja": 73,
     "Media": 35,
     "Alta": 32
   },
-  "disputadas": 11,
+  "disputadas": 12,
   "porTipo": {
     "stock": 19,
     "flujo": 17,
@@ -20,20 +20,20 @@
     "sintoma": 5
   },
   "noMedidas": 22,
-  "buclesSinConjeturas": 20,
-  "R": 10,
-  "B": 10,
-  "buclesConConjeturas": 24,
-  "buclesConHipotesis": 487,
-  "conjuntoReducido": 14,
+  "buclesSinConjeturas": 29,
+  "R": 16,
+  "B": 13,
+  "buclesConConjeturas": 33,
+  "buclesConHipotesis": 506,
+  "conjuntoReducido": 15,
   "longitudMaxima": 8,
-  "hipotesis": 38,
+  "hipotesis": 37,
   "contables": 20,
-  "conApoyo": 118,
+  "conApoyo": 120,
   "conjeturas": 23,
   "altaNoContable": 12,
   "mediaNoContable": 35,
-  "bajaNoContable": 71,
+  "bajaNoContable": 73,
   "sinCaminoASintoma": [
     "Población residente",
     "Hogares latentes no formados",
@@ -101,39 +101,39 @@
     },
     {
       "id": "E3",
-      "mejora": 11,
-      "empeora": 5,
-      "contrario": 1,
+      "mejora": 13,
+      "empeora": 2,
+      "contrario": 2,
       "nada": 6,
-      "mejoraConVueltaEnContra": 3,
-      "empeoraConVueltaAFavor": 0
+      "mejoraConVueltaEnContra": 9,
+      "empeoraConVueltaAFavor": 2
     },
     {
       "id": "E4",
-      "mejora": 6,
-      "empeora": 5,
-      "contrario": 1,
-      "nada": 10,
-      "mejoraConVueltaEnContra": 2,
-      "empeoraConVueltaAFavor": 1
+      "mejora": 10,
+      "empeora": 2,
+      "contrario": 2,
+      "nada": 8,
+      "mejoraConVueltaEnContra": 10,
+      "empeoraConVueltaAFavor": 2
     },
     {
       "id": "E5",
-      "mejora": 12,
-      "empeora": 5,
+      "mejora": 13,
+      "empeora": 4,
       "contrario": 3,
       "nada": 2,
-      "mejoraConVueltaEnContra": 10,
-      "empeoraConVueltaAFavor": 3
+      "mejoraConVueltaEnContra": 11,
+      "empeoraConVueltaAFavor": 2
     },
     {
       "id": "E6",
-      "mejora": 13,
-      "empeora": 5,
+      "mejora": 14,
+      "empeora": 4,
       "contrario": 2,
       "nada": 2,
-      "mejoraConVueltaEnContra": 11,
-      "empeoraConVueltaAFavor": 3
+      "mejoraConVueltaEnContra": 12,
+      "empeoraConVueltaAFavor": 2
     },
     {
       "id": "R1",
@@ -155,12 +155,12 @@
     },
     {
       "id": "R3",
-      "mejora": 7,
-      "empeora": 5,
-      "contrario": 0,
-      "nada": 11,
-      "mejoraConVueltaEnContra": 1,
-      "empeoraConVueltaAFavor": 0
+      "mejora": 11,
+      "empeora": 2,
+      "contrario": 2,
+      "nada": 8,
+      "mejoraConVueltaEnContra": 9,
+      "empeoraConVueltaAFavor": 2
     },
     {
       "id": "R4",
@@ -173,21 +173,21 @@
     },
     {
       "id": "E7",
-      "mejora": 11,
-      "empeora": 10,
+      "mejora": 12,
+      "empeora": 9,
       "contrario": 2,
       "nada": 0,
-      "mejoraConVueltaEnContra": 9,
-      "empeoraConVueltaAFavor": 6
+      "mejoraConVueltaEnContra": 10,
+      "empeoraConVueltaAFavor": 5
     },
     {
       "id": "E8",
-      "mejora": 11,
-      "empeora": 10,
+      "mejora": 12,
+      "empeora": 9,
       "contrario": 2,
       "nada": 0,
-      "mejoraConVueltaEnContra": 9,
-      "empeoraConVueltaAFavor": 6
+      "mejoraConVueltaEnContra": 10,
+      "empeoraConVueltaAFavor": 5
     }
   ],
   "socialEscenarios": {
@@ -198,6 +198,15 @@
       "saldo": 12,
       "saldoFirme": 8,
       "mejoranFirme": 8,
+      "empeoranFirme": 0
+    },
+    "E3": {
+      "mejoran": 12,
+      "empeoran": 0,
+      "contrarias": 1,
+      "saldo": 12,
+      "saldoFirme": 0,
+      "mejoranFirme": 0,
       "empeoranFirme": 0
     },
     "E5": {
@@ -227,6 +236,24 @@
       "mejoranFirme": 7,
       "empeoranFirme": 0
     },
+    "R3": {
+      "mejoran": 10,
+      "empeoran": 0,
+      "contrarias": 1,
+      "saldo": 10,
+      "saldoFirme": 0,
+      "mejoranFirme": 0,
+      "empeoranFirme": 0
+    },
+    "E4": {
+      "mejoran": 9,
+      "empeoran": 0,
+      "contrarias": 1,
+      "saldo": 9,
+      "saldoFirme": 3,
+      "mejoranFirme": 3,
+      "empeoranFirme": 0
+    },
     "R4": {
       "mejoran": 9,
       "empeoran": 0,
@@ -254,15 +281,6 @@
       "mejoranFirme": 7,
       "empeoranFirme": 1
     },
-    "E3": {
-      "mejoran": 9,
-      "empeoran": 3,
-      "contrarias": 1,
-      "saldo": 6,
-      "saldoFirme": 0,
-      "mejoranFirme": 0,
-      "empeoranFirme": 0
-    },
     "R1": {
       "mejoran": 7,
       "empeoran": 2,
@@ -271,24 +289,6 @@
       "saldoFirme": 1,
       "mejoranFirme": 4,
       "empeoranFirme": 3
-    },
-    "R3": {
-      "mejoran": 5,
-      "empeoran": 3,
-      "contrarias": 0,
-      "saldo": 2,
-      "saldoFirme": 0,
-      "mejoranFirme": 0,
-      "empeoranFirme": 0
-    },
-    "E4": {
-      "mejoran": 4,
-      "empeoran": 3,
-      "contrarias": 1,
-      "saldo": 1,
-      "saldoFirme": 3,
-      "mejoranFirme": 3,
-      "empeoranFirme": 0
     },
     "R2": {
       "mejoran": 4,
@@ -302,17 +302,16 @@
   },
   "resultadosSociales": 15,
   "hipotesisCalc": {
-    "total": 61,
-    "hipotesis": 38,
+    "total": 60,
+    "hipotesis": 37,
     "conjeturas": 23,
-    "conEfecto": 22,
-    "sinEfecto": 39,
+    "conEfecto": 18,
+    "sinEfecto": 42,
     "paquetes": [
       {
         "familia": "Cualquiera (se pueden mezclar)",
         "medidas": [
           "dotar a ayuntamientos y comunidades para alojar a las personas vulnerables en su barrio",
-          "acortar los plazos de tramitación urbanística",
           "regular el alquiler de temporada"
         ],
         "saldo": 14,
@@ -321,11 +320,11 @@
       {
         "familia": "Solo intervención",
         "medidas": [
-          "endurecer los criterios para conceder hipotecas",
-          "ampliar la compra preferente de viviendas y edificios por la Administración"
+          "dotar a ayuntamientos y comunidades para alojar a las personas vulnerables en su barrio",
+          "regular el alquiler de temporada"
         ],
         "saldo": 14,
-        "saldoBase": 8
+        "saldoBase": 11
       },
       {
         "familia": "Solo mercado",
@@ -338,6 +337,21 @@
       }
     ],
     "escenarios": {
+      "E3": {
+        "firme": 0,
+        "apoyo": 12,
+        "hipotesis": 14
+      },
+      "R3": {
+        "firme": 0,
+        "apoyo": 10,
+        "hipotesis": 14
+      },
+      "E4": {
+        "firme": 3,
+        "apoyo": 9,
+        "hipotesis": 13
+      },
       "E6": {
         "firme": 8,
         "apoyo": 12,
@@ -353,16 +367,6 @@
         "apoyo": 9,
         "hipotesis": 10
       },
-      "E3": {
-        "firme": 0,
-        "apoyo": 6,
-        "hipotesis": 8
-      },
-      "R3": {
-        "firme": 0,
-        "apoyo": 2,
-        "hipotesis": 8
-      },
       "E1": {
         "firme": 8,
         "apoyo": 10,
@@ -371,11 +375,6 @@
       "E2": {
         "firme": 7,
         "apoyo": 10,
-        "hipotesis": 7
-      },
-      "E4": {
-        "firme": 3,
-        "apoyo": 1,
         "hipotesis": 7
       },
       "E7": {
@@ -409,12 +408,12 @@
         "cambio": 33
       },
       {
-        "de": "Presión social por la vivienda",
-        "a": "Frecuencia de cambios normativos",
+        "de": "Precio del alquiler",
+        "a": "Desplazamiento de residentes de los centros urbanos",
         "signo": "+",
         "clase": "Hipótesis",
-        "medidas": 8,
-        "cambio": 19
+        "medidas": 18,
+        "cambio": 18
       },
       {
         "de": "Presión social por la vivienda",
@@ -425,16 +424,24 @@
         "cambio": 15
       },
       {
-        "de": "Precio del alquiler",
-        "a": "Desplazamiento de residentes de los centros urbanos",
+        "de": "Demanda de compra como inversión",
+        "a": "Oferta de alquiler habitual",
         "signo": "+",
         "clase": "Hipótesis",
-        "medidas": 14,
+        "medidas": 10,
+        "cambio": 15
+      },
+      {
+        "de": "Presión social por la vivienda",
+        "a": "Frecuencia de cambios normativos",
+        "signo": "+",
+        "clase": "Hipótesis",
+        "medidas": 8,
         "cambio": 14
       },
       {
         "de": "Presión social por la vivienda",
-        "a": "Restricción al alquiler turístico",
+        "a": "Intensidad de la regulación del precio del alquiler",
         "signo": "+",
         "clase": "Hipótesis",
         "medidas": 8,
@@ -447,14 +454,6 @@
         "clase": "Hipótesis",
         "medidas": 10,
         "cambio": 12
-      },
-      {
-        "de": "Demanda de compra como inversión",
-        "a": "Oferta de alquiler habitual",
-        "signo": "+",
-        "clase": "Hipótesis",
-        "medidas": 7,
-        "cambio": 11
       },
       {
         "de": "Oferta de alquiler habitual",
@@ -497,6 +496,13 @@
       }
     ],
     "escenarios": {
+      "E3": {
+        "base": 12,
+        "premisas": 12,
+        "mejoran": 12,
+        "empeoran": 0,
+        "contrarias": 1
+      },
       "E6": {
         "base": 12,
         "premisas": 12,
@@ -525,6 +531,20 @@
         "empeoran": 0,
         "contrarias": 3
       },
+      "R3": {
+        "base": 10,
+        "premisas": 10,
+        "mejoran": 10,
+        "empeoran": 0,
+        "contrarias": 1
+      },
+      "E4": {
+        "base": 9,
+        "premisas": 9,
+        "mejoran": 9,
+        "empeoran": 0,
+        "contrarias": 1
+      },
       "R4": {
         "base": 9,
         "premisas": 9,
@@ -546,33 +566,12 @@
         "empeoran": 3,
         "contrarias": 1
       },
-      "E3": {
-        "base": 6,
-        "premisas": 6,
-        "mejoran": 9,
-        "empeoran": 3,
-        "contrarias": 1
-      },
       "R1": {
         "base": 5,
         "premisas": 5,
         "mejoran": 7,
         "empeoran": 2,
         "contrarias": 4
-      },
-      "R3": {
-        "base": 2,
-        "premisas": 2,
-        "mejoran": 5,
-        "empeoran": 3,
-        "contrarias": 0
-      },
-      "E4": {
-        "base": 1,
-        "premisas": 1,
-        "mejoran": 4,
-        "empeoran": 3,
-        "contrarias": 1
       },
       "R2": {
         "base": -1,
@@ -604,10 +603,10 @@
     ],
     "paquetes": {
       "P1": {
-        "indice": 87.4,
-        "firme": 8.6,
+        "indice": 89.4,
+        "firme": 0,
         "medidas": [
-          "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+          "crear una garantía pública que pague o asegure la renta al pequeño propietario",
           "acortar los plazos de tramitación urbanística"
         ]
       },
@@ -665,6 +664,10 @@
       }
     },
     "escenarios": {
+      "E3": {
+        "indice": 89.4,
+        "firme": 0
+      },
       "E6": {
         "indice": 87.4,
         "firme": 59.9
@@ -673,6 +676,10 @@
         "indice": 78.8,
         "firme": 59.9
       },
+      "R3": {
+        "indice": 72.4,
+        "firme": 0
+      },
       "E1": {
         "indice": 70.3,
         "firme": 59.9
@@ -680,6 +687,10 @@
       "E2": {
         "indice": 70.3,
         "firme": 51.3
+      },
+      "E4": {
+        "indice": 70.3,
+        "firme": 25.6
       },
       "R4": {
         "indice": 70.3,
@@ -693,21 +704,9 @@
         "indice": 53.3,
         "firme": 42.7
       },
-      "E3": {
-        "indice": 38.2,
-        "firme": 0
-      },
       "R1": {
         "indice": 27.6,
         "firme": 8.4
-      },
-      "R3": {
-        "indice": 4.1,
-        "firme": 0
-      },
-      "E4": {
-        "indice": 2.1,
-        "firme": 25.6
       },
       "R2": {
         "indice": -14.9,
@@ -730,15 +729,15 @@
         "criterio": "P1",
         "nombre": "Sin perdedores",
         "medidas": [
-          "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+          "crear una garantía pública que pague o asegure la renta al pequeño propietario",
           "acortar los plazos de tramitación urbanística"
         ],
         "fija": {
-          "L04": 1,
+          "L13": 1,
           "S02": -1
         },
         "todo": {
-          "mejoran": 14,
+          "mejoran": 15,
           "conVueltaEnContra": 12,
           "empeoran": 0,
           "contrarias": 2,
@@ -746,21 +745,21 @@
           "actoresLimpios": 4,
           "actoresConMejora": 5,
           "social": {
-            "mejoran": 11,
+            "mejoran": 12,
             "empeoran": 0,
             "contrarias": 1,
-            "saldo": 11,
-            "saldoFirme": 1
+            "saldo": 12,
+            "saldoFirme": 0
           }
         },
         "empatados": [
           [
-            "ampliar la rebaja fiscal al propietario que alquila como vivienda habitual",
+            "crear una garantía pública que pague o asegure la renta al pequeño propietario",
             "acortar los plazos de tramitación urbanística"
           ]
         ],
         "firme": {
-          "mejoran": 4,
+          "mejoran": 3,
           "empeoran": 0,
           "contrarias": 0
         }
@@ -821,12 +820,12 @@
           "L16": 1
         },
         "todo": {
-          "mejoran": 14,
-          "conVueltaEnContra": 12,
+          "mejoran": 15,
+          "conVueltaEnContra": 13,
           "empeoran": 3,
-          "contrarias": 3,
+          "contrarias": 2,
           "actoresConPerjuicio": 2,
-          "actoresLimpios": 5,
+          "actoresLimpios": 6,
           "actoresConMejora": 7,
           "social": {
             "mejoran": 9,
@@ -868,12 +867,12 @@
           "L15": 1
         },
         "todo": {
-          "mejoran": 14,
-          "conVueltaEnContra": 11,
-          "empeoran": 5,
+          "mejoran": 15,
+          "conVueltaEnContra": 12,
+          "empeoran": 4,
           "contrarias": 2,
-          "actoresConPerjuicio": 3,
-          "actoresLimpios": 3,
+          "actoresConPerjuicio": 2,
+          "actoresLimpios": 4,
           "actoresConMejora": 5,
           "social": {
             "mejoran": 13,
@@ -935,12 +934,12 @@
           "L15": 1
         },
         "todo": {
-          "mejoran": 14,
-          "conVueltaEnContra": 11,
-          "empeoran": 5,
+          "mejoran": 15,
+          "conVueltaEnContra": 12,
+          "empeoran": 4,
           "contrarias": 2,
-          "actoresConPerjuicio": 3,
-          "actoresLimpios": 3,
+          "actoresConPerjuicio": 2,
+          "actoresLimpios": 4,
           "actoresConMejora": 5,
           "social": {
             "mejoran": 13,
@@ -1000,12 +999,12 @@
           "L13": 1
         },
         "todo": {
-          "mejoran": 12,
-          "conVueltaEnContra": 7,
-          "empeoran": 3,
+          "mejoran": 13,
+          "conVueltaEnContra": 9,
+          "empeoran": 2,
           "contrarias": 2,
-          "actoresConPerjuicio": 2,
-          "actoresLimpios": 2,
+          "actoresConPerjuicio": 1,
+          "actoresLimpios": 3,
           "actoresConMejora": 4,
           "social": {
             "mejoran": 12,
@@ -1183,10 +1182,10 @@
     ]
   },
   "fuentes": {
-    "total": 108,
+    "total": 112,
     "porLectura": {
       "F": 24,
-      "C": 70,
+      "C": 74,
       "R": 10,
       "T": 4
     },

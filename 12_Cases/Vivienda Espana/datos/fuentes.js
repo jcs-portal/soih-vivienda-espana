@@ -143,4 +143,10 @@ f('IN', 'Gobierno Vasco. Encuesta sobre el Uso de la Vivienda 2023, informe de r
 f('PA', 'Consejo General del Notariado, Centro de Información Estadística. Informe sobre herencias y donaciones (octubre de 2025)', 'https://www.notariado.org/liferay/c/document_library/get_file?uuid=d8087faf-b48c-4707-b39e-d6e419444d5d&groupId=2289837', 'C', 'Viviendas heredadas y donadas según escrituras, 2017-2024');
 f('PA', 'Fotocasa Research. Análisis de la vivienda heredada en España en 2025', 'https://research.fotocasa.es/analisis-de-la-vivienda-heredada-en-espana-en-2025/', 'C', 'Peso de los herederos entre vendedores y arrendadores');
 
+// ---- Estudios leídos que se citaban en las fichas de relaciones y faltaban en esta lista (añadidos el 15/11/2026)
+f('AC', 'Sinai y Waldfogel (2002). Do low-income housing subsidies increase the occupied housing stock? NBER Working Paper 8709 (publicado en Journal of Public Economics, 2005). Leído entero', 'https://www.nber.org/papers/w8709', 'C', 'Cuánto suma al parque una vivienda pública y cuánta construcción privada desplaza (E200)');
+f('AC', 'Mora-Sanguinetti (2012). SERIEs. Panel de 50 provincias, 2001-2007. Leído entero', '', 'C', 'Congestión judicial en la ejecución y cuota de propiedad');
+f('AC', 'Kholodilin, López, Rey Blanco y González Arbués (2022). Leído entero', '', 'C', 'Viviendas iniciadas en Cataluña tras la regulación de 2020');
+f('IN', 'Cagigas y Beraza (2026). Información Comercial Española, 942', '', 'C', 'Hogares jóvenes no formados respecto a la tendencia de 2014');
+
 module.exports = { grupos, lista };
