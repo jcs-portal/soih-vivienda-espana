@@ -4,7 +4,7 @@ Un modelo causal del sistema de la vivienda en España, con sus datos, sus fuent
 lo calcula. Está hecho para que cualquiera pueda **revisarlo, discutirlo, cambiarle un dato y ver
 qué pasa**.
 
-Autor: Juan Carlos Siria · Versión del paquete: 0.8.7 · Fecha: 15 de noviembre de 2026
+Autor: Juan Carlos Siria · Versión del paquete: 0.8.8 · Fecha: 16 de noviembre de 2026
 
 ## Qué es
 
@@ -133,9 +133,9 @@ del programa. **La prosa no se actualiza sola**: si cambias el modelo, revisa el
   Catastro); se contaba como daño que se formasen más hogares al abaratarse el alquiler; y el capital
   que construye alquiler nuevo estaba mezclado con el que compra vivienda existente. Todos cambiaron
   resultados.
-- **Las leyes se mueven.** Varias normas citadas estaban aprobadas por decreto-ley y pendientes de
-  convalidación en la fecha del paquete, entre ellas el gravamen del 25 % sobre el beneficio no
-  repartido de las socimis (Real Decreto-ley 29/2026). Pueden decaer.
+- **Las leyes se mueven.** Varias normas citadas se aprobaron por decreto-ley: el Real Decreto-ley 29/2026
+  (gravamen del 25 % sobre el beneficio no repartido de las socimis, habitaciones, temporada) se
+  convalidó el 12 de noviembre de 2026, y el 28/2026 quedó derogado. Pueden cambiar en su tramitación.
 
 ## Trabajo pendiente conocido
 
@@ -155,4 +155,4 @@ Indica siempre el documento, la página y el enlace.
 ## Licencia y cita
 
 Ver `LICENCIA.md`. Si lo usas, cita: *Juan Carlos Siria, «SOIH · La vivienda en España como
-sistema», versión 0.8.7, 15 de noviembre de 2026.*
+sistema», versión 0.8.8, 16 de noviembre de 2026.*

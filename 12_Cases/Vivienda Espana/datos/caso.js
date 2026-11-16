@@ -514,7 +514,7 @@ e('A07', 'A04', '+', 'La ocupación, aunque sea infrecuente, pesa mucho en la pe
 e('L02', 'A01', '-', 'Si la protección del inquilino recae sobre el propietario, este se retrae.', '1-3 años', 'D1', ss(52, 96, 97, 105), REF + 'Casas-Arce y Saiz (2010), comparación entre países citada por el Banco de España (DO 2002): relación negativa entre la falta de seguridad jurídica del propietario y el desarrollo del mercado de alquiler.', 'El Banco de España lo formula en condicional. Sin estimación española.');
 e('L02', 'A04', '+', 'Más protección al inquilino vulnerable eleva el riesgo de impago que asume el propietario.', 'meses', 'D0', ss(90, 105), '', '');
 e('L02', 'A05', '+', 'Las moratorias y garantías alargan el procedimiento.', 'meses', 'D1', [], 'CGPJ: la duración media estimada de los juicios verbales arrendaticios pasa de 4,5 meses en 2014 a 8,5 en 2023.', 'No separa el efecto de la norma del de la congestión judicial; mide hasta la resolución, no hasta el lanzamiento.');
-e('L02', 'O04', '-', 'La moratoria y los límites al desahucio evitan lanzamientos.', 'meses', 'D1', ss(42), 'CGPJ (leído en la fuente): los lanzamientos derivados de la ley de arrendamientos bajan de 36.468 en 2019 a 18.317 en 2025. El Banco de España atribuye parte de la caída a esas limitaciones (Informe Anual 2023, p. 277).', 'La PAH estima 34.780 lanzamientos suspendidos en 2021-2023 (fuente de parte). Mide suspensiones, no hogares que conservan la vivienda.');
+e('L02', 'O04', '-', 'La moratoria y los límites al desahucio evitan lanzamientos.', 'meses', 'D1', ss(42), 'CGPJ (leído en la fuente): los lanzamientos derivados de la ley de arrendamientos bajan de 36.467 en 2019 a 18.317 en 2025. El Banco de España atribuye parte de la caída a esas limitaciones (Informe Anual 2023, p. 277).', 'La PAH estima 34.780 lanzamientos suspendidos en 2021-2023 (fuente de parte). Mide suspensiones, no hogares que conservan la vivienda.');
 e('L02', 'A11', '+', 'Si desahuciar es más difícil, el arrendador selecciona más y discrimina más.', 'meses', 'D1', [], REF + 'Arefeva, Hu y Timmins (NBER, 2024; solo leído el resumen): con el desahucio suspendido, los gestores respondieron menos a solicitantes afroamericanos, en un experimento de más de 25.000 consultas.', 'Mercado y moratoria distintos. Sin estudio español.');
 e('L10', 'A01', '-', 'Si las reglas cambian a menudo, se ofrece menos vivienda en alquiler.', '1-3 años', 'D0', ss(12, 73, 106), '', 'No existe ninguna estimación española.');
 e('L10', 'A04', '+', 'Si la norma cambia a menudo, el propietario no sabe a qué atenerse.', '1-3 años', 'D0', ss(73), '', 'Solo lo afirma un actor.');
@@ -657,7 +657,7 @@ function d(id, valor, anio, previo, anioPrevio, unidad, fuente, nota) { datos[id
 d('A02', 122.92, '2024', 112.69, '2021', 'índice 2015 = 100', 'INE, IPVA', 'Mide los contratos vivos; los contratos nuevos suben más deprisa.');
 d('B01', 2127.6, '2025', 1809.1, '2023', '€/m²', 'Ministerio de Vivienda, valor tasado', 'En el 2T 2026: 2.355 €/m².');
 d('O02', 7.60, '2025', 7.12, '2023', 'años de renta', 'Banco de España', 'En el 2T 2026: 8,36 años. Máximo: 9,36 en 2007.');
-d('O01', 26.8, '2025', 30.6, '2023', '% de inquilinos con sobrecarga', 'Eurostat', 'Sin ruptura de serie. Mide a quien consigue alquilar: el Banco de España señala que acceden al alquiler hogares de más renta. Media de la UE: 18,6 %.');
+d('O01', 26.8, '2025', 30.6, '2023', '% de inquilinos con sobrecarga', 'Eurostat', 'Sin ruptura de serie. Mide a quien consigue alquilar: el Banco de España señala que acceden al alquiler hogares de más renta. Media de la UE: 18,5 % (ilc_lvho07c, consultado el 15/11/2026).');
 d('O03', 30.2, '2025', 30.4, '2023', 'años', 'Eurostat', 'Media de la UE: 26,3 años.');
 d('P01', 137330, '2025', 110344, '2023', 'viviendas/año', 'Ministerio de Vivienda', 'En 2007: 615.976.');
 d('P02', 93650, '2025', 89320, '2023', 'viviendas/año', 'Ministerio de Vivienda (libres más protegidas)', 'En 2007: 647.179.');
@@ -677,7 +677,7 @@ d('G01', 290000, '2023', null, null, 'viviendas', 'Banco de España', 'El 1,5 % 
 d('Q05', 341001, 'mayo de 2026', null, null, 'viviendas', 'INE, estadística experimental', 'El 1,28 % del parque; serie estacional, sin tendencia calculada.');
 d('A08', 52.8, '2023', null, null, '% del alquiler de particulares', 'Ministerio de Consumo y CSIC', 'En manos de quienes alquilan dos o más viviendas. El Banco de España da un máximo del 7 % para quienes tienen más de diez.');
 d('D07', 50.2, '2025', 45.7, '2023', '% de jóvenes de 25 a 34 años que viven con sus padres', 'Eurostat', 'En 2007: 38,9 %.');
-d('A06', 18317, '2025', 19676, '2023', 'lanzamientos por impago de alquiler', 'CGPJ', 'En 2019: 36.468. Desde 2020 la moratoria suspende parte.');
+d('A06', 18317, '2025', 19676, '2023', 'lanzamientos por impago de alquiler', 'CGPJ', 'En 2019: 36.467. Desde 2020 la moratoria suspende parte.');
 d('A05', 8.5, '2023', 7.3, '2021', 'meses', 'CGPJ, juicios verbales arrendaticios', 'En 2014: 4,5 meses. Mide hasta la resolución, no hasta el lanzamiento.');
 d('A07', 14875, '2025', 15289, '2023', 'hechos conocidos', 'Ministerio del Interior', 'Suma allanamiento y usurpación; incluye inmuebles de bancos y fondos.');
 d('M01', 42.6, 'enero de 2026', null, null, '% que cita la vivienda como problema', 'CIS', 'Máximo de la serie; el anterior fue 37,3 % en 2007.');
@@ -902,7 +902,7 @@ Object.assign(datos, {
   O10: { valor: 20.5, anio: '2025', previo: 17.5, anioPrevio: '2023', unidad: '% de inquilinos de mercado', fuente: 'Eurostat', nota: 'En 2021: 15,4 %. En 2015: 11,7 %.' },
   R02: { valor: 22723.25, anio: '2024', previo: 20459.60, anioPrevio: '2022', unidad: '€/año, de 25 a 29 años', fuente: 'INE, Encuesta Anual de Estructura Salarial', nota: 'En 2015: 16.046,47.' }
 });
-datos.O01.nota = 'En 2021: 40,9 %, un pico (ingresos del año de la pandemia). Baja a la vez por tres motivos que no se pueden separar sin microdatos: suben las rentas bajas, se comparte más vivienda y alquilan menos hogares muy pobres. Media de la UE: 18,6 %.';
+datos.O01.nota = 'En 2021: 40,9 %, un pico (ingresos del año de la pandemia). Baja a la vez por tres motivos que no se pueden separar sin microdatos: suben las rentas bajas, se comparte más vivienda y alquilan menos hogares muy pobres. Media de la UE: 18,5 % (ilc_lvho07c, consultado el 15/11/2026).';
 resultados.find(g => g.dimension === 'Hogares que alquilan para vivir').variables.push(['O10', 'baja']);
 criterioSocial.resultados.push('O10');
 premisas.lista[2].frente = 'La literatura localizada distingue dos actores. Los grandes fondos (Blackstone, Cerberus) compraron carteras de bancos y vivienda pública en la periferia y las explotan como alquiler residencial, con subidas de renta y rotación de inquilinos; el turismo lo abordan comprando hoteles. Quienes compran edificios céntricos para vaciarlos y pasarlos a turístico, lujo o temporada son inversores locales medianos y socimis pequeñas. En Barcelona, el 56 % de las licencias turísticas es de personas jurídicas, pero ningún propietario supera los 200 apartamentos. Nadie cuantifica las viviendas convertidas.';
@@ -998,7 +998,7 @@ const simulador = {
     imagen: 'https://jcs-portal.github.io/soih-vivienda-espana/vista_previa.png',
     repo: 'https://github.com/jcs-portal/soih-vivienda-espana',
     guia: 'https://github.com/jcs-portal/soih-vivienda-espana/blob/main/GUIA_SIMULADOR.md',
-    descripcion: 'Simulación abierta: elige qué cambia en la vivienda en España y mira a qué empuja, a quién beneficia y a quién perjudica. 98 variables; cada relación que entra en el cálculo lleva su fuente.'
+    descripcion: 'Simulación abierta: elige qué cambia en la vivienda en España y mira a qué empuja, a quién beneficia y a quién perjudica. Cada relación que entra en el cálculo lleva su fuente.'
   }
 };
 

@@ -32,7 +32,7 @@ td { padding: 3pt 5pt; border: 1px solid #9FB3C8; vertical-align: top; font-size
 <h2>1. Lo que resulta</h2>
 {{frag:indResumen}}
 <ul>
-<li><b>El índice conjunto apenas se mueve, y eso es engañoso.</b> Está en {{res:indice.ultimo}} en 2025, casi como en 2015. Debajo hay dos movimientos opuestos y grandes.</li>
+<li><b>El índice conjunto apenas se mueve, y eso es engañoso.</b> Está en {{res:indice.ultimo}} en 2025, algo peor que en 2015 (por encima de 105). Debajo hay dos movimientos opuestos y grandes.</li>
 <li><b>Para quien ya alquila, el peso del alquiler ha bajado mucho</b>: el subíndice I está en {{res:indice.ultimoI}}. Las rentas más bajas han subido más que los alquileres de los contratos vivos.</li>
 <li><b>Para quien no entra, o entra compartiendo, el daño ha crecido más de la mitad</b>: el subíndice II está en {{res:indice.ultimoII}}. Los inquilinos en viviendas sobreocupadas pasan del 11,7 % al 20,5 %, y los jóvenes de 18 a 34 años que viven con sus padres, del 58,0 % al 68,7 %.</li>
 <li><b>Los hogares frágiles mejoran algo en conjunto</b> ({{res:indice.ultimoIII}}), pero con una excepción: entre los mayores de 65 pobres la sobrecarga sube del 19,7 % al 23,2 %.</li>
@@ -71,7 +71,7 @@ td { padding: 3pt 5pt; border: 1px solid #9FB3C8; vertical-align: top; font-size
 <h2>4. Las presiones, aparte</h2>
 <p>Lo que podría estar causando el daño. No entra en el índice.</p>
 {{frag:indPresiones}}
-<p>Todas las presiones suben entre 2019 y 2025, salvo el número de viviendas turísticas, que cae en 2026. La que más crece es el uso turístico de la vivienda medido en noches (+79 %), no en viviendas. Que varias cosas suban a la vez no dice cuál causa el daño.</p>
+<p>Todas las presiones suben entre 2019 y 2025, salvo el número de viviendas turísticas, que cae en 2026. El uso turístico crece mucho más en noches (+79 %) que en viviendas; las que más crecen son el sobreprecio de las viviendas que entran al alquiler (+166 %, de 2020 a 2024) y la creación de hogares (+112 %). Que varias cosas suban a la vez no dice cuál causa el daño.</p>
 
 <h2>5. Primer cruce por territorio</h2>
 <p>Si la presión turística causa daño, debería haber más daño donde hay más vivienda turística. Con los datos disponibles hoy por ciudad solo se puede comparar una medida de daño con una de presión, en cuatro ciudades.</p>
@@ -86,10 +86,10 @@ td { padding: 3pt 5pt; border: 1px solid #9FB3C8; vertical-align: top; font-size
 <ul>
 <li><b>Calcularlo por ciudad y por año.</b> Los nueve componentes proceden de una encuesta nacional; por municipio solo hay precio del alquiler, viviendas turísticas y el dato de sobresfuerzo del Banco de España. Con los microdatos de la encuesta se podría bajar a comunidad autónoma.</li>
 <li><b>Añadir lo que no tiene serie completa</b>: mudanzas forzosas, sobreprecio de entrada (solo 2020 y 2024), parque social por habitante, familias monoparentales en riesgo de pobreza, y desahucios, que los juzgados no desglosan por edad ni por tipo de hogar.</li>
-<li><b>Decidir los pesos.</b> Los de esta versión son iguales por defecto; la decisión es tuya, y cambia la lectura del número conjunto.</li>
+<li><b>Los pesos.</b> No se fijan: se simulan (un barrido de ponderaciones y una por personas), porque cambian la lectura del número conjunto.</li>
 <li><b>Dos advertencias sobre los datos.</b> 2021 mide ingresos del año de la pandemia y sale peor de lo normal. Y el INE adelantó las entrevistas de otoño a primavera entre 2021 y 2023, lo que puede haber mejorado los indicadores de esfuerzo sin que cambiara la realidad; no se ha podido medir cuánto.</li>
 </ul>
 
-<p class="pie">Los datos y el cálculo están en <i>datos\indice.js</i> y <i>datos\indice_sostenibilidad.csv</i>. Todos los valores se leyeron en la interfaz de datos de Eurostat el 12 de octubre de 2026.</p>
+<p class="pie">Los datos y el cálculo están en <i>datos\indice.js</i> y <i>datos\indice_sostenibilidad.csv</i>. Todos los valores se leyeron en la interfaz de datos de Eurostat al construir el índice (primera versión, del 12 de octubre de 2026).</p>
 </body>
 </html>

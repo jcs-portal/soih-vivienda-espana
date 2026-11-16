@@ -10,7 +10,7 @@ tiempo y por qué camino.
 ## Antes de empezar: cuatro ideas
 
 **1. Una variable es algo que puede subir o bajar.** El precio del alquiler, el número de pisos
-turísticos, la edad a la que se emancipan los jóvenes. El modelo tiene 97.
+turísticos, la edad a la que se emancipan los jóvenes. El modelo tiene 98.
 
 **2. Una relación une dos variables y tiene un signo.**
 
@@ -95,7 +95,7 @@ la llegada de turistas). Cada una tiene tres botones:
 Pulsa otra vez el mismo botón para soltarlo, o **✕** para quitar la variable. Debajo de cada nombre,
 en gris, pone quién tiene esa decisión en su mano.
 
-Puedes marcar varias a la vez. Y si quieres mover cualquier otra de las 97 variables del mapa, elígela
+Puedes marcar varias a la vez. Y si quieres mover cualquier otra de las 98 variables del mapa, elígela
 en el desplegable **Añadir variable…**: entra subiendo (▲) y la cambias en «Lo que cambia ahora».
 
 Cualquiera puede cambiar lo que quiera. Lo que hagas se queda en tu pantalla y no cambia el modelo para
@@ -172,7 +172,7 @@ Tres cosas que se pueden hacer en el mapa:
 - **Cambiar el plazo** en el desplegable de abajo, para ver solo lo que ocurre en menos de un año, de
   uno a cuatro, o en más de cuatro.
 
-El mapa dibuja las 48 variables principales para que se pueda leer. El cálculo usa las 97.
+El mapa dibuja las 49 variables principales para que se pueda leer. El cálculo usa las 98.
 
 ## Ejemplo 1: restringir los pisos turísticos
 
@@ -184,15 +184,15 @@ residentes los pisos turísticos», que hace lo mismo.)
 
 **Paso 2.** En la zona 2, busca la fila «Precio del alquiler». Dice:
 
-- Conjunto: **◆ 2▲ 3▼** en morado. Hay cinco vías: tres lo empujan a la baja y dos al alza.
+- Conjunto: **◆ 3▲ 3▼** en morado. Hay seis vías: tres lo empujan a la baja y tres al alza.
 - Primera ronda: **mejora**, en 2 pasos.
-- Efectos de vuelta: **2 a favor, 2 en contra**.
+- Efectos de vuelta: **2 a favor, 3 en contra**.
 
-Es decir: el efecto directo es bueno, y detrás vienen cuatro efectos más lentos, repartidos.
+Es decir: el efecto directo es bueno, y detrás vienen cinco efectos más lentos, más en contra que a favor.
 
-**Paso 3.** Pulsa la celda «mejora» de esa fila. Debajo de la tabla aparecen las cinco vías:
+**Paso 3.** Pulsa la celda «mejora» de esa fila. Debajo de la tabla aparecen las seis vías:
 
-![Las cinco vías hacia el precio del alquiler](12_Cases/Vivienda%20Espana/imagenes/manual_06_vias.png)
+![Las seis vías hacia el precio del alquiler](12_Cases/Vivienda%20Espana/imagenes/manual_06_vias.png)
 
 Cada línea se lee como una frase. La primera:
 
@@ -202,7 +202,7 @@ Cada línea se lee como una frase. La primera:
 la siguiente es del mismo signo, baja el precio del alquiler.» Las etiquetas de debajo dicen cuánto
 se fía el modelo de esa vía (confianza media) y cuánto tarda (unos 4 años).
 
-Ahora mira la tercera, que va en contra:
+Ahora mira la segunda, que va en contra:
 
 > ▲ Restricción al alquiler turístico →(+) ▲ Viviendas en alquiler no habitual →(−) ▼ Oferta de alquiler habitual →(−) ▲ Precio del alquiler
 
@@ -247,7 +247,7 @@ intentan las medidas que acompañan a un tope (incentivos al propietario, garant
 ![El tope al alquiler, con la oferta mantenida](12_Cases/Vivienda%20Espana/imagenes/manual_09_tope_oferta.png)
 
 La fila de la oferta dice ahora «fijada». En «Precio del alquiler» ha desaparecido el rojo de 1 a
-4 años, y los efectos de vuelta bajan de «4 a favor, 4 en contra» a «2 a favor, 2 en contra».
+4 años, y los efectos de vuelta bajan de «4 a favor, 5 en contra» a «2 a favor, 3 en contra».
 
 **Qué se aprende:** el botón **●** sirve para preguntar «¿y si esto no se mueve?». Corta todos los
 efectos que pasarían por esa variable. Aquí enseña que el problema del tope no es el tope, sino lo
@@ -314,5 +314,5 @@ posiciones opuestas. Están todas en `datos/fuentes.csv` y en el documento de fu
 no te convence, puedes quitarla o cambiarla en `datos/caso.js` y recalcular; el archivo `LEEME.md`
 explica cómo.
 
-Las capturas de esta guía son de la versión 0.8.7. Si el modelo cambia, los números de los
+Las capturas de esta guía son de la versión 0.8.8. Si el modelo cambia, los números de los
 ejemplos pueden variar.

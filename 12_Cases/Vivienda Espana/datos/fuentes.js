@@ -62,7 +62,7 @@ f('BE', 'García-Vaquero y Roibás (2020). Evolución reciente de las SOCIMI en 
 // ---- Otros informes de organismos publicos
 f('IN', 'Cámara de Cuentas de la Comunidad de Madrid. Informes de fiscalización de las enajenaciones del IVIMA y de la EMVS, ejercicios 2012-2013', 'https://www.camaradecuentasmadrid.org/admin/uploads/definitivo-4.pdf', 'C', 'Venta de vivienda pública a fondos en 2013');
 f('IN', 'AIReF (2025). Proyecciones demográficas. Documento Técnico 6/25', 'https://www.airef.es/wp-content/uploads/2025/09/Documentos-tecnicos-macro-opinion-sostenibilidad/250922_DT_Proyecciones_Demograficas.pdf', 'C', 'Inmigración y mercado laboral');
-f('IN', 'Ministerio de Derechos Sociales, Consumo y Agenda 2030 y CSIC (2026). Informe 1: «Multiarrendadores» e Informe 2: «Concentración inmobiliaria»', 'https://www.dsca.gob.es/sites/default/files/prensa/Informe%201%20Multiarrendadores.pdf', 'C', 'Viviendas alquiladas por particulares según el número que alquila su dueño');
+f('IN', 'Ministerio de Derechos Sociales, Consumo y Agenda 2030 y CSIC (2026). Informe 1: «Multiarrendadores»', 'https://www.dsca.gob.es/sites/default/files/prensa/Informe%201%20Multiarrendadores.pdf', 'C', 'Viviendas alquiladas por particulares según el número que alquila su dueño');
 f('IN', 'Observatorio Vasco de la Vivienda (2020). Informe de evaluación de la política de alquiler en Euskadi 2019, e Informe de evaluación del programa Bizigune 2020', 'https://www.etxebide.euskadi.eus/contenidos/informacion/ovv_alqu_2019/es_ovv_admi/adjuntos/Alquiler_2019.pdf', 'C', 'Costes de construir, comprar y movilizar vivienda');
 f('IN', 'Defensor del Pueblo (2019). La vivienda protegida y el alquiler social en España', 'https://www.defensordelpueblo.es/wp-content/uploads/2019/07/Separata_vivienda_protegida.pdf', 'C', 'Parque de alquiler social');
 f('IN', 'Banco Central Europeo. Bandoni, De Nora, Giuzio, Ryan y Storz (2025). Institutional investors and house prices. Working Paper 3026', 'https://www.ecb.europa.eu/pub/pdf/scpwps/ecb.wp3026~8b2199688d.en.pdf', 'R', 'Inversores institucionales y precio de compra');
@@ -93,7 +93,7 @@ f('AC', 'Bonshoms Guzmán (2023). Tenants Against Corporate Landlords. Tesis doc
 f('AC', 'McCarthy (2024). Institutional Investment and Residential Rental Market Dynamics. Central Bank of Ireland, Research Technical Paper 2024/1', 'https://www.centralbank.ie/docs/default-source/publications/research-technical-papers/institutional-investment-and-residential-rental-market-dynamics.pdf', 'R', 'Subida de renta tras la compra institucional');
 f('AC', 'Francke, Hans, Korevaar y van Bekkum (2023). Buy-to-Live vs. Buy-to-Let: The Impact of Real Estate Investors on Housing Costs and Neighborhoods', 'https://www.aeaweb.org/conference/2024/program/paper/dnQ4nAR7', 'R', 'Efecto de prohibir comprar para alquilar');
 f('AC', 'Coven, Joshua (2025). The Impact of Institutional Investors on Homeownership and Neighborhood Access', 'https://joshuacoven.github.io/assets/JoshuaCovenJMP.pdf', 'R', 'Inversores institucionales en Estados Unidos');
-f('AC', 'Aparicio-Fenoll, A. y Oppedisano, V. (2012). Fostering the Emancipation of Young People: Evidence from a Spanish Rental Subsidy. IZA Discussion Paper 6651', 'https://docs.iza.org/dp6651.pdf', 'R', 'Ayuda al alquiler y emancipación');
+f('AC', 'Aparicio-Fenoll, A. y Oppedisano, V. (2012). Fostering the Emancipation of Young People: Evidence from a Spanish Rental Subsidy. IZA Discussion Paper 6651', 'https://docs.iza.org/dp6651.pdf', 'C', 'Ayuda al alquiler y emancipación');
 f('AC', 'Gonçalves, Peralta y Pereira dos Santos (2022). Short-Term Rental Bans and Housing Prices: Quasi-Experimental Evidence from Lisbon. IZA Discussion Paper 15706', 'https://docs.iza.org/dp15706.pdf', 'C', 'Zonas de contención en Lisboa');
 f('AC', 'Hartley, Ma, Wachter y Zevelev (2022). Do Foreign Buyer Taxes Affect House Prices?', 'https://www.aeaweb.org/conference/2023/program/paper/kBBk4zQd', 'R', 'Impuestos a compradores extranjeros');
 f('AC', 'Torres-Téllez y Montero-Soler (2023). Ciudad y Territorio Estudios Territoriales, 215', 'https://recyt.fecyt.es/index.php/CyTET/article/download/93518/71947/363858', 'C', 'Inmigración y precio de la vivienda por provincias');
@@ -144,9 +144,19 @@ f('PA', 'Consejo General del Notariado, Centro de Información Estadística. Inf
 f('PA', 'Fotocasa Research. Análisis de la vivienda heredada en España en 2025', 'https://research.fotocasa.es/analisis-de-la-vivienda-heredada-en-espana-en-2025/', 'C', 'Peso de los herederos entre vendedores y arrendadores');
 
 // ---- Estudios leídos que se citaban en las fichas de relaciones y faltaban en esta lista (añadidos el 15/11/2026)
-f('AC', 'Sinai y Waldfogel (2002). Do low-income housing subsidies increase the occupied housing stock? NBER Working Paper 8709 (publicado en Journal of Public Economics, 2005). Leído entero', 'https://www.nber.org/papers/w8709', 'C', 'Cuánto suma al parque una vivienda pública y cuánta construcción privada desplaza (E200)');
-f('AC', 'Mora-Sanguinetti (2012). SERIEs. Panel de 50 provincias, 2001-2007. Leído entero', '', 'C', 'Congestión judicial en la ejecución y cuota de propiedad');
-f('AC', 'Kholodilin, López, Rey Blanco y González Arbués (2022). Leído entero', '', 'C', 'Viviendas iniciadas en Cataluña tras la regulación de 2020');
+f('AC', 'Sinai y Waldfogel (2002). Do low-income housing subsidies increase the occupied housing stock? NBER Working Paper 8709 (publicado en Journal of Public Economics, 2005), leído entero', 'https://www.nber.org/papers/w8709', 'C', 'Cuánto suma al parque una vivienda pública y cuánta construcción privada desplaza (E200)');
+f('AC', 'Mora-Sanguinetti (2012). SERIEs. Panel de 50 provincias, 2001-2007, leído entero', '', 'C', 'Congestión judicial en la ejecución y cuota de propiedad');
+f('AC', 'Kholodilin, López, Rey Blanco y González Arbués (2022), leído entero', '', 'C', 'Viviendas iniciadas en Cataluña tras la regulación de 2020');
 f('IN', 'Cagigas y Beraza (2026). Información Comercial Española, 942', '', 'C', 'Hogares jóvenes no formados respecto a la tendencia de 2014');
+// Más documentos que las fichas dan por leídos «en la fuente» o «completos» (control de calidad del 15/11/2026)
+f('BE', 'Álvarez, Blanco y García-Posada (2020). Banco de España', '', 'C', 'Inversión residencial y precios por provincia, 2013-2019');
+f('IN', 'AIReF (2020), leído entero', '', 'C', 'Efecto de la reducción fiscal del 60 % sobre la oferta');
+f('AC', 'Caldera Sánchez y Johansson. OCDE, Working Paper 837', '', 'C', 'Elasticidad de la oferta de vivienda a largo plazo');
+f('IN', 'Cour des comptes (2025)', '', 'C', 'Contratos cubiertos por la garantía pública francesa Visale');
+f('IN', 'OCU y Ministerio de Consumo (2023)', '', 'C', 'Preocupación por el impago entre 437 arrendadores');
+f('AC', 'Pérez García (2026). Preprint, arXiv 2602.08631, leído entero', '', 'C', 'Contratos de alquiler en las zonas tensionadas declaradas en 2024');
+f('AC', 'García Amaya (2025). Turista busca vivienda. Tesis doctoral, UPV y ULL', '', 'C', 'Altas de vivienda turística en València según la exigencia urbanística');
+f('PA', 'Atlas Real Estate Analytics (consultora del sector)', '', 'C', 'Viviendas de alquiler entregadas por promotores');
+f('OF', 'Ministerio de Vivienda. Sectores Residenciales en España 2025', '', 'C', 'Suelo urbanizado disponible en los grandes sectores residenciales');
 
 module.exports = { grupos, lista };
